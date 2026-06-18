@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="推拿紀錄">
+<meta name="theme-color" content="#7B5C3E">
+<title>顧客推拿紀錄</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #F7F4EF; --card: #FFFFFF; --border: #E2DDD6;
+    --accent: #7B5C3E; --accent-light: #A67C58; --accent-bg: #F2EAE0;
+    --text: #2C2420; --text-sub: #8A7A70; --red: #C0392B;
+    --tag-bg: #EDE8E0;
+  }
+  body { font-family: -apple-system, 'Noto Sans TC', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* Login */
+  .login-screen { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px; }
+  .login-logo { font-size: 48px; margin-bottom: 16px; }
+  .login-title { font-size: 22px; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+  .login-sub { font-size: 14px; color: var(--text-sub); margin-bottom: 40px; text-align: center; }
+  .btn-google { display: flex; align-items: center; gap: 12px; background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 14px 24px; font-size: 16px; font-weight: 600; cursor: pointer; color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  .btn-google:hover { background: var(--bg); }
+  .btn-google img { width: 22px; }
+  .login-note { font-size: 12px; color: var(--text-sub); margin-top: 20px; text-align: center; }
+
+  /* Loading */
+  .loading-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
+  .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* App */
+  header { background: var(--accent); color: #fff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; gap: 10px; flex-wrap: wrap; }
+  header h1 { font-size: 17px; font-weight: 700; letter-spacing: 1px; }
+  .header-right { display: flex; gap: 8px; align-items: center; }
+  .header-right span { font-size: 12px; opacity: .7; }
+  .btn-hdr { background: rgba(255,255,255,.2); color: #fff; border: 1px solid rgba(255,255,255,.4); border-radius: 7px; padding: 5px 12px; font-size: 12px; cursor: pointer; white-space: nowrap; }
+  .btn-hdr:hover { background: rgba(255,255,255,.3); }
+  .user-avatar { width: 28px; height: 28px; border-radius: 50%; border: 2px solid rgba(255,255,255,.5); }
+
+  .app { display: flex; height: calc(100vh - 52px); }
+  .sidebar { width: 270px; min-width: 270px; background: var(--card); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
+  .sidebar-top { padding: 12px; border-bottom: 1px solid var(--border); display: flex; gap: 8px; }
+  .sidebar-top input { flex: 1; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: var(--bg); outline: none; }
+  .sidebar-top input:focus { border-color: var(--accent); }
+  .btn-new { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 8px 13px; font-size: 13px; cursor: pointer; white-space: nowrap; }
+  .btn-new:hover { background: var(--accent-light); }
+  .client-list { overflow-y: auto; flex: 1; }
+  .client-item { padding: 11px 15px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background .15s; }
+  .client-item:hover { background: var(--accent-bg); }
+  .client-item.active { background: var(--accent-bg); border-left: 3px solid var(--accent); }
+  .client-item .name { font-weight: 600; font-size: 15px; }
+  .client-item .meta { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+  .client-item .visit-count { font-size: 11px; background: var(--tag-bg); color: var(--accent); padding: 2px 7px; border-radius: 10px; display: inline-block; margin-top: 4px; }
+  .empty-list { padding: 32px 16px; text-align: center; color: var(--text-sub); font-size: 14px; }
+
+  .detail { flex: 1; overflow-y: auto; padding: 22px; }
+  .detail-placeholder { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--text-sub); font-size: 15px; }
+
+  .profile-card { background: var(--card); border-radius: 14px; border: 1px solid var(--border); padding: 18px; margin-bottom: 18px; display: flex; align-items: flex-start; gap: 14px; }
+  .avatar { width: 52px; height: 52px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #fff; font-weight: 700; flex-shrink: 0; }
+  .profile-info { flex: 1; }
+  .profile-info h2 { font-size: 19px; font-weight: 700; }
+  .profile-info .profile-meta { font-size: 13px; color: var(--text-sub); margin-top: 4px; line-height: 1.8; }
+  .profile-actions { display: flex; gap: 8px; flex-shrink: 0; }
+  .btn-edit, .btn-delete { padding: 6px 12px; border-radius: 8px; font-size: 13px; cursor: pointer; border: 1px solid var(--border); }
+  .btn-edit { background: var(--card); color: var(--text); }
+  .btn-edit:hover { background: var(--accent-bg); }
+  .btn-delete { background: var(--card); color: var(--red); border-color: #f0c0bb; }
+  .btn-delete:hover { background: #fdf0ee; }
+
+  .tabs { display: flex; gap: 4px; margin-bottom: 16px; }
+  .tab { padding: 7px 16px; border-radius: 8px; font-size: 14px; cursor: pointer; color: var(--text-sub); border: 1px solid transparent; background: none; }
+  .tab.active { background: var(--accent); color: #fff; }
+  .tab:not(.active):hover { background: var(--tag-bg); color: var(--text); }
+
+  .section-card { background: var(--card); border-radius: 14px; border: 1px solid var(--border); margin-bottom: 14px; overflow: hidden; }
+  .section-title { padding: 12px 16px; font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: .5px; border-bottom: 1px solid var(--border); background: var(--accent-bg); text-transform: uppercase; }
+  .section-body { padding: 14px 16px; }
+  .findings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .finding-item.full { grid-column: 1/-1; }
+  .finding-label { font-size: 11px; color: var(--text-sub); margin-bottom: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: .3px; }
+  .finding-value { font-size: 14px; line-height: 1.6; }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag { background: var(--tag-bg); color: var(--accent); padding: 3px 9px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .tag.red { background: #fdecea; color: var(--red); }
+  .tag.purple { background: #f3ecfb; color: #8E44AD; }
+  .tag.orange { background: #fef3e2; color: #E67E22; }
+
+  .visit-item { border-left: 3px solid var(--border); padding: 0 0 20px 16px; position: relative; margin-left: 6px; }
+  .visit-item::before { content: ''; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; position: absolute; left: -7.5px; top: 2px; }
+  .visit-item:last-child { padding-bottom: 0; }
+  .visit-date { font-size: 12px; color: var(--text-sub); font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .visit-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .visit-block { flex: 1; min-width: 130px; }
+  .visit-block-label { font-size: 10px; color: var(--text-sub); font-weight: 700; text-transform: uppercase; letter-spacing: .3px; margin-bottom: 3px; }
+  .visit-block-val { font-size: 13px; line-height: 1.5; }
+  .btn-add-visit { background: var(--accent-bg); color: var(--accent); border: 1.5px dashed var(--accent-light); border-radius: 10px; padding: 10px 0; width: 100%; font-size: 14px; cursor: pointer; margin-bottom: 14px; }
+  .btn-add-visit:hover { background: #E8DDD0; }
+  .btn-report { background: #fff; color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; padding: 3px 10px; font-size: 12px; cursor: pointer; white-space: nowrap; }
+  .btn-report:hover { background: var(--accent-bg); }
+
+  /* Saving indicator */
+  .save-indicator { position: fixed; bottom: 20px; right: 20px; background: var(--accent); color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 13px; opacity: 0; transition: opacity .3s; z-index: 300; pointer-events: none; }
+  .save-indicator.show { opacity: 1; }
+
+  /* Modal */
+  .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 16px; }
+  .modal { background: var(--card); border-radius: 16px; width: 100%; max-width: 620px; max-height: 92vh; overflow-y: auto; padding: 22px; box-shadow: 0 20px 60px rgba(0,0,0,.2); }
+  .modal h3 { font-size: 17px; margin-bottom: 18px; color: var(--accent); }
+  .form-row { margin-bottom: 13px; }
+  .form-row label { display: block; font-size: 11px; font-weight: 700; color: var(--text-sub); margin-bottom: 5px; text-transform: uppercase; letter-spacing: .3px; }
+  .form-row input, .form-row textarea, .form-row select { width: 100%; padding: 9px 11px; border: 1.5px solid var(--border); border-radius: 9px; font-size: 14px; background: var(--bg); color: var(--text); outline: none; font-family: inherit; resize: vertical; }
+  .form-row input:focus, .form-row textarea:focus, .form-row select:focus { border-color: var(--accent); }
+  .form-row textarea { min-height: 65px; }
+  .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .checkbox-group { display: flex; flex-wrap: wrap; gap: 7px; }
+  .cb-item { display: flex; align-items: center; gap: 5px; font-size: 13px; cursor: pointer; background: var(--tag-bg); padding: 5px 10px; border-radius: 20px; border: 1.5px solid transparent; user-select: none; }
+  .cb-item input { display: none; }
+  .cb-item.checked { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+  .divider { font-size: 11px; font-weight: 700; color: var(--accent); background: var(--accent-bg); padding: 6px 10px; border-radius: 6px; margin: 16px 0 8px; letter-spacing: .5px; }
+  .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+  .btn-save { flex: 1; padding: 11px; background: var(--accent); color: #fff; border: none; border-radius: 10px; font-size: 15px; cursor: pointer; font-weight: 600; }
+  .btn-save:hover { background: var(--accent-light); }
+  .btn-cancel { padding: 11px 18px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; font-size: 15px; cursor: pointer; }
+
+  /* Report Card */
+  .report-card { background: linear-gradient(135deg, #FFFAF5 0%, #F5EDE0 100%); border-radius: 16px; padding: 24px; max-width: 480px; margin: 0 auto; border: 1px solid #DDD0C0; }
+  .report-header { text-align: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 2px solid #D4B896; }
+  .report-studio { font-size: 11px; color: var(--accent-light); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+  .report-title { font-size: 18px; font-weight: 700; color: var(--accent); }
+  .report-date { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
+  .report-name { font-size: 14px; font-weight: 600; color: var(--text); margin-top: 6px; }
+  .report-section { margin-bottom: 16px; }
+  .report-section-title { font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid #E8D8C4; }
+  .report-row { display: flex; gap: 8px; margin-bottom: 6px; align-items: flex-start; }
+  .report-dot { width: 6px; height: 6px; background: var(--accent-light); border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+  .report-text { font-size: 14px; line-height: 1.6; color: var(--text); }
+  .report-highlight { background: #FFF0E0; border-left: 3px solid var(--accent); padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: 14px; line-height: 1.7; color: var(--text); margin-top: 6px; }
+  .report-footer { text-align: center; margin-top: 20px; padding-top: 14px; border-top: 1px solid #E8D8C4; font-size: 12px; color: var(--text-sub); line-height: 1.8; }
+  .report-footer strong { color: var(--accent); }
+  .report-tip { background: var(--accent); color: #fff; border-radius: 10px; padding: 12px 16px; font-size: 13px; line-height: 1.7; margin-top: 14px; }
+  .hint-text { font-size: 12px; color: var(--text-sub); text-align: center; margin-bottom: 14px; }
+
+  @media(max-width: 640px) {
+    .app { flex-direction: column; height: auto; }
+    .sidebar { width: 100%; min-width: 0; height: auto; max-height: 240px; }
+    .detail { padding: 12px; }
+    .findings-grid { grid-template-columns: 1fr; }
+    .profile-card { flex-wrap: wrap; }
+    .form-row-2 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Loading -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="spinner"></div>
+  <div style="color:var(--text-sub);font-size:14px">載入中…</div>
+</div>
+
+<!-- Login -->
+<div class="login-screen" id="loginScreen" style="display:none">
+  <div class="login-logo">🌿</div>
+  <div class="login-title">顯德筋絡調理室</div>
+  <div class="login-sub">顧客推拿紀錄系統<br>請用 Google 帳號登入</div>
+  <button class="btn-google" onclick="signIn()">
+    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg">
+    使用 Google 帳號登入
+  </button>
+  <div class="login-note">資料儲存在雲端，任何裝置都能存取</div>
+</div>
+
+<!-- App -->
+<div id="appScreen" style="display:none">
+  <header>
+    <h1>推拿顧客紀錄</h1>
+    <div class="header-right">
+      <span id="clientCount">0 位顧客</span>
+      <img id="userAvatar" class="user-avatar" style="display:none">
+      <button class="btn-hdr" onclick="signOut()">登出</button>
+    </div>
+  </header>
+  <div class="app">
+    <div class="sidebar">
+      <div class="sidebar-top">
+        <input type="text" id="searchInput" placeholder="搜尋姓名或生日…" oninput="renderList()">
+        <button class="btn-new" onclick="openNewClientModal()">＋ 新增</button>
+      </div>
+      <div class="client-list" id="clientList">
+        <div class="empty-list">尚無顧客紀錄</div>
+      </div>
+    </div>
+    <div class="detail" id="detail">
+      <div class="detail-placeholder">← 選擇左側顧客查看紀錄</div>
+    </div>
+  </div>
+</div>
+
+<div id="modalBg" class="modal-bg" style="display:none" onclick="closeModalOnBg(event)">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<div class="save-indicator" id="saveIndicator">✓ 已儲存</div>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onAuthStateChanged }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { getFirestore, collection, doc, getDocs, setDoc, deleteDoc, onSnapshot, query, orderBy }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDkLms4g5-UPuMQcFl0pvxGU8bsqdLEqA0",
+  authDomain: "sian-customer-records.firebaseapp.com",
+  projectId: "sian-customer-records",
+  storageBucket: "sian-customer-records.firebasestorage.app",
+  messagingSenderId: "408702062626",
+  appId: "1:408702062626:web:5317965599bd8678feba7b"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+
+let currentUser = null;
+let clients = [];
+let unsubscribe = null;
+
+// Auth state
+onAuthStateChanged(auth, user => {
+  document.getElementById('loadingScreen').style.display = 'none';
+  if (user) {
+    currentUser = user;
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('appScreen').style.display = 'block';
+    const av = document.getElementById('userAvatar');
+    if (user.photoURL) { av.src = user.photoURL; av.style.display = 'block'; }
+    startListening();
+  } else {
+    currentUser = null;
+    if (unsubscribe) { unsubscribe(); unsubscribe = null; }
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('appScreen').style.display = 'none';
+  }
+});
+
+window.signIn = async () => {
+  try { await signInWithPopup(auth, provider); }
+  catch(e) { alert('登入失敗：' + e.message); }
+};
+
+window.signOut = async () => {
+  if (unsubscribe) { unsubscribe(); unsubscribe = null; }
+  await fbSignOut(auth);
+};
+
+// Firestore real-time
+function startListening() {
+  const col = collection(db, 'users', currentUser.uid, 'clients');
+  unsubscribe = onSnapshot(col, snap => {
+    clients = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderList();
+    if (window.currentId) renderDetail();
+  });
+}
+
+window.saveClient = async (c) => {
+  const col = collection(db, 'users', currentUser.uid, 'clients');
+  await setDoc(doc(col, c.id), c);
+  showSaved();
+};
+
+window.removeClient = async (id) => {
+  const col = collection(db, 'users', currentUser.uid, 'clients');
+  await deleteDoc(doc(col, id));
+};
+
+function showSaved() {
+  const el = document.getElementById('saveIndicator');
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 1800);
+}
+
+// expose db refs for use below
+window._clients = () => clients;
+</script>
+
+<script>
+// ── Data ──
+const PELVIS_OPTIONS = ['左高右低','右高左低','前傾','後傾','左旋','右旋','無明顯偏移'];
+const MUSCLE_GROUPS = {
+  '頭頸部': ['左頸部屈肌群','右頸部屈肌群','左頸部伸肌群','右頸部伸肌群','左胸鎖乳突肌','右胸鎖乳突肌','左斜角肌','右斜角肌','枕下肌群','頭皮筋膜緊繃'],
+  '肩背部': ['左斜方肌（上段）','右斜方肌（上段）','左斜方肌（中下段）','右斜方肌（中下段）','左菱形肌','右菱形肌','左提肩胛肌','右提肩胛肌','左前鋸肌','右前鋸肌','左棘上肌','右棘上肌','左棘下肌','右棘下肌','左小圓肌','右小圓肌'],
+  '胸部': ['左胸大肌','右胸大肌','左胸小肌','右胸小肌','左胸肋筋膜','右胸肋筋膜','肋間肌緊繃'],
+  '腹部': ['腹直肌','左腹斜肌','右腹斜肌','腹橫肌筋膜','腹部深層筋膜'],
+  '腰臀部': ['左腰方肌','右腰方肌','左髂腰肌','右髂腰肌','左臀大肌','右臀大肌','左臀中肌','右臀中肌','左臀小肌','右臀小肌','左梨狀肌','右梨狀肌','腰薦交接筋膜'],
+  '大腿': ['左股四頭肌','右股四頭肌','左大腿後側肌群','右大腿後側肌群','左內收肌群','右內收肌群','左髂脛束','右髂脛束'],
+  '小腿': ['左腓腸肌','右腓腸肌','左比目魚肌','右比目魚肌','左脛前肌','右脛前肌','左腓骨肌群','右腓骨肌群'],
+  '顳顎 & 頭部': ['左顳顎關節','右顳顎關節','左咬肌','右咬肌','左顳肌','右顳肌','頭皮緊度（整體）']
+};
+const SOURCE_OPTIONS = {
+  '頸椎': ['頸椎第一節','頸椎第二節','頸椎第三節','頸椎第四節','頸椎第五節','頸椎第六節','頸椎第七節'],
+  '胸椎': ['胸椎第一節','胸椎第二節','胸椎第三節','胸椎第四節','胸椎第五節','胸椎第六節','胸椎第七節','胸椎第八節','胸椎第九節','胸椎第十節','胸椎第十一節','胸椎第十二節'],
+  '腰椎': ['腰椎第一節','腰椎第二節','腰椎第三節','腰椎第四節','腰椎第五節'],
+  '薦椎 & 骨盆': ['薦椎','左薦髂關節','右薦髂關節','尾椎'],
+  '其他結構': ['左梨狀肌來源','右梨狀肌來源','左腰方肌來源','右腰方肌來源','左髂腰肌來源','右髂腰肌來源','左顳顎關節來源','右顳顎關節來源','腹部筋膜來源']
+};
+
+let currentId = null;
+let currentTab = 'overview';
+window.currentId = null;
+
+function getClients() { return typeof window._clients === 'function' ? window._clients() : []; }
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
+function initials(name) { return name ? name.slice(0,1) : '?'; }
+function today() { return new Date().toISOString().slice(0,10); }
+
+function renderList() {
+  const q = (document.getElementById('searchInput')||{value:''}).value.trim().toLowerCase();
+  const list = document.getElementById('clientList');
+  if (!list) return;
+  const clients = getClients();
+  const filtered = q ? clients.filter(c => c.name.toLowerCase().includes(q) || (c.birthday||'').includes(q) || (c.phone||'').includes(q)) : clients;
+  document.getElementById('clientCount').textContent = `${clients.length} 位顧客`;
+  if (!filtered.length) {
+    list.innerHTML = `<div class="empty-list">${q ? '找不到符合的顧客' : '尚無顧客紀錄<br>點「新增」建立第一位'}</div>`;
+    return;
+  }
+  const sorted = [...filtered].sort((a,b) => a.name.localeCompare(b.name, 'zh-TW'));
+  list.innerHTML = sorted.map(c => {
+    const visits = c.visits || [];
+    const lastVisit = visits.length ? visits[visits.length-1].date : '未有紀錄';
+    return `<div class="client-item ${c.id===currentId?'active':''}" onclick="selectClient('${c.id}')">
+      <div class="name">${c.name}</div>
+      <div class="meta">${c.birthday?`🎂 ${c.birthday}　`:''}${c.gender||''}</div>
+      <div class="meta">最後到診：${lastVisit}</div>
+      <span class="visit-count">共 ${visits.length} 次紀錄</span>
+    </div>`;
+  }).join('');
+}
+
+function selectClient(id) { currentId = id; window.currentId = id; currentTab = 'overview'; renderList(); renderDetail(); }
+
+function renderDetail() {
+  const detail = document.getElementById('detail');
+  const c = getClients().find(x => x.id === currentId);
+  if (!c) { detail.innerHTML = '<div class="detail-placeholder">← 選擇左側顧客查看紀錄</div>'; return; }
+  const visits = c.visits || [];
+  detail.innerHTML = `
+  <div class="profile-card">
+    <div class="avatar">${initials(c.name)}</div>
+    <div class="profile-info">
+      <h2>${c.name}</h2>
+      <div class="profile-meta">
+        ${c.gender?`性別：${c.gender}　`:''}${c.birthday?`生日：${c.birthday}　`:''}${c.phone?`📞 ${c.phone}`:''}
+        ${c.occupation?`<br>職業：${c.occupation}`:''}${c.notes?`<br>備註：${c.notes}`:''}
+      </div>
+    </div>
+    <div class="profile-actions">
+      <button class="btn-edit" onclick="openEditClientModal('${c.id}')">✏️ 編輯</button>
+      <button class="btn-delete" onclick="deleteClient('${c.id}')">刪除</button>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab ${currentTab==='overview'?'active':''}" onclick="switchTab('overview')">身體概況</button>
+    <button class="tab ${currentTab==='visits'?'active':''}" onclick="switchTab('visits')">到診紀錄（${visits.length}）</button>
+  </div>
+  ${currentTab==='overview' ? renderOverview(c) : renderVisits(c)}`;
+}
+
+function switchTab(tab) { currentTab = tab; renderDetail(); }
+
+function renderTagList(arr, cls='') {
+  if (!arr||!arr.length) return '<span style="color:var(--text-sub)">未記錄</span>';
+  return `<div class="tags">${arr.map(t=>`<span class="tag ${cls}">${t}</span>`).join('')}</div>`;
+}
+
+function renderOverview(c) {
+  return `
+  <div class="section-card">
+    <div class="section-title">骨盆 & 脊椎</div>
+    <div class="section-body">
+      <div class="findings-grid">
+        <div class="finding-item"><div class="finding-label">骨盆偏移</div><div class="finding-value">${renderTagList(c.pelvis,'red')}</div></div>
+        <div class="finding-item"><div class="finding-label">脊椎補充</div><div class="finding-value">${c.spineNote||'<span style="color:var(--text-sub)">未記錄</span>'}</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-title">緊繃肌群</div>
+    <div class="section-body">
+      ${Object.keys(MUSCLE_GROUPS).map(g=>{
+        const sel=(c.tightMuscles||[]).filter(m=>MUSCLE_GROUPS[g].includes(m));
+        if(!sel.length) return '';
+        return `<div style="margin-bottom:10px"><div class="finding-label" style="margin-bottom:5px">${g}</div><div class="tags">${sel.map(m=>`<span class="tag orange">${m}</span>`).join('')}</div></div>`;
+      }).join('')}
+      ${!(c.tightMuscles||[]).length?'<span style="color:var(--text-sub)">未記錄</span>':''}
+      ${c.otherMuscle?`<div style="margin-top:8px"><div class="finding-label">其他補充</div><div style="font-size:14px;margin-top:4px">${c.otherMuscle}</div></div>`:''}
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-title">主訴與疼痛來源</div>
+    <div class="section-body">
+      <div class="findings-grid">
+        <div class="finding-item full"><div class="finding-label">客人主訴</div><div class="finding-value">${c.chiefComplaint||'<span style="color:var(--text-sub)">未記錄</span>'}</div></div>
+        <div class="finding-item full">
+          <div class="finding-label">疼痛來源（你的判斷）</div>
+          <div class="finding-value" style="margin-top:4px">
+            ${renderTagList(c.painSource,'purple')}
+            ${c.painSourceNote?`<div style="margin-top:8px;font-size:14px">${c.painSourceNote}</div>`:''}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="btn-add-visit" onclick="openEditOverviewModal('${c.id}')">✏️ 更新身體概況</button>`;
+}
+
+function renderVisits(c) {
+  const visits=[...(c.visits||[])].reverse();
+  return `
+  <button class="btn-add-visit" onclick="openAddVisitModal('${c.id}')">＋ 新增本次到診紀錄</button>
+  <div class="section-card"><div class="section-body">
+    ${!visits.length?'<div style="color:var(--text-sub);text-align:center;padding:20px">尚無到診紀錄</div>':''}
+    ${visits.map((v,i)=>`
+      <div class="visit-item">
+        <div class="visit-date">
+          <span>${v.date}</span>
+          <span style="font-size:11px;background:var(--tag-bg);padding:2px 8px;border-radius:10px;color:var(--accent)">第 ${visits.length-i} 次</span>
+          <button class="btn-report" onclick="openReportCard('${c.id}','${v.id}')">📋 報告卡</button>
+          <button onclick="deleteVisit('${c.id}','${v.id}')" style="margin-left:auto;background:none;border:none;color:var(--text-sub);cursor:pointer;font-size:12px">刪除</button>
+        </div>
+        <div class="visit-row">
+          ${v.chiefComplaint?`<div class="visit-block"><div class="visit-block-label">主訴</div><div class="visit-block-val">${v.chiefComplaint}</div></div>`:''}
+          ${v.pelvis?`<div class="visit-block"><div class="visit-block-label">骨盆</div><div class="visit-block-val">${v.pelvis}</div></div>`:''}
+          ${v.tightMuscles?`<div class="visit-block"><div class="visit-block-label">緊繃肌群</div><div class="visit-block-val">${v.tightMuscles}</div></div>`:''}
+          ${v.painSource?`<div class="visit-block"><div class="visit-block-label">疼痛來源</div><div class="visit-block-val">${v.painSource}</div></div>`:''}
+          ${v.treatment?`<div class="visit-block"><div class="visit-block-label">本次處理</div><div class="visit-block-val">${v.treatment}</div></div>`:''}
+          ${v.result?`<div class="visit-block"><div class="visit-block-label">修完狀況</div><div class="visit-block-val">${v.result}</div></div>`:''}
+          ${v.nextPlan?`<div class="visit-block"><div class="visit-block-label">下次計畫</div><div class="visit-block-val">${v.nextPlan}</div></div>`:''}
+        </div>
+      </div>`).join('')}
+  </div></div>`;
+}
+
+// ── Report Card ──
+function openReportCard(clientId, visitId) {
+  const c = getClients().find(x=>x.id===clientId);
+  const v = (c.visits||[]).find(x=>x.id===visitId);
+  if (!v) return;
+  const pelvisTags = v.pelvis ? v.pelvis.split('、').filter(Boolean) : [];
+  const muscleTags = v.tightMuscles ? v.tightMuscles.split('、').filter(Boolean) : [];
+  const sourceTags = v.painSource ? v.painSource.split('、').filter(Boolean) : [];
+  const pelvisMap = {'左高右低':'骨盆往左邊偏高','右高左低':'骨盆往右邊偏高','前傾':'骨盆前傾（重心前移）','後傾':'骨盆後傾（塌腰）','左旋':'骨盆往左旋轉','右旋':'骨盆往右旋轉','無明顯偏移':'骨盆目前無明顯偏移'};
+  const pelvisHuman = pelvisTags.map(p => pelvisMap[p]||p);
+  openModal(`
+    <h3>本次評估報告卡</h3>
+    <p class="hint-text">截圖這張卡片傳給客人 LINE 📸</p>
+    <div class="report-card">
+      <div class="report-header">
+        <div class="report-studio">顯德筋絡調理室</div>
+        <div class="report-title">本次調理報告</div>
+        <div class="report-date">${v.date}</div>
+        <div class="report-name">📋 ${c.name} 您好</div>
+      </div>
+      ${v.chiefComplaint?`<div class="report-section"><div class="report-section-title">您這次說的不舒服</div><div class="report-highlight">${v.chiefComplaint}</div></div>`:''}
+      ${pelvisHuman.length?`<div class="report-section"><div class="report-section-title">骨盆狀態</div>${pelvisHuman.map(p=>`<div class="report-row"><div class="report-dot"></div><div class="report-text">${p}</div></div>`).join('')}</div>`:''}
+      ${muscleTags.length?`<div class="report-section"><div class="report-section-title">今天比較緊繃的區域</div>${muscleTags.map(m=>`<div class="report-row"><div class="report-dot"></div><div class="report-text">${m}</div></div>`).join('')}</div>`:''}
+      ${sourceTags.length?`<div class="report-section"><div class="report-section-title">找到的問題根源</div>${sourceTags.map(s=>`<div class="report-row"><div class="report-dot"></div><div class="report-text">${s}</div></div>`).join('')}</div>`:''}
+      ${v.result?`<div class="report-section"><div class="report-section-title">調理後的狀況</div><div class="report-highlight">${v.result}</div></div>`:''}
+      ${v.nextPlan?`<div class="report-tip">💡 <strong>下次建議</strong><br>${v.nextPlan}</div>`:''}
+      <div class="report-footer">身體的改變需要時間，每一次調理都是一步。<br><br><strong>有任何問題歡迎 LINE 我 🙏</strong></div>
+    </div>
+    <div class="modal-actions"><button class="btn-cancel" onclick="closeModal()">關閉</button></div>`);
+}
+
+// ── Modals ──
+function openModal(html) { document.getElementById('modalContent').innerHTML = html; document.getElementById('modalBg').style.display = 'flex'; }
+function closeModal() { document.getElementById('modalBg').style.display = 'none'; }
+function closeModalOnBg(e) { if (e.target.id==='modalBg') closeModal(); }
+
+function buildCheckboxes(name, options, selected=[]) {
+  return options.map(o => {
+    const checked = selected.includes(o);
+    return `<label class="cb-item ${checked?'checked':''}" onclick="toggleCb(this)"><input type="checkbox" name="${name}" value="${o}" ${checked?'checked':''}>${o}</label>`;
+  }).join('');
+}
+function toggleCb(el) { const inp=el.querySelector('input'); inp.checked=!inp.checked; el.classList.toggle('checked',inp.checked); }
+function getChecked(name) { return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(i=>i.value); }
+
+function openNewClientModal() {
+  openModal(`<h3>新增顧客</h3>
+    <div class="form-row-2">
+      <div class="form-row"><label>姓名 *</label><input id="f-name" placeholder="例：陳小明"></div>
+      <div class="form-row"><label>生日</label><input id="f-bday" type="date"></div>
+    </div>
+    <div class="form-row-2">
+      <div class="form-row"><label>性別</label><select id="f-gender"><option value="">未填</option><option>男</option><option>女</option><option>其他</option></select></div>
+      <div class="form-row"><label>電話</label><input id="f-phone" placeholder="09xx-xxxxxx"></div>
+    </div>
+    <div class="form-row"><label>職業</label><input id="f-job" placeholder="例：上班族、工人…"></div>
+    <div class="form-row"><label>備註</label><textarea id="f-notes" placeholder="過去病史、特殊情況…"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">取消</button>
+      <button class="btn-save" onclick="saveNewClient()">儲存</button>
+    </div>`);
+}
+async function saveNewClient() {
+  const name = document.getElementById('f-name').value.trim();
+  if (!name) { alert('請輸入姓名'); return; }
+  const c = { id: uid(), name, birthday: document.getElementById('f-bday').value, gender: document.getElementById('f-gender').value, phone: document.getElementById('f-phone').value, occupation: document.getElementById('f-job').value, notes: document.getElementById('f-notes').value, visits: [], pelvis: [], tightMuscles: [], painSource: [] };
+  await window.saveClient(c);
+  closeModal(); currentId = c.id; window.currentId = c.id; renderList(); renderDetail();
+}
+
+function openEditClientModal(id) {
+  const c = getClients().find(x=>x.id===id);
+  openModal(`<h3>編輯顧客資料</h3>
+    <div class="form-row-2">
+      <div class="form-row"><label>姓名 *</label><input id="f-name" value="${c.name}"></div>
+      <div class="form-row"><label>生日</label><input id="f-bday" type="date" value="${c.birthday||''}"></div>
+    </div>
+    <div class="form-row-2">
+      <div class="form-row"><label>性別</label><select id="f-gender"><option value="">未填</option><option ${c.gender==='男'?'selected':''}>男</option><option ${c.gender==='女'?'selected':''}>女</option><option ${c.gender==='其他'?'selected':''}>其他</option></select></div>
+      <div class="form-row"><label>電話</label><input id="f-phone" value="${c.phone||''}"></div>
+    </div>
+    <div class="form-row"><label>職業</label><input id="f-job" value="${c.occupation||''}"></div>
+    <div class="form-row"><label>備註</label><textarea id="f-notes">${c.notes||''}</textarea></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">取消</button>
+      <button class="btn-save" onclick="saveEditClient('${id}')">儲存</button>
+    </div>`);
+}
+async function saveEditClient(id) {
+  const c = getClients().find(x=>x.id===id);
+  c.name = document.getElementById('f-name').value.trim()||c.name;
+  c.birthday = document.getElementById('f-bday').value;
+  c.gender = document.getElementById('f-gender').value;
+  c.phone = document.getElementById('f-phone').value;
+  c.occupation = document.getElementById('f-job').value;
+  c.notes = document.getElementById('f-notes').value;
+  await window.saveClient(c); closeModal(); renderList(); renderDetail();
+}
+
+function openEditOverviewModal(id) {
+  const c = getClients().find(x=>x.id===id);
+  const mCb = Object.entries(MUSCLE_GROUPS).map(([g,opts])=>`<div class="divider">${g}</div><div class="form-row"><div class="checkbox-group">${buildCheckboxes('muscles',opts,c.tightMuscles||[])}</div></div>`).join('');
+  const sCb = Object.entries(SOURCE_OPTIONS).map(([g,opts])=>`<div class="divider">${g}</div><div class="form-row"><div class="checkbox-group">${buildCheckboxes('source',opts,c.painSource||[])}</div></div>`).join('');
+  openModal(`<h3>更新身體概況</h3>
+    <div class="divider">骨盆偏移</div>
+    <div class="form-row"><div class="checkbox-group">${buildCheckboxes('pelvis',PELVIS_OPTIONS,c.pelvis||[])}</div></div>
+    <div class="form-row"><label>脊椎補充說明</label><input id="f-spine" value="${c.spineNote||''}" placeholder="例：腰椎往左偏…"></div>
+    <br><div style="font-size:13px;font-weight:700;color:var(--accent)">▍緊繃肌群</div>${mCb}
+    <div class="form-row"><label>其他緊繃部位（自填）</label><input id="f-other-muscle" value="${c.otherMuscle||''}" placeholder="其他未列出的部位…"></div>
+    <div class="form-row"><label>客人主訴</label><textarea id="f-complaint">${c.chiefComplaint||''}</textarea></div>
+    <br><div style="font-size:13px;font-weight:700;color:var(--accent)">▍疼痛真正來源</div>${sCb}
+    <div class="form-row"><label>疼痛來源補充說明</label><textarea id="f-source-note">${c.painSourceNote||''}</textarea></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">取消</button>
+      <button class="btn-save" onclick="saveOverview('${id}')">儲存</button>
+    </div>`);
+}
+async function saveOverview(id) {
+  const c = getClients().find(x=>x.id===id);
+  c.pelvis=getChecked('pelvis'); c.tightMuscles=getChecked('muscles'); c.painSource=getChecked('source');
+  c.spineNote=document.getElementById('f-spine').value;
+  c.otherMuscle=document.getElementById('f-other-muscle').value;
+  c.chiefComplaint=document.getElementById('f-complaint').value;
+  c.painSourceNote=document.getElementById('f-source-note').value;
+  await window.saveClient(c); closeModal(); renderDetail();
+}
+
+function openAddVisitModal(id) {
+  const mCb = Object.entries(MUSCLE_GROUPS).map(([g,opts])=>`<div class="divider">${g}</div><div class="form-row"><div class="checkbox-group">${buildCheckboxes('v-muscles',opts,[])}</div></div>`).join('');
+  const sCb = Object.entries(SOURCE_OPTIONS).map(([g,opts])=>`<div class="divider">${g}</div><div class="form-row"><div class="checkbox-group">${buildCheckboxes('v-source',opts,[])}</div></div>`).join('');
+  openModal(`<h3>新增到診紀錄</h3>
+    <div class="form-row"><label>到診日期 *</label><input id="v-date" type="date" value="${today()}"></div>
+    <div class="form-row"><label>本次主訴</label><textarea id="v-complaint" placeholder="客人這次說哪裡不舒服…"></textarea></div>
+    <div class="divider">骨盆（本次觀察）</div>
+    <div class="form-row"><div class="checkbox-group">${buildCheckboxes('v-pelvis',PELVIS_OPTIONS,[])}</div></div>
+    <div class="form-row"><label>骨盆補充</label><input id="v-pelvis-note" placeholder="改善中、比上次好…"></div>
+    <br><div style="font-size:13px;font-weight:700;color:var(--accent)">▍本次緊繃肌群</div>${mCb}
+    <div class="form-row"><label>其他緊繃（自填）</label><input id="v-other-muscle" placeholder="其他部位…"></div>
+    <br><div style="font-size:13px;font-weight:700;color:var(--accent)">▍本次疼痛來源判斷</div>${sCb}
+    <div class="form-row"><label>來源補充說明</label><textarea id="v-source-note" placeholder="詳細描述…"></textarea></div>
+    <div class="form-row"><label>本次處理手法</label><textarea id="v-treatment" placeholder="做了什麼、處理了哪個區域…"></textarea></div>
+    <div class="form-row"><label>修完後狀況</label><textarea id="v-result" placeholder="當場回饋、症狀改善程度…"></textarea></div>
+    <div class="form-row"><label>下次計畫 / 給客人的建議</label><input id="v-next" placeholder="例：建議下週再來鞏固…"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">取消</button>
+      <button class="btn-save" onclick="saveVisit('${id}')">儲存</button>
+    </div>`);
+}
+async function saveVisit(id) {
+  const c = getClients().find(x=>x.id===id);
+  const date = document.getElementById('v-date').value;
+  if (!date) { alert('請選擇日期'); return; }
+  if (!c.visits) c.visits=[];
+  const pelvis=getChecked('v-pelvis');
+  const pelvisNote=document.getElementById('v-pelvis-note').value;
+  const tightMuscles=getChecked('v-muscles');
+  const otherMuscle=document.getElementById('v-other-muscle').value;
+  const painSource=getChecked('v-source');
+  const sourceNote=document.getElementById('v-source-note').value;
+  c.visits.push({
+    id:uid(), date,
+    chiefComplaint:document.getElementById('v-complaint').value,
+    pelvis:[...pelvis,pelvisNote].filter(Boolean).join('、'),
+    tightMuscles:[...tightMuscles,otherMuscle].filter(Boolean).join('、'),
+    painSource:[...painSource,sourceNote].filter(Boolean).join('、'),
+    treatment:document.getElementById('v-treatment').value,
+    result:document.getElementById('v-result').value,
+    nextPlan:document.getElementById('v-next').value,
+  });
+  c.visits.sort((a,b)=>a.date.localeCompare(b.date));
+  await window.saveClient(c); closeModal(); currentTab='visits'; renderDetail();
+}
+
+async function deleteVisit(clientId, visitId) {
+  if (!confirm('確定要刪除這筆到診紀錄？')) return;
+  const c = getClients().find(x=>x.id===clientId);
+  c.visits = c.visits.filter(v=>v.id!==visitId);
+  await window.saveClient(c); renderDetail();
+}
+
+async function deleteClient(id) {
+  const c = getClients().find(x=>x.id===id);
+  if (!confirm(`確定要刪除「${c.name}」的所有紀錄？此動作無法還原。`)) return;
+  await window.removeClient(id);
+  currentId=null; window.currentId=null; renderDetail();
+}
+</script>
+</body>
+</html>
