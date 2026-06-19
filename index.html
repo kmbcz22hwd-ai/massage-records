@@ -4,143 +4,153 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="推拿紀錄">
 <meta name="theme-color" content="#7B5C3E">
-<title>顧客推拿紀錄</title>
+<title>顯德筋絡調理室</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #F7F4EF; --card: #FFFFFF; --border: #E2DDD6;
-    --accent: #7B5C3E; --accent-light: #A67C58; --accent-bg: #F2EAE0;
-    --text: #2C2420; --text-sub: #8A7A70; --red: #C0392B;
-    --green: #2E7D5A; --tag-bg: #EDE8E0;
-  }
-  body { font-family: -apple-system, 'Noto Sans TC', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-  .login-screen { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px; }
-  .login-logo { font-size: 48px; margin-bottom: 16px; }
-  .login-title { font-size: 22px; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
-  .login-sub { font-size: 14px; color: var(--text-sub); margin-bottom: 40px; text-align: center; }
-  .btn-google { display: flex; align-items: center; gap: 12px; background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 14px 24px; font-size: 16px; font-weight: 600; cursor: pointer; color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
-  .btn-google img { width: 22px; }
-  .login-note { font-size: 12px; color: var(--text-sub); margin-top: 20px; text-align: center; }
-  .loading-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
-  .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  header { background: var(--accent); color: #fff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; gap: 10px; flex-wrap: wrap; }
-  header h1 { font-size: 17px; font-weight: 700; letter-spacing: 1px; }
-  .header-right { display: flex; gap: 8px; align-items: center; }
-  .header-right span { font-size: 12px; opacity: .7; }
-  .btn-hdr { background: rgba(255,255,255,.2); color: #fff; border: 1px solid rgba(255,255,255,.4); border-radius: 7px; padding: 5px 12px; font-size: 12px; cursor: pointer; }
-  .user-avatar { width: 28px; height: 28px; border-radius: 50%; border: 2px solid rgba(255,255,255,.5); }
-  .dashboard { padding: 12px 20px; background: var(--card); border-bottom: 1px solid var(--border); display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-  .dash-card { flex: 1; min-width: 140px; background: var(--accent-bg); border-radius: 10px; padding: 10px 14px; }
-  .dash-label { font-size: 11px; color: var(--accent); font-weight: 700; letter-spacing: .5px; margin-bottom: 4px; }
-  .dash-list { font-size: 13px; color: var(--text); line-height: 1.7; }
-  .app { display: flex; height: calc(100vh - 108px); }
-  .sidebar { width: 270px; min-width: 270px; background: var(--card); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
-  .sidebar-top { padding: 12px; border-bottom: 1px solid var(--border); display: flex; gap: 8px; }
-  .sidebar-top input { flex: 1; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: var(--bg); outline: none; }
-  .sidebar-top input:focus { border-color: var(--accent); }
-  .btn-new { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 8px 13px; font-size: 13px; cursor: pointer; white-space: nowrap; }
-  .client-list { overflow-y: auto; flex: 1; }
-  .client-item { padding: 11px 15px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background .15s; }
-  .client-item:hover { background: var(--accent-bg); }
-  .client-item.active { background: var(--accent-bg); border-left: 3px solid var(--accent); }
-  .client-item .name { font-weight: 600; font-size: 15px; }
-  .client-item .meta { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
-  .client-item .visit-count { font-size: 11px; background: var(--tag-bg); color: var(--accent); padding: 2px 7px; border-radius: 10px; display: inline-block; margin-top: 4px; }
-  .empty-list { padding: 32px 16px; text-align: center; color: var(--text-sub); font-size: 14px; }
-  .detail { flex: 1; overflow-y: auto; padding: 22px; }
-  .detail-placeholder { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--text-sub); font-size: 15px; }
-  .profile-card { background: var(--card); border-radius: 14px; border: 1px solid var(--border); padding: 18px; margin-bottom: 18px; display: flex; align-items: flex-start; gap: 14px; }
-  .avatar { width: 52px; height: 52px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #fff; font-weight: 700; flex-shrink: 0; }
-  .profile-info { flex: 1; }
-  .profile-info h2 { font-size: 19px; font-weight: 700; }
-  .profile-info .profile-meta { font-size: 13px; color: var(--text-sub); margin-top: 4px; line-height: 1.8; }
-  .profile-actions { display: flex; gap: 8px; flex-shrink: 0; }
-  .btn-edit, .btn-delete { padding: 6px 12px; border-radius: 8px; font-size: 13px; cursor: pointer; border: 1px solid var(--border); }
-  .btn-edit { background: var(--card); color: var(--text); }
-  .btn-delete { background: var(--card); color: var(--red); border-color: #f0c0bb; }
-  .tabs { display: flex; gap: 4px; margin-bottom: 16px; }
-  .tab { padding: 7px 16px; border-radius: 8px; font-size: 14px; cursor: pointer; color: var(--text-sub); border: 1px solid transparent; background: none; }
-  .tab.active { background: var(--accent); color: #fff; }
-  .tab:not(.active):hover { background: var(--tag-bg); }
-  .section-card { background: var(--card); border-radius: 14px; border: 1px solid var(--border); margin-bottom: 14px; overflow: hidden; }
-  .section-title { padding: 12px 16px; font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: .5px; border-bottom: 1px solid var(--border); background: var(--accent-bg); }
-  .section-body { padding: 14px 16px; }
-  .findings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .finding-item.full { grid-column: 1/-1; }
-  .finding-label { font-size: 11px; color: var(--text-sub); margin-bottom: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: .3px; }
-  .finding-value { font-size: 14px; line-height: 1.6; }
-  .tags { display: flex; flex-wrap: wrap; gap: 5px; }
-  .tag { background: var(--tag-bg); color: var(--accent); padding: 3px 9px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-  .tag.red { background: #fdecea; color: var(--red); }
-  .tag.purple { background: #f3ecfb; color: #8E44AD; }
-  .tag.orange { background: #fef3e2; color: #E67E22; }
-  .tag.green { background: #e8f5ee; color: var(--green); }
-  .ticket-bar { display: flex; align-items: center; gap: 10px; background: var(--accent-bg); border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; }
-  .ticket-info { flex: 1; }
-  .ticket-remain { font-size: 22px; font-weight: 700; color: var(--accent); }
-  .ticket-total { font-size: 12px; color: var(--text-sub); }
-  .btn-ticket { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 7px 14px; font-size: 13px; cursor: pointer; }
-  .visit-item { border-left: 3px solid var(--border); padding: 0 0 20px 16px; position: relative; margin-left: 6px; }
-  .visit-item::before { content: ''; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; position: absolute; left: -7.5px; top: 2px; }
-  .visit-item:last-child { padding-bottom: 0; }
-  .visit-date { font-size: 12px; color: var(--text-sub); font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-  .visit-row { display: flex; gap: 10px; flex-wrap: wrap; }
-  .visit-block { flex: 1; min-width: 130px; }
-  .visit-block-label { font-size: 10px; color: var(--text-sub); font-weight: 700; text-transform: uppercase; letter-spacing: .3px; margin-bottom: 3px; }
-  .visit-block-val { font-size: 13px; line-height: 1.5; }
-  .btn-add-visit { background: var(--accent-bg); color: var(--accent); border: 1.5px dashed var(--accent-light); border-radius: 10px; padding: 10px 0; width: 100%; font-size: 14px; cursor: pointer; margin-bottom: 14px; }
-  .btn-report { background: #fff; color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; padding: 3px 10px; font-size: 12px; cursor: pointer; white-space: nowrap; }
-  .advice-box { background: #f0faf4; border: 1.5px solid #a8d8b9; border-radius: 12px; padding: 16px; margin-top: 14px; }
-  .advice-title { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 10px; }
-  .btn-copy { background: #fff; color: var(--green); border: 1px solid var(--green); border-radius: 7px; padding: 6px 14px; font-size: 13px; cursor: pointer; margin-top: 10px; }
-  .save-indicator { position: fixed; bottom: 20px; right: 20px; background: var(--accent); color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 13px; opacity: 0; transition: opacity .3s; z-index: 300; pointer-events: none; }
-  .save-indicator.show { opacity: 1; }
-  .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 16px; }
-  .modal { background: var(--card); border-radius: 16px; width: 100%; max-width: 640px; max-height: 92vh; overflow-y: auto; padding: 22px; box-shadow: 0 20px 60px rgba(0,0,0,.2); }
-  .modal h3 { font-size: 17px; margin-bottom: 18px; color: var(--accent); }
-  .form-row { margin-bottom: 13px; }
-  .form-row label { display: block; font-size: 11px; font-weight: 700; color: var(--text-sub); margin-bottom: 5px; text-transform: uppercase; letter-spacing: .3px; }
-  .form-row input, .form-row textarea, .form-row select { width: 100%; padding: 9px 11px; border: 1.5px solid var(--border); border-radius: 9px; font-size: 14px; background: var(--bg); color: var(--text); outline: none; font-family: inherit; resize: vertical; }
-  .form-row input:focus, .form-row textarea:focus { border-color: var(--accent); }
-  .form-row textarea { min-height: 65px; }
-  .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .checkbox-group { display: flex; flex-wrap: wrap; gap: 7px; }
-  .cb-item { display: flex; align-items: center; gap: 5px; font-size: 13px; cursor: pointer; background: var(--tag-bg); padding: 5px 10px; border-radius: 20px; border: 1.5px solid transparent; user-select: none; }
-  .cb-item input { display: none; }
-  .cb-item.checked { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); font-weight: 600; }
-  .divider { font-size: 11px; font-weight: 700; color: var(--accent); background: var(--accent-bg); padding: 6px 10px; border-radius: 6px; margin: 16px 0 8px; letter-spacing: .5px; }
-  .modal-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
-  .btn-save { flex: 1; padding: 11px; background: var(--accent); color: #fff; border: none; border-radius: 10px; font-size: 15px; cursor: pointer; font-weight: 600; min-width: 100px; }
-  .btn-cancel { padding: 11px 18px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; font-size: 15px; cursor: pointer; }
-  .report-card { background: linear-gradient(135deg, #FFFAF5 0%, #F5EDE0 100%); border-radius: 16px; padding: 24px; max-width: 480px; margin: 0 auto; border: 1px solid #DDD0C0; }
-  .report-header { text-align: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 2px solid #D4B896; }
-  .report-studio { font-size: 11px; color: var(--accent-light); font-weight: 700; letter-spacing: 2px; margin-bottom: 4px; }
-  .report-title { font-size: 18px; font-weight: 700; color: var(--accent); }
-  .report-date { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
-  .report-name { font-size: 14px; font-weight: 600; color: var(--text); margin-top: 6px; }
-  .report-section { margin-bottom: 16px; }
-  .report-section-title { font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: 1px; margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid #E8D8C4; }
-  .report-row { display: flex; gap: 8px; margin-bottom: 6px; align-items: flex-start; }
-  .report-dot { width: 6px; height: 6px; background: var(--accent-light); border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
-  .report-text { font-size: 14px; line-height: 1.6; color: var(--text); }
-  .report-highlight { background: #FFF0E0; border-left: 3px solid var(--accent); padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: 14px; line-height: 1.7; color: var(--text); margin-top: 6px; }
-  .report-footer { text-align: center; margin-top: 20px; padding-top: 14px; border-top: 1px solid #E8D8C4; font-size: 12px; color: var(--text-sub); line-height: 1.8; }
-  .report-footer strong { color: var(--accent); }
-  .report-tip { background: var(--accent); color: #fff; border-radius: 10px; padding: 12px 16px; font-size: 13px; line-height: 1.7; margin-top: 14px; }
-  .report-advice { background: #f0faf4; border: 1px solid #a8d8b9; border-radius: 10px; padding: 12px 16px; font-size: 13px; line-height: 1.7; margin-top: 14px; color: var(--text); white-space: pre-wrap; }
-  .hint-text { font-size: 12px; color: var(--text-sub); text-align: center; margin-bottom: 14px; }
-  @media(max-width: 640px) {
-    .app { flex-direction: column; height: auto; }
-    .sidebar { width: 100%; min-width: 0; height: auto; max-height: 220px; }
-    .detail { padding: 12px; }
-    .findings-grid { grid-template-columns: 1fr; }
-    .profile-card { flex-wrap: wrap; }
-    .form-row-2 { grid-template-columns: 1fr; }
-  }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#F7F4EF; --card:#FFF; --border:#E2DDD6;
+  --accent:#7B5C3E; --accent-light:#A67C58; --accent-bg:#F2EAE0;
+  --text:#2C2420; --text-sub:#8A7A70; --red:#C0392B;
+  --green:#2E7D5A; --tag-bg:#EDE8E0; --orange:#E67E22;
+}
+body { font-family:-apple-system,'Noto Sans TC',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+.loading-screen { min-height:100vh; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:16px; }
+.spinner { width:36px; height:36px; border:3px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin .8s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.login-screen { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:32px; }
+.login-logo { font-size:48px; margin-bottom:16px; }
+.login-title { font-size:22px; font-weight:700; color:var(--accent); margin-bottom:8px; }
+.login-sub { font-size:14px; color:var(--text-sub); margin-bottom:40px; text-align:center; }
+.btn-google { display:flex; align-items:center; gap:12px; background:#fff; border:1.5px solid var(--border); border-radius:12px; padding:14px 24px; font-size:16px; font-weight:600; cursor:pointer; color:var(--text); box-shadow:0 2px 8px rgba(0,0,0,.08); }
+.btn-google img { width:22px; }
+.login-note { font-size:12px; color:var(--text-sub); margin-top:20px; text-align:center; }
+header { background:var(--accent); color:#fff; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:100; gap:10px; flex-wrap:wrap; }
+header h1 { font-size:17px; font-weight:700; letter-spacing:1px; }
+.header-right { display:flex; gap:8px; align-items:center; }
+.header-right span { font-size:12px; opacity:.7; }
+.btn-hdr { background:rgba(255,255,255,.2); color:#fff; border:1px solid rgba(255,255,255,.4); border-radius:7px; padding:5px 12px; font-size:12px; cursor:pointer; }
+.user-avatar { width:28px; height:28px; border-radius:50%; border:2px solid rgba(255,255,255,.5); }
+.dashboard { padding:12px 20px; background:var(--card); border-bottom:1px solid var(--border); display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+.dash-card { flex:1; min-width:140px; background:var(--accent-bg); border-radius:10px; padding:10px 14px; }
+.dash-label { font-size:11px; color:var(--accent); font-weight:700; letter-spacing:.5px; margin-bottom:4px; }
+.dash-list { font-size:13px; color:var(--text); line-height:1.7; }
+.app { display:flex; height:calc(100vh - 108px); }
+.sidebar { width:270px; min-width:270px; background:var(--card); border-right:1px solid var(--border); display:flex; flex-direction:column; overflow:hidden; }
+.sidebar-top { padding:12px; border-bottom:1px solid var(--border); display:flex; gap:8px; }
+.sidebar-top input { flex:1; padding:8px 12px; border:1px solid var(--border); border-radius:8px; font-size:14px; background:var(--bg); outline:none; }
+.sidebar-top input:focus { border-color:var(--accent); }
+.btn-new { background:var(--accent); color:#fff; border:none; border-radius:8px; padding:8px 13px; font-size:13px; cursor:pointer; white-space:nowrap; }
+.client-list { overflow-y:auto; flex:1; }
+.client-item { padding:11px 15px; border-bottom:1px solid var(--border); cursor:pointer; transition:background .15s; }
+.client-item:hover { background:var(--accent-bg); }
+.client-item.active { background:var(--accent-bg); border-left:3px solid var(--accent); }
+.client-item .name { font-weight:600; font-size:15px; }
+.client-item .meta { font-size:12px; color:var(--text-sub); margin-top:2px; }
+.client-item .visit-count { font-size:11px; background:var(--tag-bg); color:var(--accent); padding:2px 7px; border-radius:10px; display:inline-block; margin-top:4px; }
+.empty-list { padding:32px 16px; text-align:center; color:var(--text-sub); font-size:14px; }
+.detail { flex:1; overflow-y:auto; padding:22px; }
+.detail-placeholder { height:100%; display:flex; align-items:center; justify-content:center; color:var(--text-sub); font-size:15px; }
+.profile-card { background:var(--card); border-radius:14px; border:1px solid var(--border); padding:18px; margin-bottom:18px; display:flex; align-items:flex-start; gap:14px; }
+.avatar { width:52px; height:52px; background:var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:20px; color:#fff; font-weight:700; flex-shrink:0; }
+.profile-info { flex:1; }
+.profile-info h2 { font-size:19px; font-weight:700; }
+.profile-info .profile-meta { font-size:13px; color:var(--text-sub); margin-top:4px; line-height:1.8; }
+.profile-actions { display:flex; gap:8px; flex-shrink:0; }
+.btn-edit,.btn-delete { padding:6px 12px; border-radius:8px; font-size:13px; cursor:pointer; border:1px solid var(--border); }
+.btn-edit { background:var(--card); color:var(--text); }
+.btn-delete { background:var(--card); color:var(--red); border-color:#f0c0bb; }
+.tabs { display:flex; gap:4px; margin-bottom:16px; }
+.tab { padding:7px 16px; border-radius:8px; font-size:14px; cursor:pointer; color:var(--text-sub); border:1px solid transparent; background:none; }
+.tab.active { background:var(--accent); color:#fff; }
+.tab:not(.active):hover { background:var(--tag-bg); }
+.section-card { background:var(--card); border-radius:14px; border:1px solid var(--border); margin-bottom:14px; overflow:hidden; }
+.section-title { padding:12px 16px; font-size:12px; font-weight:700; color:var(--accent); letter-spacing:.5px; border-bottom:1px solid var(--border); background:var(--accent-bg); }
+.section-body { padding:14px 16px; }
+.finding-label { font-size:11px; color:var(--text-sub); margin-bottom:4px; font-weight:600; text-transform:uppercase; letter-spacing:.3px; }
+.finding-value { font-size:14px; line-height:1.6; }
+.tags { display:flex; flex-wrap:wrap; gap:5px; }
+.tag { background:var(--tag-bg); color:var(--accent); padding:3px 9px; border-radius:20px; font-size:12px; font-weight:600; }
+.tag.red { background:#fdecea; color:var(--red); }
+.tag.orange { background:#fef3e2; color:var(--orange); }
+.tag.purple { background:#f3ecfb; color:#8E44AD; }
+.tag.green { background:#e8f5ee; color:var(--green); }
+.ticket-bar { display:flex; align-items:center; gap:10px; background:var(--accent-bg); border-radius:10px; padding:10px 14px; margin-bottom:14px; }
+.ticket-remain { font-size:22px; font-weight:700; color:var(--accent); }
+.ticket-total { font-size:12px; color:var(--text-sub); }
+.btn-ticket { background:var(--accent); color:#fff; border:none; border-radius:8px; padding:7px 14px; font-size:13px; cursor:pointer; }
+.visit-item { border-left:3px solid var(--border); padding:0 0 20px 16px; position:relative; margin-left:6px; }
+.visit-item::before { content:''; width:12px; height:12px; background:var(--accent); border-radius:50%; position:absolute; left:-7.5px; top:2px; }
+.visit-item:last-child { padding-bottom:0; }
+.visit-date { font-size:12px; color:var(--text-sub); font-weight:600; margin-bottom:8px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.visit-row { display:flex; gap:10px; flex-wrap:wrap; }
+.visit-block { flex:1; min-width:130px; }
+.visit-block-label { font-size:10px; color:var(--text-sub); font-weight:700; text-transform:uppercase; letter-spacing:.3px; margin-bottom:3px; }
+.visit-block-val { font-size:13px; line-height:1.5; }
+.btn-add-visit { background:var(--accent-bg); color:var(--accent); border:1.5px dashed var(--accent-light); border-radius:10px; padding:10px 0; width:100%; font-size:14px; cursor:pointer; margin-bottom:14px; }
+.btn-report { background:#fff; color:var(--accent); border:1px solid var(--accent); border-radius:6px; padding:3px 10px; font-size:12px; cursor:pointer; white-space:nowrap; }
+.advice-box { background:#f0faf4; border:1.5px solid #a8d8b9; border-radius:12px; padding:16px; margin-top:14px; }
+.btn-copy { background:#fff; color:var(--green); border:1px solid var(--green); border-radius:7px; padding:6px 14px; font-size:13px; cursor:pointer; margin-top:10px; }
+.save-indicator { position:fixed; bottom:20px; right:20px; background:var(--accent); color:#fff; padding:8px 16px; border-radius:20px; font-size:13px; opacity:0; transition:opacity .3s; z-index:300; pointer-events:none; }
+.save-indicator.show { opacity:1; }
+.modal-bg { position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:200; display:flex; align-items:center; justify-content:center; padding:16px; }
+.modal { background:var(--card); border-radius:16px; width:100%; max-width:680px; max-height:92vh; overflow-y:auto; padding:22px; box-shadow:0 20px 60px rgba(0,0,0,.2); }
+.modal h3 { font-size:17px; margin-bottom:18px; color:var(--accent); }
+.form-row { margin-bottom:13px; }
+.form-row label { display:block; font-size:11px; font-weight:700; color:var(--text-sub); margin-bottom:5px; text-transform:uppercase; letter-spacing:.3px; }
+.form-row input,.form-row textarea,.form-row select { width:100%; padding:9px 11px; border:1.5px solid var(--border); border-radius:9px; font-size:14px; background:var(--bg); color:var(--text); outline:none; font-family:inherit; resize:vertical; }
+.form-row input:focus,.form-row textarea:focus { border-color:var(--accent); }
+.form-row textarea { min-height:65px; }
+.form-row-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.checkbox-group { display:flex; flex-wrap:wrap; gap:7px; }
+.cb-item { display:flex; align-items:center; gap:5px; font-size:13px; cursor:pointer; background:var(--tag-bg); padding:5px 10px; border-radius:20px; border:1.5px solid transparent; user-select:none; }
+.cb-item input { display:none; }
+.cb-item.checked { background:var(--accent-bg); border-color:var(--accent); color:var(--accent); font-weight:600; }
+.divider { font-size:11px; font-weight:700; color:var(--accent); background:var(--accent-bg); padding:6px 10px; border-radius:6px; margin:16px 0 8px; letter-spacing:.5px; }
+.modal-actions { display:flex; gap:10px; margin-top:20px; flex-wrap:wrap; }
+.btn-save { flex:1; padding:11px; background:var(--accent); color:#fff; border:none; border-radius:10px; font-size:15px; cursor:pointer; font-weight:600; min-width:80px; }
+.btn-cancel { padding:11px 18px; background:var(--bg); border:1px solid var(--border); border-radius:10px; font-size:15px; cursor:pointer; }
+
+/* ── Body Map ── */
+.body-map-wrap { display:flex; flex-direction:column; align-items:center; gap:10px; margin-bottom:16px; }
+.body-map-toggle { display:flex; gap:8px; }
+.btn-side { padding:6px 18px; border-radius:20px; font-size:13px; cursor:pointer; border:1.5px solid var(--border); background:var(--bg); color:var(--text-sub); }
+.btn-side.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+.body-map-hint { font-size:12px; color:var(--text-sub); }
+.body-svg-wrap { position:relative; }
+.body-svg-wrap svg { display:block; }
+.body-zone { cursor:pointer; transition:opacity .15s; }
+.body-zone:hover { opacity:.75; }
+.body-zone.selected { fill:#E67E22 !important; opacity:1; }
+.body-map-selected { margin-top:6px; font-size:12px; color:var(--orange); font-weight:600; min-height:20px; text-align:center; }
+
+/* Report card */
+.report-card { background:linear-gradient(135deg,#FFFAF5 0%,#F5EDE0 100%); border-radius:16px; padding:24px; max-width:480px; margin:0 auto; border:1px solid #DDD0C0; }
+.report-header { text-align:center; margin-bottom:20px; padding-bottom:16px; border-bottom:2px solid #D4B896; }
+.report-studio { font-size:11px; color:var(--accent-light); font-weight:700; letter-spacing:2px; margin-bottom:4px; }
+.report-title { font-size:18px; font-weight:700; color:var(--accent); }
+.report-date { font-size:12px; color:var(--text-sub); margin-top:4px; }
+.report-name { font-size:14px; font-weight:600; color:var(--text); margin-top:6px; }
+.report-section { margin-bottom:16px; }
+.report-section-title { font-size:11px; font-weight:700; color:var(--accent); letter-spacing:1px; margin-bottom:8px; padding-bottom:4px; border-bottom:1px solid #E8D8C4; }
+.report-row { display:flex; gap:8px; margin-bottom:6px; align-items:flex-start; }
+.report-dot { width:6px; height:6px; background:var(--accent-light); border-radius:50%; margin-top:6px; flex-shrink:0; }
+.report-text { font-size:14px; line-height:1.6; color:var(--text); }
+.report-highlight { background:#FFF0E0; border-left:3px solid var(--accent); padding:10px 14px; border-radius:0 8px 8px 0; font-size:14px; line-height:1.7; color:var(--text); margin-top:6px; }
+.report-footer { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid #E8D8C4; font-size:12px; color:var(--text-sub); line-height:1.8; }
+.report-footer strong { color:var(--accent); }
+.report-tip { background:var(--accent); color:#fff; border-radius:10px; padding:12px 16px; font-size:13px; line-height:1.7; margin-top:14px; }
+.report-advice { background:#f0faf4; border:1px solid #a8d8b9; border-radius:10px; padding:12px 16px; font-size:13px; line-height:1.7; margin-top:14px; color:var(--text); white-space:pre-wrap; }
+.hint-text { font-size:12px; color:var(--text-sub); text-align:center; margin-bottom:14px; }
+
+@media(max-width:640px) {
+  .app { flex-direction:column; height:auto; }
+  .sidebar { width:100%; min-width:0; height:auto; max-height:220px; }
+  .detail { padding:12px; }
+  .profile-card { flex-wrap:wrap; }
+  .form-row-2 { grid-template-columns:1fr; }
+}
 </style>
 </head>
 <body>
@@ -180,123 +190,191 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-const firebaseConfig = { apiKey:"AIzaSyDkLms4g5-UPuMQcFl0pvxGU8bsqdLEqA0", authDomain:"sian-customer-records.firebaseapp.com", projectId:"sian-customer-records", storageBucket:"sian-customer-records.firebasestorage.app", messagingSenderId:"408702062626", appId:"1:408702062626:web:5317965599bd8678feba7b" };
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const provider = new GoogleAuthProvider();
-let currentUser = null, clients = [], unsubscribe = null;
-onAuthStateChanged(auth, user => {
+const firebaseConfig={apiKey:"AIzaSyDkLms4g5-UPuMQcFl0pvxGU8bsqdLEqA0",authDomain:"sian-customer-records.firebaseapp.com",projectId:"sian-customer-records",storageBucket:"sian-customer-records.firebasestorage.app",messagingSenderId:"408702062626",appId:"1:408702062626:web:5317965599bd8678feba7b"};
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),provider=new GoogleAuthProvider();
+let currentUser=null,clients=[],unsubscribe=null;
+onAuthStateChanged(auth,user=>{
   document.getElementById('loadingScreen').style.display='none';
-  if(user){ currentUser=user; document.getElementById('loginScreen').style.display='none'; document.getElementById('appScreen').style.display='block'; const av=document.getElementById('userAvatar'); if(user.photoURL){av.src=user.photoURL;av.style.display='block';} startListening(); }
-  else{ currentUser=null; if(unsubscribe){unsubscribe();unsubscribe=null;} document.getElementById('loginScreen').style.display='flex'; document.getElementById('appScreen').style.display='none'; }
+  if(user){currentUser=user;document.getElementById('loginScreen').style.display='none';document.getElementById('appScreen').style.display='block';const av=document.getElementById('userAvatar');if(user.photoURL){av.src=user.photoURL;av.style.display='block';}startListening();}
+  else{currentUser=null;if(unsubscribe){unsubscribe();unsubscribe=null;}document.getElementById('loginScreen').style.display='flex';document.getElementById('appScreen').style.display='none';}
 });
-window.signIn = async()=>{ try{await signInWithPopup(auth,provider);}catch(e){alert('登入失敗：'+e.message);} };
-window.signOut = async()=>{ if(unsubscribe){unsubscribe();unsubscribe=null;} await fbSignOut(auth); };
-function startListening(){ const col=collection(db,'users',currentUser.uid,'clients'); unsubscribe=onSnapshot(col,snap=>{ clients=snap.docs.map(d=>({id:d.id,...d.data()})); renderList(); renderDashboard(); if(window.currentId)renderDetail(); }); }
-window.saveClient=async(c)=>{ const col=collection(db,'users',currentUser.uid,'clients'); await setDoc(doc(col,c.id),c); showSaved(); };
-window.removeClient=async(id)=>{ const col=collection(db,'users',currentUser.uid,'clients'); await deleteDoc(doc(col,id)); };
-function showSaved(){ const el=document.getElementById('saveIndicator'); el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),1800); }
+window.signIn=async()=>{try{await signInWithPopup(auth,provider);}catch(e){alert('登入失敗：'+e.message);}};
+window.signOut=async()=>{if(unsubscribe){unsubscribe();unsubscribe=null;}await fbSignOut(auth);};
+function startListening(){const col=collection(db,'users',currentUser.uid,'clients');unsubscribe=onSnapshot(col,snap=>{clients=snap.docs.map(d=>({id:d.id,...d.data()}));renderList();renderDashboard();if(window.currentId)renderDetail();});}
+window.saveClient=async(c)=>{const col=collection(db,'users',currentUser.uid,'clients');await setDoc(doc(col,c.id),c);showSaved();};
+window.removeClient=async(id)=>{const col=collection(db,'users',currentUser.uid,'clients');await deleteDoc(doc(col,id));};
+function showSaved(){const el=document.getElementById('saveIndicator');el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1800);}
 window._clients=()=>clients;
 </script>
 
 <script>
+// ═══════════════════════════════════════
+// 完整肌群資料
+// ═══════════════════════════════════════
 const PELVIS_OPTIONS=['左高右低','右高左低','前傾','後傾','左旋','右旋','無明顯偏移'];
 
 const MUSCLE_GROUPS={
-  '頭頸部':['左頸部屈肌群','右頸部屈肌群','左頸部伸肌群','右頸部伸肌群','左胸鎖乳突肌','右胸鎖乳突肌','左斜角肌','右斜角肌','枕下肌群','頭皮筋膜緊繃','左顳顎關節','右顳顎關節','左咬肌','右咬肌','左顳肌','右顳肌','頭皮緊度（整體）'],
+  '頭頸部':['左頸部屈肌群','右頸部屈肌群','左頸部伸肌群','右頸部伸肌群','左胸鎖乳突肌','右胸鎖乳突肌','左斜角肌','右斜角肌','枕下肌群','頭皮筋膜','左顳顎關節','右顳顎關節','左咬肌','右咬肌','左顳肌','右顳肌','頭皮緊度'],
   '肩部':['左三角肌前束','右三角肌前束','左三角肌中束','右三角肌中束','左三角肌後束','右三角肌後束','左棘上肌','右棘上肌','左棘下肌','右棘下肌','左小圓肌','右小圓肌','左大圓肌','右大圓肌','左肩胛下肌','右肩胛下肌'],
-  '肩背部':['左斜方肌（上段）','右斜方肌（上段）','左斜方肌（中下段）','右斜方肌（中下段）','左菱形肌','右菱形肌','左提肩胛肌','右提肩胛肌','左前鋸肌','右前鋸肌'],
+  '肩背部':['左斜方肌上段','右斜方肌上段','左斜方肌中下段','右斜方肌中下段','左菱形肌','右菱形肌','左提肩胛肌','右提肩胛肌','左前鋸肌','右前鋸肌'],
   '上臂':['左肱二頭肌長頭','右肱二頭肌長頭','左肱二頭肌短頭','右肱二頭肌短頭','左肱三頭肌長頭','右肱三頭肌長頭','左肱三頭肌短頭','右肱三頭肌短頭','左肱肌','右肱肌','左喙肱肌','右喙肱肌'],
-  '前臂 & 手部':['左前臂屈肌群','右前臂屈肌群','左前臂伸肌群','右前臂伸肌群','左旋前圓肌','右旋前圓肌','左旋後肌','右旋後肌','左屈指淺肌','右屈指淺肌','左屈指深肌','右屈指深肌','左伸指肌','右伸指肌','左手指筋膜（五指）','右手指筋膜（五指）'],
-  '胸部':['左胸大肌','右胸大肌','左胸小肌','右胸小肌','左胸肋筋膜','右胸肋筋膜','肋間肌緊繃'],
+  '前臂 & 手部':['左前臂屈肌群','右前臂屈肌群','左前臂伸肌群','右前臂伸肌群','左旋前圓肌','右旋前圓肌','左旋後肌','右旋後肌','左屈指淺肌','右屈指淺肌','左屈指深肌','右屈指深肌','左伸指肌','右伸指肌','左手指筋膜','右手指筋膜'],
+  '胸部':['左胸大肌','右胸大肌','左胸小肌','右胸小肌','左胸肋筋膜','右胸肋筋膜','肋間肌'],
   '腹部 & 軀幹深層':['腹直肌','左腹斜肌','右腹斜肌','腹橫肌筋膜','腹部深層筋膜','橫膈膜','骨盆底肌群'],
   '背部豎脊肌':['左頸段豎脊肌','右頸段豎脊肌','左胸段豎脊肌','右胸段豎脊肌','左腰段豎脊肌','右腰段豎脊肌'],
   '多裂肌':['左頸段多裂肌','右頸段多裂肌','左腰段多裂肌','右腰段多裂肌'],
   '腰臀部':['左腰方肌','右腰方肌','左腰大肌','右腰大肌','左髂腰肌','右髂腰肌','左臀大肌','右臀大肌','左臀中肌','右臀中肌','左臀小肌','右臀小肌','左梨狀肌','右梨狀肌','腰薦交接筋膜'],
   '髖關節深層':['左閉孔內肌','右閉孔內肌','左閉孔外肌','右閉孔外肌','左股方肌','右股方肌','左上孖肌','右上孖肌','左下孖肌','右下孖肌','左髖關節前側','右髖關節前側','左髖關節外側','右髖關節外側','左髖關節後側','右髖關節後側'],
-  '大腿':['左股四頭肌','右股四頭肌','左大腿後側肌群','右大腿後側肌群','左內收肌群','右內收肌群','左髂脛束','右髂脛束','左筋膜張肌（TFL）','右筋膜張肌（TFL）','左縫匠肌','右縫匠肌','左股薄肌','右股薄肌','左膕肌','右膕肌'],
+  '大腿':['左股四頭肌','右股四頭肌','左大腿後側肌群','右大腿後側肌群','左內收肌群','右內收肌群','左髂脛束','右髂脛束','左筋膜張肌','右筋膜張肌','左縫匠肌','右縫匠肌','左股薄肌','右股薄肌','左膕肌','右膕肌'],
   '小腿 & 足部':['左腓腸肌','右腓腸肌','左比目魚肌','右比目魚肌','左脛前肌','右脛前肌','左脛後肌','右脛後肌','左腓骨肌群','右腓骨肌群','左足底筋膜','右足底筋膜','左趾屈肌群','右趾屈肌群']
 };
 
-// 疼痛來源 = 所有肌群 + 骨盆選項 + 椎節
+// 疼痛來源 = 骨盆 + 椎節 + 所有肌群
 const PAIN_SOURCE_GROUPS={
-  '骨盆偏移來源':['骨盆左高右低','骨盆右高左低','骨盆前傾','骨盆後傾','骨盆左旋','骨盆右旋','左薦髂關節','右薦髂關節','尾椎'],
-  '椎節來源':['頸椎第一節','頸椎第二節','頸椎第三節','頸椎第四節','頸椎第五節','頸椎第六節','頸椎第七節','胸椎第一節','胸椎第二節','胸椎第三節','胸椎第四節','胸椎第五節','胸椎第六節','胸椎第七節','胸椎第八節','胸椎第九節','胸椎第十節','胸椎第十一節','胸椎第十二節','腰椎第一節','腰椎第二節','腰椎第三節','腰椎第四節','腰椎第五節','薦椎'],
+  '骨盆 & 薦椎':['骨盆左高右低','骨盆右高左低','骨盆前傾','骨盆後傾','骨盆左旋','骨盆右旋','左薦髂關節','右薦髂關節','尾椎'],
+  '頸椎':['頸椎第一節','頸椎第二節','頸椎第三節','頸椎第四節','頸椎第五節','頸椎第六節','頸椎第七節'],
+  '胸椎':['胸椎第一節','胸椎第二節','胸椎第三節','胸椎第四節','胸椎第五節','胸椎第六節','胸椎第七節','胸椎第八節','胸椎第九節','胸椎第十節','胸椎第十一節','胸椎第十二節'],
+  '腰椎':['腰椎第一節','腰椎第二節','腰椎第三節','腰椎第四節','腰椎第五節'],
   ...Object.fromEntries(Object.entries(MUSCLE_GROUPS).map(([k,v])=>[k+'（來源）',v]))
 };
 
+// 人體圖區域 → 對應肌群
+const BODY_ZONE_MAP={
+  // 正面
+  'f-head':['左頸部屈肌群','右頸部屈肌群','左胸鎖乳突肌','右胸鎖乳突肌','左斜角肌','右斜角肌','枕下肌群','頭皮筋膜','左顳顎關節','右顳顎關節','左咬肌','右咬肌','左顳肌','右顳肌','頭皮緊度'],
+  'f-neck':['左頸部屈肌群','右頸部屈肌群','左頸部伸肌群','右頸部伸肌群','左胸鎖乳突肌','右胸鎖乳突肌','左斜角肌','右斜角肌'],
+  'f-l-shoulder':['左三角肌前束','左三角肌中束','左斜方肌上段','左提肩胛肌','左棘上肌','左肩胛下肌'],
+  'f-r-shoulder':['右三角肌前束','右三角肌中束','右斜方肌上段','右提肩胛肌','右棘上肌','右肩胛下肌'],
+  'f-chest':['左胸大肌','右胸大肌','左胸小肌','右胸小肌','左胸肋筋膜','右胸肋筋膜','肋間肌'],
+  'f-abs':['腹直肌','左腹斜肌','右腹斜肌','腹橫肌筋膜','腹部深層筋膜','橫膈膜'],
+  'f-l-arm':['左肱二頭肌長頭','左肱二頭肌短頭','左肱肌','左喙肱肌','左三角肌前束'],
+  'f-r-arm':['右肱二頭肌長頭','右肱二頭肌短頭','右肱肌','右喙肱肌','右三角肌前束'],
+  'f-l-forearm':['左前臂屈肌群','左前臂伸肌群','左旋前圓肌','左旋後肌','左屈指淺肌','左屈指深肌','左伸指肌'],
+  'f-r-forearm':['右前臂屈肌群','右前臂伸肌群','右旋前圓肌','右旋後肌','右屈指淺肌','右屈指深肌','右伸指肌'],
+  'f-l-hand':['左手指筋膜'],
+  'f-r-hand':['右手指筋膜'],
+  'f-pelvis':['左髂腰肌','右髂腰肌','左腰大肌','右腰大肌','骨盆底肌群','左髖關節前側','右髖關節前側','左筋膜張肌','右筋膜張肌'],
+  'f-l-thigh':['左股四頭肌','左內收肌群','左縫匠肌','左股薄肌','左髂脛束'],
+  'f-r-thigh':['右股四頭肌','右內收肌群','右縫匠肌','右股薄肌','右髂脛束'],
+  'f-l-knee':['左膕肌','左股四頭肌'],
+  'f-r-knee':['右膕肌','右股四頭肌'],
+  'f-l-shin':['左脛前肌','左腓骨肌群','左脛後肌'],
+  'f-r-shin':['右脛前肌','右腓骨肌群','右脛後肌'],
+  'f-l-foot':['左足底筋膜','左趾屈肌群','左腓腸肌','左比目魚肌'],
+  'f-r-foot':['右足底筋膜','右趾屈肌群','右腓腸肌','右比目魚肌'],
+  // 背面
+  'b-head':['枕下肌群','頭皮筋膜','頭皮緊度','左頸部伸肌群','右頸部伸肌群'],
+  'b-neck':['左頸部伸肌群','右頸部伸肌群','左頸段豎脊肌','右頸段豎脊肌','左頸段多裂肌','右頸段多裂肌','枕下肌群'],
+  'b-l-shoulder':['左三角肌後束','左棘下肌','左小圓肌','左大圓肌','左菱形肌','左斜方肌上段','左斜方肌中下段'],
+  'b-r-shoulder':['右三角肌後束','右棘下肌','右小圓肌','右大圓肌','右菱形肌','右斜方肌上段','右斜方肌中下段'],
+  'b-upper-back':['左斜方肌中下段','右斜方肌中下段','左菱形肌','右菱形肌','左胸段豎脊肌','右胸段豎脊肌','左前鋸肌','右前鋸肌'],
+  'b-lower-back':['左腰段豎脊肌','右腰段豎脊肌','左腰方肌','右腰方肌','左腰段多裂肌','右腰段多裂肌','腰薦交接筋膜'],
+  'b-l-arm':['左肱三頭肌長頭','左肱三頭肌短頭','左三角肌後束'],
+  'b-r-arm':['右肱三頭肌長頭','右肱三頭肌短頭','右三角肌後束'],
+  'b-l-forearm':['左前臂伸肌群','左前臂屈肌群'],
+  'b-r-forearm':['右前臂伸肌群','右前臂屈肌群'],
+  'b-l-glute':['左臀大肌','左臀中肌','左臀小肌','左梨狀肌','左閉孔內肌','左閉孔外肌','左股方肌','左髖關節後側','左髖關節外側'],
+  'b-r-glute':['右臀大肌','右臀中肌','右臀小肌','右梨狀肌','右閉孔內肌','右閉孔外肌','右股方肌','右髖關節後側','右髖關節外側'],
+  'b-l-thigh':['左大腿後側肌群','左髂脛束','左膕肌'],
+  'b-r-thigh':['右大腿後側肌群','右髂脛束','右膕肌'],
+  'b-l-calf':['左腓腸肌','左比目魚肌','左脛後肌','左腓骨肌群'],
+  'b-r-calf':['右腓腸肌','右比目魚肌','右脛後肌','右腓骨肌群'],
+  'b-l-foot':['左足底筋膜','左趾屈肌群'],
+  'b-r-foot':['右足底筋膜','右趾屈肌群']
+};
+
+// 區域中文名
+const ZONE_NAMES={
+  'f-head':'頭部','f-neck':'頸部','f-l-shoulder':'左肩','f-r-shoulder':'右肩',
+  'f-chest':'胸部','f-abs':'腹部','f-l-arm':'左上臂','f-r-arm':'右上臂',
+  'f-l-forearm':'左前臂','f-r-forearm':'右前臂','f-l-hand':'左手','f-r-hand':'右手',
+  'f-pelvis':'骨盆髖部','f-l-thigh':'左大腿前','f-r-thigh':'右大腿前',
+  'f-l-knee':'左膝','f-r-knee':'右膝','f-l-shin':'左小腿前','f-r-shin':'右小腿前',
+  'f-l-foot':'左足','f-r-foot':'右足',
+  'b-head':'後腦','b-neck':'後頸','b-l-shoulder':'左肩背','b-r-shoulder':'右肩背',
+  'b-upper-back':'上背','b-lower-back':'下背腰','b-l-arm':'左上臂後','b-r-arm':'右上臂後',
+  'b-l-forearm':'左前臂後','b-r-forearm':'右前臂後',
+  'b-l-glute':'左臀','b-r-glute':'右臀','b-l-thigh':'左大腿後','b-r-thigh':'右大腿後',
+  'b-l-calf':'左小腿後','b-r-calf':'右小腿後','b-l-foot':'左足底','b-r-foot':'右足底'
+};
+
+// 居家建議資料庫
 const ADVICE_DB={
-  '枕下肌群':{stretch:'下巴微收，頭部緩慢往胸口點頭，維持15秒，重複5次。',avoid:'避免長時間低頭滑手機或看螢幕。'},
-  '頭皮筋膜緊繃':{stretch:'用指腹輕柔按摩頭皮，從額頭往後梳理，每次2分鐘。',avoid:'避免頭髮紮太緊，睡前盡量讓頭皮放鬆。'},
-  '頭皮緊度（整體）':{stretch:'用指腹輕柔按摩頭皮，從額頭往後梳理，每次2分鐘。',avoid:'避免頭髮紮太緊，睡前盡量讓頭皮放鬆。'},
-  '顳顎關節':{stretch:'嘴巴輕輕張開閉合，不要用力咬緊，可輕柔按摩臉頰咬肌。',avoid:'避免啃硬物、口香糖、大口咬食物。'},
-  '咬肌':{stretch:'輕柔按摩臉頰，嘴巴微開放鬆下巴。',avoid:'避免咀嚼硬食物或磨牙。'},
-  '顳肌':{stretch:'用指腹輕柔按摩太陽穴周圍，畫小圓圈，每次1-2分鐘。',avoid:'避免長時間緊咬牙關或壓力過大時磨牙。'},
-  '胸鎖乳突肌':{stretch:'頭部往對側傾斜，對側手輕壓同側肩下壓，維持20秒。',avoid:'避免長時間側睡壓同一側，枕頭高度要適中。'},
-  '斜角肌':{stretch:'頭往對側轉並往對側傾，同側手放鬆垂下，維持20秒。',avoid:'避免長時間低頭或頸部前傾姿勢。'},
-  '三角肌前束':{stretch:'手臂向後伸直，往後上方延伸，維持20秒。',avoid:'避免過多向前推的動作，如伏地挺身。'},
-  '三角肌中束':{stretch:'手臂向對側水平拉，另一手從肘下推，維持20秒。',avoid:'避免手臂側舉的動作或側平舉啞鈴。'},
-  '三角肌後束':{stretch:'手臂向前伸，另一手從肘下往胸口拉，維持20秒。',avoid:'避免過多划船或反手拉的動作。'},
-  '斜方肌（上段）':{stretch:'對側手越過頭頂輕壓耳朵，頭往對側傾，維持20秒。',avoid:'避免長時間聳肩、背重包或單肩背包。'},
-  '斜方肌（中下段）':{stretch:'雙手交叉抱胸，身體向前彎，感受肩胛骨之間的拉伸，維持20秒。',avoid:'避免長時間駝背或前傾坐姿。'},
-  '菱形肌':{stretch:'手向前伸直，對側手從肘下勾住往對側拉，維持20秒。',avoid:'避免長時間圓肩或駝背。'},
-  '提肩胛肌':{stretch:'頭往對前方低，同側手輕放頭上輔助，維持20秒。',avoid:'避免長時間抬高手臂工作或電腦螢幕過低。'},
-  '前鋸肌':{stretch:'手扶牆，身體向對側轉，感受側胸拉伸，維持20秒。',avoid:'避免過度推物或需要手臂向前使力的動作。'},
-  '肩胛下肌':{stretch:'手往後背，對側手輕壓肘往上，維持15秒。',avoid:'暫時避免做過多內旋動作如抱重物或划船動作。'},
-  '棘上肌':{stretch:'手臂自然垂下，輕輕畫小圈，不要用力。',avoid:'暫時避免手臂超過肩膀高度的動作。'},
-  '棘下肌':{stretch:'手臂向對側水平拉，感受肩胛外側拉伸，維持20秒。',avoid:'避免過多外旋動作，如投球或網球揮拍。'},
-  '小圓肌':{stretch:'同棘下肌拉伸方式。',avoid:'避免過多手臂外旋的運動。'},
-  '大圓肌':{stretch:'手臂向上舉起，往對側傾，感受腋下後側拉伸，維持20秒。',avoid:'避免過多手臂內收的重訓動作。'},
-  '胸大肌':{stretch:'站在門框邊，手扶門框，身體向對側轉開，維持20秒。',avoid:'避免過多伏地挺身或胸推動作。'},
-  '胸小肌':{stretch:'手向後上方延伸，配合深呼吸擴胸，維持20秒。',avoid:'避免長時間圓肩、前傾姿勢。'},
-  '胸肋筋膜':{stretch:'雙手舉高深呼吸，吐氣時身體側彎拉伸，左右各維持15秒。',avoid:'避免長時間彎腰或坐姿壓迫胸腔。'},
-  '肋間肌緊繃':{stretch:'雙手舉高深呼吸，吐氣時身體側彎拉伸，左右各維持15秒。',avoid:'避免長時間彎腰或坐姿壓迫胸腔。'},
-  '肱二頭肌':{stretch:'手往後伸直，拇指朝下，輕輕往後上方延伸，維持15秒。',avoid:'暫時避免大重量彎舉或反手引體向上。'},
-  '肱三頭肌':{stretch:'手舉高彎肘，對側手輕壓肘往對側，維持15秒。',avoid:'暫時避免伸臂推物或伏地挺身。'},
-  '肱肌':{stretch:'手肘彎曲，輕壓手腕向下伸直，維持15秒。',avoid:'避免反覆屈肘提重物。'},
-  '喙肱肌':{stretch:'手臂外展，往後上方延伸，感受腋下前側，維持15秒。',avoid:'避免過多向前抬臂的動作。'},
-  '旋前圓肌':{stretch:'手臂伸直，手掌朝上，輕柔旋轉前臂，維持15秒。',avoid:'避免長時間反覆轉螺絲或使用工具。'},
-  '旋後肌':{stretch:'手臂伸直，手掌朝下，輕柔旋轉前臂，維持15秒。',avoid:'避免過多手腕旋轉的動作。'},
-  '前臂屈肌群':{stretch:'手向前伸直，手掌朝上，對側手輕壓手指向下，維持15秒。',avoid:'避免長時間握鍵盤、滑鼠或手機。'},
-  '前臂伸肌群':{stretch:'手向前伸直，手掌朝下，對側手輕壓手背向下，維持15秒。',avoid:'避免過多打字或使用工具的重複動作。'},
-  '屈指淺肌':{stretch:'手指伸直，輕輕向後仰，維持15秒。',avoid:'避免長時間打字或握持物品。'},
-  '屈指深肌':{stretch:'同屈指淺肌拉伸方式，稍微加深角度。',avoid:'避免長時間握緊物品。'},
-  '伸指肌':{stretch:'輕握拳，緩慢張開手指，重複10次。',avoid:'避免手指長時間維持伸展狀態如彈琴。'},
-  '手指筋膜（五指）':{stretch:'五指張開，輕輕往後仰，再握拳放開，重複10次。',avoid:'避免長時間滑手機或握筆，每30分鐘讓手休息一下。'},
-  '腹直肌':{stretch:'趴下做眼鏡蛇式，雙手撐地讓腹部伸展，維持15秒。',avoid:'暫時避免大量仰臥起坐或腹部大幅捲曲的動作。'},
-  '腹斜肌':{stretch:'站立，一手舉高，身體向對側彎，維持20秒。',avoid:'避免扭轉性的運動如高爾夫、棒球揮棒。'},
-  '橫膈膜':{stretch:'深呼吸練習，吸氣讓腹部向外膨脹，吐氣時腹部收縮，每次10下。',avoid:'避免長時間彎腰壓迫腹腔，飯後不要立即劇烈運動。'},
-  '骨盆底肌群':{stretch:'凱格爾運動：收縮骨盆底肌群5秒後放鬆，每次10下，每天3次。',avoid:'避免長時間久坐硬椅，避免過度腹部用力。'},
-  '豎脊肌':{stretch:'坐在椅子上，雙手抱胸，身體慢慢向前彎，維持20秒。',avoid:'避免長時間駝背或搬重物時彎腰。'},
-  '多裂肌':{stretch:'四足跪姿，腰部緩慢拱起再下凹，貓牛式各維持10秒，重複5次。',avoid:'避免突然扭轉腰部，起床要側躺再慢慢起身。'},
-  '腰方肌':{stretch:'站立，一手舉高向對側彎，感受腰側拉伸，維持20秒。',avoid:'避免長時間單側施力，睡覺不要側躺壓同一側太久。'},
-  '腰大肌':{stretch:'弓箭步，後腳在後，上身直立輕輕前傾，感受髖前側拉伸，維持20秒。',avoid:'避免長時間坐著不動，每坐1小時起來走動。'},
-  '髂腰肌':{stretch:'弓箭步，後腳跪地，骨盆微前傾，感受髖前側拉伸，維持20秒。',avoid:'避免久坐，避免過度跑步或爬樓梯。'},
-  '梨狀肌':{stretch:'躺下，腳踝放在對側膝上，對側手抱住大腿往胸口拉，維持20秒。',avoid:'避免翹二郎腿，避免長時間坐硬椅子。'},
-  '臀大肌':{stretch:'坐在椅子上，腳踝放在對側膝，身體向前傾，維持20秒。',avoid:'避免久坐，坐下時不要塌腰。'},
-  '臀中肌':{stretch:'站立，一腳跨到另一腳後方，身體向對側彎，維持20秒。',avoid:'避免單腳站立太久，走路時注意不要歪斜。'},
-  '閉孔內肌':{stretch:'側躺，上側腳彎曲踩在床上，輕輕讓膝蓋往床面靠，維持20秒。',avoid:'避免長時間蹺腳或側坐。'},
-  '閉孔外肌':{stretch:'坐姿，腳踝放在對側膝上，身體前傾，維持20秒。',avoid:'避免過多外旋髖關節的動作。'},
-  '股方肌':{stretch:'同梨狀肌拉伸方式。',avoid:'避免翹腳或過多外旋動作。'},
-  '髖關節前側':{stretch:'弓箭步拉伸，感受髖關節前方拉開，維持20秒。',avoid:'避免過度屈髖的動作，如深蹲、爬高。'},
-  '髖關節外側':{stretch:'躺下，腳彎曲跨過對側腳，輕輕往對側倒，維持20秒。',avoid:'避免側躺壓該側髖，避免側向跳躍動作。'},
-  '髖關節後側':{stretch:'躺下，屈膝抱胸，感受臀部深層拉伸，維持20秒。',avoid:'避免過多深蹲或髖關節過度屈曲。'},
-  '股四頭肌':{stretch:'站立，一手扶牆，對側手抓腳踝往後拉，維持20秒。',avoid:'避免過多跑步或下坡路，上下樓梯時放慢速度。'},
-  '大腿後側肌群':{stretch:'坐在床邊，腳伸直腳跟放地，身體慢慢向前傾，維持20秒。',avoid:'避免突然大步跑或踢腿，熱身要充分。'},
-  '內收肌群':{stretch:'坐在地上，兩腳掌相對，身體輕輕向前傾，維持20秒。',avoid:'避免突然側向移動或劈腿動作。'},
-  '髂脛束':{stretch:'站立，一腳跨到另一腳後方，身體向對側彎，感受大腿外側拉伸，維持20秒。',avoid:'避免長距離跑步或騎車，減少上下坡。'},
-  '筋膜張肌（TFL）':{stretch:'站立，一腳跨到另一腳後方，上身向對側側彎並微旋，維持20秒。',avoid:'避免長時間站立或跑步，側躺時兩膝間夾枕頭。'},
-  '縫匠肌':{stretch:'站立，一腳向後外側延伸，感受大腿前內側拉伸，維持15秒。',avoid:'避免過度外旋髖關節的動作。'},
-  '股薄肌':{stretch:'站立，一腳向外跨，身體往該側側傾，感受大腿內側拉伸，維持20秒。',avoid:'避免突然側向移動。'},
-  '膕肌':{stretch:'坐姿，腿伸直，腳踝向外轉，感受膝蓋後側輕微拉伸，維持15秒。',avoid:'避免突然全力衝刺或急停。'},
-  '腓腸肌':{stretch:'面對牆壁，腳往後踩，腳跟貼地，前傾感受小腿拉伸，維持20秒。',avoid:'避免穿高跟鞋，避免突然加速跑步。'},
-  '比目魚肌':{stretch:'同腓腸肌拉伸，但膝蓋微彎，感受更深的小腿拉伸，維持20秒。',avoid:'避免長時間站立，休息時可以輕鬆踮腳。'},
-  '脛前肌':{stretch:'坐下，腳趾向下壓，感受脛骨前側拉伸，維持15秒。',avoid:'避免長距離健走或爬山後立即休息不拉伸。'},
-  '脛後肌':{stretch:'腳踝向外轉，感受小腿內側深層拉伸，維持15秒。',avoid:'避免長時間站立在硬地板上。'},
-  '腓骨肌群':{stretch:'腳踝向內轉，感受小腿外側拉伸，維持15秒。',avoid:'避免在不平地面行走或跑步。'},
-  '足底筋膜':{stretch:'坐下，用手將腳趾向上拉，感受足底拉伸，維持30秒。早晨起床前先做。',avoid:'避免赤腳走硬地板，穿有支撐的鞋子。'},
-  '趾屈肌群':{stretch:'腳趾用力張開再放鬆，重複10次。',avoid:'避免長時間穿窄頭鞋或高跟鞋。'}
+  '枕下肌群':{s:'下巴微收，頭部緩慢往胸口點頭，維持15秒，重複5次。',a:'避免長時間低頭滑手機。'},
+  '頭皮筋膜':{s:'用指腹輕柔按摩頭皮，從額頭往後梳理，每次2分鐘。',a:'避免頭髮紮太緊。'},
+  '頭皮緊度':{s:'用指腹輕柔按摩頭皮，從額頭往後梳理，每次2分鐘。',a:'睡前讓頭皮放鬆。'},
+  '顳顎關節':{s:'嘴巴輕輕張開閉合，輕柔按摩臉頰咬肌。',a:'避免啃硬物、口香糖。'},
+  '咬肌':{s:'輕柔按摩臉頰，嘴巴微開放鬆下巴。',a:'避免咀嚼硬食物或磨牙。'},
+  '顳肌':{s:'用指腹輕柔按摩太陽穴，畫小圓圈，每次2分鐘。',a:'避免長時間緊咬牙關。'},
+  '胸鎖乳突肌':{s:'頭部往對側傾斜，對側手輕壓同側肩，維持20秒。',a:'避免長時間側睡壓同一側。'},
+  '斜角肌':{s:'頭往對側轉並往對側傾，同側手放鬆垂下，維持20秒。',a:'避免長時間頸部前傾。'},
+  '三角肌前束':{s:'手臂向後伸直，往後上方延伸，維持20秒。',a:'避免過多向前推的動作。'},
+  '三角肌中束':{s:'手臂向對側水平拉，另一手從肘下推，維持20秒。',a:'避免手臂側舉啞鈴。'},
+  '三角肌後束':{s:'手臂向前伸，另一手從肘下往胸口拉，維持20秒。',a:'避免過多划船動作。'},
+  '斜方肌上段':{s:'對側手越過頭頂輕壓耳朵，頭往對側傾，維持20秒。',a:'避免長時間聳肩、背重包。'},
+  '斜方肌中下段':{s:'雙手交叉抱胸，身體向前彎，維持20秒。',a:'避免長時間駝背。'},
+  '菱形肌':{s:'手向前伸直，對側手從肘下勾住往對側拉，維持20秒。',a:'避免長時間圓肩。'},
+  '提肩胛肌':{s:'頭往對前方低，同側手輕放頭上，維持20秒。',a:'避免電腦螢幕過低。'},
+  '前鋸肌':{s:'手扶牆，身體向對側轉，感受側胸拉伸，維持20秒。',a:'避免過度推物。'},
+  '肩胛下肌':{s:'手往後背，對側手輕壓肘往上，維持15秒。',a:'暫時避免過多內旋動作。'},
+  '棘上肌':{s:'手臂自然垂下，輕輕畫小圈。',a:'暫時避免手臂超過肩膀高度的動作。'},
+  '棘下肌':{s:'手臂向對側水平拉，感受肩胛外側，維持20秒。',a:'避免過多外旋動作。'},
+  '小圓肌':{s:'同棘下肌拉伸方式。',a:'避免過多手臂外旋的運動。'},
+  '大圓肌':{s:'手臂向上舉起，往對側傾，感受腋下後側，維持20秒。',a:'避免過多手臂內收的動作。'},
+  '胸大肌':{s:'站在門框邊，手扶門框，身體向對側轉開，維持20秒。',a:'避免過多伏地挺身或胸推動作。'},
+  '胸小肌':{s:'手向後上方延伸，配合深呼吸擴胸，維持20秒。',a:'避免長時間圓肩姿勢。'},
+  '胸肋筋膜':{s:'雙手舉高深呼吸，吐氣時身體側彎，左右各15秒。',a:'避免長時間彎腰壓迫胸腔。'},
+  '肋間肌':{s:'雙手舉高深呼吸，吐氣時身體側彎，左右各15秒。',a:'避免長時間彎腰。'},
+  '肱二頭肌長頭':{s:'手往後伸直，拇指朝下，往後上方延伸，維持15秒。',a:'暫時避免大重量彎舉。'},
+  '肱二頭肌短頭':{s:'手往後伸直，拇指朝下，往後上方延伸，維持15秒。',a:'暫時避免大重量彎舉。'},
+  '肱三頭肌長頭':{s:'手舉高彎肘，對側手輕壓肘往對側，維持15秒。',a:'暫時避免伸臂推物。'},
+  '肱三頭肌短頭':{s:'手舉高彎肘，對側手輕壓肘往對側，維持15秒。',a:'暫時避免伸臂推物。'},
+  '肱肌':{s:'手肘彎曲，輕壓手腕向下伸直，維持15秒。',a:'避免反覆屈肘提重物。'},
+  '喙肱肌':{s:'手臂外展，往後上方延伸，感受腋下前側，維持15秒。',a:'避免過多向前抬臂。'},
+  '旋前圓肌':{s:'手臂伸直，手掌朝上，輕柔旋轉前臂，維持15秒。',a:'避免長時間反覆轉螺絲。'},
+  '旋後肌':{s:'手臂伸直，手掌朝下，輕柔旋轉前臂，維持15秒。',a:'避免過多手腕旋轉。'},
+  '前臂屈肌群':{s:'手向前伸直，手掌朝上，對側手輕壓手指向下，維持15秒。',a:'避免長時間握鍵盤、滑鼠。'},
+  '前臂伸肌群':{s:'手向前伸直，手掌朝下，對側手輕壓手背向下，維持15秒。',a:'避免過多打字或使用工具。'},
+  '屈指淺肌':{s:'手指伸直，輕輕向後仰，維持15秒。',a:'避免長時間打字或握持物品。'},
+  '屈指深肌':{s:'同屈指淺肌拉伸，稍微加深角度。',a:'避免長時間握緊物品。'},
+  '伸指肌':{s:'輕握拳，緩慢張開手指，重複10次。',a:'避免手指長時間維持伸展。'},
+  '手指筋膜':{s:'五指張開，輕輕往後仰，再握拳放開，重複10次。',a:'避免長時間滑手機或握筆。'},
+  '腹直肌':{s:'趴下做眼鏡蛇式，雙手撐地讓腹部伸展，維持15秒。',a:'暫時避免大量仰臥起坐。'},
+  '腹斜肌':{s:'站立，一手舉高，身體向對側彎，維持20秒。',a:'避免扭轉性的運動。'},
+  '腹橫肌筋膜':{s:'深呼吸練習，吸氣讓腹部膨脹，吐氣時收縮，每次10下。',a:'避免長時間彎腰壓迫腹腔。'},
+  '腹部深層筋膜':{s:'深呼吸練習，吸氣讓腹部膨脹，吐氣時收縮，每次10下。',a:'避免長時間彎腰壓迫腹腔。'},
+  '橫膈膜':{s:'深呼吸練習，吸氣讓腹部膨脹，吐氣時收縮，每次10下。',a:'飯後不要立即劇烈運動。'},
+  '骨盆底肌群':{s:'凱格爾運動：收縮骨盆底肌群5秒後放鬆，每次10下，每天3次。',a:'避免長時間久坐硬椅。'},
+  '豎脊肌':{s:'坐在椅子上，雙手抱胸，身體慢慢向前彎，維持20秒。',a:'避免長時間駝背或搬重物彎腰。'},
+  '多裂肌':{s:'四足跪姿，腰部緩慢拱起再下凹，各維持10秒，重複5次。',a:'避免突然扭轉腰部。'},
+  '腰方肌':{s:'站立，一手舉高向對側彎，感受腰側拉伸，維持20秒。',a:'避免長時間單側施力。'},
+  '腰大肌':{s:'弓箭步，後腳在後，上身直立輕輕前傾，維持20秒。',a:'每坐1小時起來走動。'},
+  '髂腰肌':{s:'弓箭步，後腳跪地，骨盆微前傾，維持20秒。',a:'避免久坐，避免過度跑步。'},
+  '梨狀肌':{s:'躺下，腳踝放在對側膝上，對側手抱住大腿往胸口拉，維持20秒。',a:'避免翹二郎腿，避免長時間坐硬椅。'},
+  '臀大肌':{s:'坐在椅子上，腳踝放在對側膝，身體向前傾，維持20秒。',a:'避免久坐，坐下時不要塌腰。'},
+  '臀中肌':{s:'站立，一腳跨到另一腳後方，身體向對側彎，維持20秒。',a:'避免單腳站立太久。'},
+  '臀小肌':{s:'同臀中肌拉伸方式。',a:'避免長時間側躺壓同一側。'},
+  '閉孔內肌':{s:'側躺，上側腳彎曲踩在床上，輕輕讓膝蓋往床面靠，維持20秒。',a:'避免長時間蹺腳。'},
+  '閉孔外肌':{s:'坐姿，腳踝放在對側膝上，身體前傾，維持20秒。',a:'避免過多外旋髖關節動作。'},
+  '股方肌':{s:'同梨狀肌拉伸方式。',a:'避免翹腳或過多外旋動作。'},
+  '髖關節前側':{s:'弓箭步拉伸，感受髖關節前方拉開，維持20秒。',a:'避免過度屈髖的動作。'},
+  '髖關節外側':{s:'躺下，腳彎曲跨過對側腳，輕輕往對側倒，維持20秒。',a:'避免側向跳躍動作。'},
+  '髖關節後側':{s:'躺下，屈膝抱胸，感受臀部深層拉伸，維持20秒。',a:'避免過多深蹲。'},
+  '股四頭肌':{s:'站立，一手扶牆，對側手抓腳踝往後拉，維持20秒。',a:'避免過多跑步或下坡路。'},
+  '大腿後側肌群':{s:'坐在床邊，腳伸直腳跟放地，身體慢慢向前傾，維持20秒。',a:'避免突然大步跑或踢腿。'},
+  '內收肌群':{s:'坐在地上，兩腳掌相對，身體輕輕向前傾，維持20秒。',a:'避免突然側向移動。'},
+  '髂脛束':{s:'站立，一腳跨到另一腳後方，身體向對側彎，維持20秒。',a:'避免長距離跑步或騎車。'},
+  '筋膜張肌':{s:'站立，一腳跨到另一腳後方，上身向對側側彎並微旋，維持20秒。',a:'側躺時兩膝間夾枕頭。'},
+  '縫匠肌':{s:'站立，一腳向後外側延伸，感受大腿前內側拉伸，維持15秒。',a:'避免過度外旋髖關節。'},
+  '股薄肌':{s:'站立，一腳向外跨，身體往該側側傾，維持20秒。',a:'避免突然側向移動。'},
+  '膕肌':{s:'坐姿，腿伸直，腳踝向外轉，感受膝蓋後側拉伸，維持15秒。',a:'避免突然全力衝刺。'},
+  '腓腸肌':{s:'面對牆壁，腳往後踩，腳跟貼地，前傾感受小腿拉伸，維持20秒。',a:'避免穿高跟鞋。'},
+  '比目魚肌':{s:'同腓腸肌拉伸，但膝蓋微彎，維持20秒。',a:'避免長時間站立。'},
+  '脛前肌':{s:'坐下，腳趾向下壓，感受脛骨前側拉伸，維持15秒。',a:'避免長距離健走後不拉伸。'},
+  '脛後肌':{s:'腳踝向外轉，感受小腿內側深層拉伸，維持15秒。',a:'避免長時間站立在硬地板。'},
+  '腓骨肌群':{s:'腳踝向內轉，感受小腿外側拉伸，維持15秒。',a:'避免在不平地面跑步。'},
+  '足底筋膜':{s:'坐下，用手將腳趾向上拉，感受足底拉伸，維持30秒，早晨起床前先做。',a:'避免赤腳走硬地板。'},
+  '趾屈肌群':{s:'腳趾用力張開再放鬆，重複10次。',a:'避免長時間穿窄頭鞋。'}
 };
 
 function generateAdvice(muscleList){
@@ -304,16 +382,213 @@ function generateAdvice(muscleList){
   const stretches=[],avoids=[],seen=new Set();
   muscleList.forEach(m=>{
     const key=Object.keys(ADVICE_DB).find(k=>m.includes(k));
-    if(key&&!seen.has(key)){ seen.add(key); stretches.push(`• ${m}：${ADVICE_DB[key].stretch}`); avoids.push(`• ${ADVICE_DB[key].avoid}`); }
+    if(key&&!seen.has(key)){seen.add(key);stretches.push(`• ${m}：${ADVICE_DB[key].s}`);avoids.push(`• ${ADVICE_DB[key].a}`);}
   });
   if(!stretches.length) return '';
-  let txt='🌿 今天調理後的居家保養建議\n\n';
-  txt+='【建議做的拉伸】\n'+stretches.join('\n');
-  txt+='\n\n【暫時避免的動作】\n'+[...new Set(avoids)].join('\n');
-  txt+='\n\n身體需要時間慢慢恢復，拉伸動作請輕柔不要勉強，有任何不適歡迎 LINE 我 🙏';
-  return txt;
+  return '🌿 今天調理後的居家保養建議\n\n【建議做的拉伸】\n'+stretches.join('\n')+'\n\n【暫時避免的動作】\n'+[...new Set(avoids)].join('\n')+'\n\n身體需要時間慢慢恢復，拉伸動作請輕柔不要勉強，有任何不適歡迎 LINE 我 🙏';
 }
 
+// ═══════════════════════════════════════
+// 人體SVG
+// ═══════════════════════════════════════
+const SKIN='#F4C5A8', MUSCLE='#E8A090', SELECTED='#E67E22', ZONE_STROKE='rgba(0,0,0,0.08)';
+
+function buildFrontSVG(){
+  return `<svg viewBox="0 0 200 480" width="160" height="384" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:auto">
+  <defs><style>.bz{cursor:pointer;transition:fill .15s;stroke:${ZONE_STROKE};stroke-width:0.5} .bz:hover{opacity:.8}</style></defs>
+  <!-- Head -->
+  <ellipse class="bz" id="f-head" cx="100" cy="32" rx="22" ry="26" fill="${SKIN}" onclick="toggleZone('f-head',this)"/>
+  <!-- Neck -->
+  <rect class="bz" id="f-neck" x="91" y="55" width="18" height="18" rx="4" fill="${SKIN}" onclick="toggleZone('f-neck',this)"/>
+  <!-- L Shoulder -->
+  <ellipse class="bz" id="f-l-shoulder" cx="65" cy="88" rx="18" ry="14" fill="${MUSCLE}" onclick="toggleZone('f-l-shoulder',this)"/>
+  <!-- R Shoulder -->
+  <ellipse class="bz" id="f-r-shoulder" cx="135" cy="88" rx="18" ry="14" fill="${MUSCLE}" onclick="toggleZone('f-r-shoulder',this)"/>
+  <!-- Chest -->
+  <path class="bz" id="f-chest" d="M78 72 Q100 68 122 72 L124 110 Q100 115 76 110 Z" fill="${MUSCLE}" onclick="toggleZone('f-chest',this)"/>
+  <!-- Abs -->
+  <path class="bz" id="f-abs" d="M80 110 Q100 107 120 110 L118 160 Q100 165 82 160 Z" fill="${MUSCLE}" onclick="toggleZone('f-abs',this)"/>
+  <!-- Pelvis/Hip -->
+  <path class="bz" id="f-pelvis" d="M80 160 Q100 156 120 160 L125 195 Q100 200 75 195 Z" fill="${MUSCLE}" onclick="toggleZone('f-pelvis',this)"/>
+  <!-- L Upper Arm -->
+  <path class="bz" id="f-l-arm" d="M64 78 L52 78 L44 130 L58 132 Z" fill="${MUSCLE}" onclick="toggleZone('f-l-arm',this)"/>
+  <!-- R Upper Arm -->
+  <path class="bz" id="f-r-arm" d="M136 78 L148 78 L156 130 L142 132 Z" fill="${MUSCLE}" onclick="toggleZone('f-r-arm',this)"/>
+  <!-- L Forearm -->
+  <path class="bz" id="f-l-forearm" d="M44 132 L36 132 L28 178 L40 178 Z" fill="${SKIN}" onclick="toggleZone('f-l-forearm',this)"/>
+  <!-- R Forearm -->
+  <path class="bz" id="f-r-forearm" d="M156 132 L164 132 L172 178 L160 178 Z" fill="${SKIN}" onclick="toggleZone('f-r-forearm',this)"/>
+  <!-- L Hand -->
+  <ellipse class="bz" id="f-l-hand" cx="34" cy="188" rx="10" ry="14" fill="${SKIN}" onclick="toggleZone('f-l-hand',this)"/>
+  <!-- R Hand -->
+  <ellipse class="bz" id="f-r-hand" cx="166" cy="188" rx="10" ry="14" fill="${SKIN}" onclick="toggleZone('f-r-hand',this)"/>
+  <!-- L Thigh -->
+  <path class="bz" id="f-l-thigh" d="M80 195 L75 195 L70 270 L90 272 L92 195 Z" fill="${MUSCLE}" onclick="toggleZone('f-l-thigh',this)"/>
+  <!-- R Thigh -->
+  <path class="bz" id="f-r-thigh" d="M120 195 L125 195 L130 270 L110 272 L108 195 Z" fill="${MUSCLE}" onclick="toggleZone('f-r-thigh',this)"/>
+  <!-- L Knee -->
+  <ellipse class="bz" id="f-l-knee" cx="80" cy="278" rx="12" ry="10" fill="${SKIN}" onclick="toggleZone('f-l-knee',this)"/>
+  <!-- R Knee -->
+  <ellipse class="bz" id="f-r-knee" cx="120" cy="278" rx="12" ry="10" fill="${SKIN}" onclick="toggleZone('f-r-knee',this)"/>
+  <!-- L Shin -->
+  <path class="bz" id="f-l-shin" d="M70 288 L74 288 L74 355 L86 355 L88 288 Z" fill="${SKIN}" onclick="toggleZone('f-l-shin',this)"/>
+  <!-- R Shin -->
+  <path class="bz" id="f-r-shin" d="M112 288 L126 288 L126 355 L130 355 L112 355 Z" fill="${SKIN}" onclick="toggleZone('f-r-shin',this)"/>
+  <!-- L Foot -->
+  <path class="bz" id="f-l-foot" d="M68 358 L88 358 L90 375 L62 375 Z" fill="${SKIN}" onclick="toggleZone('f-l-foot',this)"/>
+  <!-- R Foot -->
+  <path class="bz" id="f-r-foot" d="M112 358 L132 358 L138 375 L110 375 Z" fill="${SKIN}" onclick="toggleZone('f-r-foot',this)"/>
+  <!-- Labels -->
+  <text x="100" y="34" text-anchor="middle" font-size="7" fill="#6B4030" pointer-events="none">頭</text>
+  <text x="100" y="65" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">頸</text>
+  <text x="65" y="91" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">左肩</text>
+  <text x="135" y="91" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">右肩</text>
+  <text x="100" y="92" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">胸</text>
+  <text x="100" y="137" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">腹</text>
+  <text x="100" y="178" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">骨盆</text>
+  <text x="51" y="108" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">左臂</text>
+  <text x="149" y="108" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">右臂</text>
+  <text x="34" y="158" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">左前臂</text>
+  <text x="166" y="158" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">右前臂</text>
+  <text x="81" y="235" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">左大腿</text>
+  <text x="119" y="235" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">右大腿</text>
+  <text x="80" y="280" text-anchor="middle" font-size="5.5" fill="#6B4030" pointer-events="none">左膝</text>
+  <text x="120" y="280" text-anchor="middle" font-size="5.5" fill="#6B4030" pointer-events="none">右膝</text>
+  <text x="79" y="325" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">左小腿</text>
+  <text x="121" y="325" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">右小腿</text>
+</svg>`;
+}
+
+function buildBackSVG(){
+  return `<svg viewBox="0 0 200 480" width="160" height="384" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:auto">
+  <defs><style>.bz{cursor:pointer;transition:fill .15s;stroke:${ZONE_STROKE};stroke-width:0.5} .bz:hover{opacity:.8}</style></defs>
+  <!-- Head back -->
+  <ellipse class="bz" id="b-head" cx="100" cy="32" rx="22" ry="26" fill="${SKIN}" onclick="toggleZone('b-head',this)"/>
+  <!-- Neck back -->
+  <rect class="bz" id="b-neck" x="91" y="55" width="18" height="18" rx="4" fill="${SKIN}" onclick="toggleZone('b-neck',this)"/>
+  <!-- L Shoulder back -->
+  <ellipse class="bz" id="b-l-shoulder" cx="65" cy="88" rx="18" ry="14" fill="${MUSCLE}" onclick="toggleZone('b-l-shoulder',this)"/>
+  <!-- R Shoulder back -->
+  <ellipse class="bz" id="b-r-shoulder" cx="135" cy="88" rx="18" ry="14" fill="${MUSCLE}" onclick="toggleZone('b-r-shoulder',this)"/>
+  <!-- Upper back -->
+  <path class="bz" id="b-upper-back" d="M78 72 Q100 68 122 72 L122 125 Q100 130 78 125 Z" fill="${MUSCLE}" onclick="toggleZone('b-upper-back',this)"/>
+  <!-- Lower back -->
+  <path class="bz" id="b-lower-back" d="M80 125 Q100 121 120 125 L120 175 Q100 180 80 175 Z" fill="${MUSCLE}" onclick="toggleZone('b-lower-back',this)"/>
+  <!-- L Glute -->
+  <path class="bz" id="b-l-glute" d="M80 175 L75 175 L72 210 Q80 218 95 215 L95 175 Z" fill="${MUSCLE}" onclick="toggleZone('b-l-glute',this)"/>
+  <!-- R Glute -->
+  <path class="bz" id="b-r-glute" d="M120 175 L125 175 L128 210 Q120 218 105 215 L105 175 Z" fill="${MUSCLE}" onclick="toggleZone('b-r-glute',this)"/>
+  <!-- L Upper Arm back -->
+  <path class="bz" id="b-l-arm" d="M64 78 L52 78 L44 130 L58 132 Z" fill="${MUSCLE}" onclick="toggleZone('b-l-arm',this)"/>
+  <!-- R Upper Arm back -->
+  <path class="bz" id="b-r-arm" d="M136 78 L148 78 L156 130 L142 132 Z" fill="${MUSCLE}" onclick="toggleZone('b-r-arm',this)"/>
+  <!-- L Forearm back -->
+  <path class="bz" id="b-l-forearm" d="M44 132 L36 132 L28 178 L40 178 Z" fill="${SKIN}" onclick="toggleZone('b-l-forearm',this)"/>
+  <!-- R Forearm back -->
+  <path class="bz" id="b-r-forearm" d="M156 132 L164 132 L172 178 L160 178 Z" fill="${SKIN}" onclick="toggleZone('b-r-forearm',this)"/>
+  <!-- L Thigh back -->
+  <path class="bz" id="b-l-thigh" d="M80 215 L72 215 L70 285 L90 285 L95 215 Z" fill="${MUSCLE}" onclick="toggleZone('b-l-thigh',this)"/>
+  <!-- R Thigh back -->
+  <path class="bz" id="b-r-thigh" d="M120 215 L128 215 L130 285 L110 285 L105 215 Z" fill="${MUSCLE}" onclick="toggleZone('b-r-thigh',this)"/>
+  <!-- L Calf -->
+  <path class="bz" id="b-l-calf" d="M70 290 L74 290 L76 355 L88 355 L90 290 Z" fill="${MUSCLE}" onclick="toggleZone('b-l-calf',this)"/>
+  <!-- R Calf -->
+  <path class="bz" id="b-r-calf" d="M110 290 L126 290 L126 355 L128 355 L110 355 Z" fill="${MUSCLE}" onclick="toggleZone('b-r-calf',this)"/>
+  <!-- L Foot back -->
+  <path class="bz" id="b-l-foot" d="M68 358 L88 358 L88 375 L62 375 Z" fill="${SKIN}" onclick="toggleZone('b-l-foot',this)"/>
+  <!-- R Foot back -->
+  <path class="bz" id="b-r-foot" d="M112 358 L132 358 L138 375 L112 375 Z" fill="${SKIN}" onclick="toggleZone('b-r-foot',this)"/>
+  <!-- Labels -->
+  <text x="100" y="34" text-anchor="middle" font-size="7" fill="#6B4030" pointer-events="none">後腦</text>
+  <text x="100" y="65" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">後頸</text>
+  <text x="65" y="91" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">左肩背</text>
+  <text x="135" y="91" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">右肩背</text>
+  <text x="100" y="100" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">上背</text>
+  <text x="100" y="150" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">下背腰</text>
+  <text x="82" y="196" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">左臀</text>
+  <text x="118" y="196" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">右臀</text>
+  <text x="51" y="108" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">左臂後</text>
+  <text x="149" y="108" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">右臂後</text>
+  <text x="81" y="250" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">左大腿後</text>
+  <text x="119" y="250" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">右大腿後</text>
+  <text x="79" y="325" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">左小腿後</text>
+  <text x="121" y="325" text-anchor="middle" font-size="6" fill="#6B4030" pointer-events="none">右小腿後</text>
+</svg>`;
+}
+
+let bodyMapSide='front';
+let selectedZones=new Set();
+let mapTargetName=''; // 'overview' or 'visit'
+
+function buildBodyMap(targetName){
+  mapTargetName=targetName;
+  selectedZones=new Set();
+  const wrap=document.getElementById('bodyMapContainer');
+  if(!wrap) return;
+  wrap.innerHTML=`
+    <div class="body-map-wrap">
+      <div class="body-map-toggle">
+        <button class="btn-side ${bodyMapSide==='front'?'active':''}" onclick="switchBodySide('front')">正面</button>
+        <button class="btn-side ${bodyMapSide==='back'?'active':''}" onclick="switchBodySide('back')">背面</button>
+      </div>
+      <div class="body-map-hint">點擊身體部位快速選取肌群</div>
+      <div class="body-svg-wrap" id="bodySvgWrap">${bodyMapSide==='front'?buildFrontSVG():buildBackSVG()}</div>
+      <div class="body-map-selected" id="bodyMapSelected">尚未選取任何部位</div>
+    </div>`;
+}
+
+function switchBodySide(side){
+  bodyMapSide=side;
+  // re-render SVG only
+  const svgWrap=document.getElementById('bodySvgWrap');
+  if(!svgWrap) return;
+  svgWrap.innerHTML=side==='front'?buildFrontSVG():buildBackSVG();
+  // restore selected zones
+  selectedZones.forEach(z=>{
+    const el=document.getElementById(z);
+    if(el) el.setAttribute('fill',SELECTED);
+  });
+  // update toggle buttons
+  document.querySelectorAll('.btn-side').forEach(b=>b.classList.toggle('active',b.textContent===(side==='front'?'正面':'背面')));
+}
+
+function toggleZone(zoneId, el){
+  if(selectedZones.has(zoneId)){
+    selectedZones.delete(zoneId);
+    // restore original color
+    const isFront=zoneId.startsWith('f-');
+    const skinZones=['f-head','f-neck','f-l-forearm','f-r-forearm','f-l-hand','f-r-hand','f-l-knee','f-r-knee','f-l-shin','f-r-shin','f-l-foot','f-r-foot','b-head','b-neck','b-l-forearm','b-r-forearm','b-l-foot','b-r-foot'];
+    el.setAttribute('fill', skinZones.includes(zoneId)?SKIN:MUSCLE);
+  } else {
+    selectedZones.add(zoneId);
+    el.setAttribute('fill', SELECTED);
+  }
+  // apply to checkboxes
+  applyZonesToCheckboxes();
+  // update label
+  const names=[...selectedZones].map(z=>ZONE_NAMES[z]||z);
+  const sel=document.getElementById('bodyMapSelected');
+  if(sel) sel.textContent=names.length?'已選：'+names.join('、'):'尚未選取任何部位';
+}
+
+function applyZonesToCheckboxes(){
+  const targetMuscles=new Set();
+  selectedZones.forEach(z=>{
+    (BODY_ZONE_MAP[z]||[]).forEach(m=>targetMuscles.add(m));
+  });
+  // find which checkbox name to use
+  const cbName=mapTargetName==='visit'?'v-muscles':'muscles';
+  document.querySelectorAll(`input[name="${cbName}"]`).forEach(inp=>{
+    if(targetMuscles.has(inp.value)){
+      inp.checked=true;
+      inp.closest('.cb-item').classList.add('checked');
+    }
+  });
+}
+
+// ═══════════════════════════════════════
+// Core state
+// ═══════════════════════════════════════
 let currentId=null,currentTab='overview';
 window.currentId=null;
 function getClients(){ return typeof window._clients==='function'?window._clients():[]; }
@@ -376,7 +651,7 @@ function renderDetail(){
       <button class="btn-delete" onclick="deleteClient('${c.id}')">刪除</button>
     </div>
   </div>
-  ${c.ticketTotal?`<div class="ticket-bar"><div class="ticket-info"><div class="ticket-remain">${remain} 堂</div><div class="ticket-total">剩餘堂數（共購 ${c.ticketTotal} 堂，已用 ${c.ticketUsed||0} 堂）</div></div><button class="btn-ticket" onclick="useTicket('${c.id}')">本次扣1堂</button><button class="btn-edit" onclick="openTicketModal('${c.id}')">編輯</button></div>`:`<button class="btn-add-visit" style="margin-bottom:14px" onclick="openTicketModal('${c.id}')">🎟 設定套票／儲值堂數</button>`}
+  ${c.ticketTotal?`<div class="ticket-bar"><div style="flex:1"><div class="ticket-remain">${remain} 堂</div><div class="ticket-total">剩餘堂數（共購 ${c.ticketTotal} 堂，已用 ${c.ticketUsed||0} 堂）</div></div><button class="btn-ticket" onclick="useTicket('${c.id}')">本次扣1堂</button><button class="btn-edit" onclick="openTicketModal('${c.id}')">編輯</button></div>`:`<button class="btn-add-visit" style="margin-bottom:14px" onclick="openTicketModal('${c.id}')">🎟 設定套票堂數</button>`}
   <div class="tabs">
     <button class="tab ${currentTab==='overview'?'active':''}" onclick="switchTab('overview')">身體概況</button>
     <button class="tab ${currentTab==='visits'?'active':''}" onclick="switchTab('visits')">到診紀錄（${visits.length}）</button>
@@ -389,6 +664,11 @@ function switchTab(tab){ currentTab=tab; renderDetail(); }
 function renderTagList(arr,cls=''){ if(!arr||!arr.length) return '<span style="color:var(--text-sub)">未記錄</span>'; return `<div class="tags">${arr.map(t=>`<span class="tag ${cls}">${t}</span>`).join('')}</div>`; }
 
 function renderOverview(c){
+  const musclesByGroup=Object.keys(MUSCLE_GROUPS).map(g=>{
+    const sel=(c.tightMuscles||[]).filter(m=>MUSCLE_GROUPS[g].includes(m));
+    if(!sel.length) return '';
+    return `<div style="margin-bottom:10px"><div class="finding-label" style="margin-bottom:5px">${g}</div><div class="tags">${sel.map(m=>`<span class="tag orange">${m}</span>`).join('')}</div></div>`;
+  }).join('');
   return `
   <div class="section-card">
     <div class="section-title">骨盆狀態</div>
@@ -401,9 +681,8 @@ function renderOverview(c){
   <div class="section-card">
     <div class="section-title">緊繃肌群（長期紀錄）</div>
     <div class="section-body">
-      ${Object.keys(MUSCLE_GROUPS).map(g=>{ const sel=(c.tightMuscles||[]).filter(m=>MUSCLE_GROUPS[g].includes(m)); if(!sel.length) return ''; return `<div style="margin-bottom:10px"><div class="finding-label" style="margin-bottom:5px">${g}</div><div class="tags">${sel.map(m=>`<span class="tag orange">${m}</span>`).join('')}</div></div>`; }).join('')}
-      ${!(c.tightMuscles||[]).length?'<span style="color:var(--text-sub)">未記錄</span>':''}
-      ${c.otherMuscle?`<div style="margin-top:8px"><div class="finding-label">其他補充</div><div style="font-size:14px;margin-top:4px">${c.otherMuscle}</div></div>`:''}
+      ${musclesByGroup||'<span style="color:var(--text-sub)">未記錄</span>'}
+      ${c.otherMuscle?`<div style="margin-top:8px"><div class="finding-label">其他</div><div style="font-size:14px;margin-top:4px">${c.otherMuscle}</div></div>`:''}
       ${c.chiefComplaint?`<div style="margin-top:10px"><div class="finding-label">主要主訴</div><div style="font-size:14px;margin-top:4px">${c.chiefComplaint}</div></div>`:''}
     </div>
   </div>
@@ -528,6 +807,8 @@ function openEditOverviewModal(id){
   const c=getClients().find(x=>x.id===id);
   const mCb=Object.entries(MUSCLE_GROUPS).map(([g,opts])=>`<div class="divider">${g}</div><div class="form-row"><div class="checkbox-group">${buildCheckboxes('muscles',opts,c.tightMuscles||[])}</div></div>`).join('');
   openModal(`<h3>更新身體概況</h3>
+    <!-- Body Map -->
+    <div id="bodyMapContainer"></div>
     <div class="divider">骨盆偏移</div>
     <div class="form-row"><div class="checkbox-group">${buildCheckboxes('pelvis',PELVIS_OPTIONS,c.pelvis||[])}</div></div>
     <div class="form-row"><label>脊椎補充說明</label><input id="f-spine" value="${c.spineNote||''}" placeholder="例：腰椎往左偏…"></div>
@@ -535,6 +816,7 @@ function openEditOverviewModal(id){
     <div class="form-row"><label>其他緊繃部位（自填）</label><input id="f-other-muscle" value="${c.otherMuscle||''}" placeholder="其他未列出的部位…"></div>
     <div class="form-row"><label>主要主訴（長期）</label><textarea id="f-complaint">${c.chiefComplaint||''}</textarea></div>
     <div class="modal-actions"><button class="btn-cancel" onclick="closeModal()">取消</button><button class="btn-save" onclick="saveOverview('${id}')">儲存</button></div>`);
+  buildBodyMap('overview');
 }
 async function saveOverview(id){
   const c=getClients().find(x=>x.id===id);
@@ -552,6 +834,8 @@ function openAddVisitModal(id){
     <div class="divider">骨盆（本次觀察）</div>
     <div class="form-row"><div class="checkbox-group">${buildCheckboxes('v-pelvis',PELVIS_OPTIONS,[])}</div></div>
     <div class="form-row"><label>骨盆補充</label><input id="v-pelvis-note" placeholder="改善中、比上次好…"></div>
+    <!-- Body Map for visit -->
+    <div id="bodyMapContainer"></div>
     <br><div style="font-size:13px;font-weight:700;color:var(--accent)">▍本次緊繃肌群</div>${mCb}
     <div class="form-row"><label>其他緊繃（自填）</label><input id="v-other-muscle" placeholder="其他部位…"></div>
     <br><div style="font-size:13px;font-weight:700;color:var(--accent)">▍本次疼痛真正來源</div>${psCb}
@@ -565,6 +849,7 @@ function openAddVisitModal(id){
       <button class="btn-save" style="background:var(--green)" onclick="previewAdvice('${id}')">🌿 生成居家建議</button>
       <button class="btn-save" onclick="saveVisit('${id}')">儲存</button>
     </div>`);
+  buildBodyMap('visit');
 }
 
 function previewAdvice(id){
@@ -573,9 +858,8 @@ function previewAdvice(id){
   const advice=generateAdvice(all);
   const area=document.getElementById('advice-area');
   if(!advice){ area.innerHTML='<div style="color:var(--text-sub);font-size:13px;margin-top:10px">沒有勾選到有建議資料的肌群，請直接儲存。</div>'; return; }
-  area.innerHTML=`<div class="advice-box"><div class="advice-title">🌿 自動生成的居家建議（可修改）</div><textarea id="advice-text" style="width:100%;min-height:200px;border:none;background:transparent;font-size:13px;line-height:1.8;resize:vertical;outline:none">${advice}</textarea><button class="btn-copy" onclick="copyAdvice()">複製文字傳 LINE</button></div>`;
+  area.innerHTML=`<div class="advice-box"><div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:10px">🌿 自動生成的居家建議（可修改）</div><textarea id="advice-text" style="width:100%;min-height:200px;border:none;background:transparent;font-size:13px;line-height:1.8;resize:vertical;outline:none">${advice}</textarea><button class="btn-copy" onclick="copyAdvice()">複製文字傳 LINE</button></div>`;
 }
-
 function copyAdvice(){ const t=document.getElementById('advice-text'); if(!t) return; navigator.clipboard.writeText(t.value).then(()=>alert('已複製！可以直接貼到 LINE 傳給客人')); }
 
 async function saveVisit(id){
@@ -587,7 +871,7 @@ async function saveVisit(id){
   const tightMuscles=getChecked('v-muscles'),otherMuscle=document.getElementById('v-other-muscle').value;
   const painSource=getChecked('v-source'),sourceNote=document.getElementById('v-source-note').value;
   const adviceEl=document.getElementById('advice-text');
-  c.visits.push({ id:uid(), date, chiefComplaint:document.getElementById('v-complaint').value, pelvis:[...pelvis,pelvisNote].filter(Boolean).join('、'), tightMuscles:[...tightMuscles,otherMuscle].filter(Boolean).join('、'), painSource:[...painSource,sourceNote].filter(Boolean).join('、'), treatment:document.getElementById('v-treatment').value, result:document.getElementById('v-result').value, nextPlan:document.getElementById('v-next').value, advice:adviceEl?adviceEl.value:'' });
+  c.visits.push({id:uid(),date,chiefComplaint:document.getElementById('v-complaint').value,pelvis:[...pelvis,pelvisNote].filter(Boolean).join('、'),tightMuscles:[...tightMuscles,otherMuscle].filter(Boolean).join('、'),painSource:[...painSource,sourceNote].filter(Boolean).join('、'),treatment:document.getElementById('v-treatment').value,result:document.getElementById('v-result').value,nextPlan:document.getElementById('v-next').value,advice:adviceEl?adviceEl.value:''});
   c.visits.sort((a,b)=>a.date.localeCompare(b.date));
   await window.saveClient(c); closeModal(); currentTab='visits'; renderDetail();
 }
