@@ -330,28 +330,6 @@ function generateAdvice(muscleList){
 }
 
 
-
-let bodyMapSide='front';
-let selectedZones=new Set();
-let mapTargetName=''; // 'overview' or 'visit'
-
-function buildBodyMap(targetName){
-  mapTargetName=targetName;
-  selectedZones=new Set();
-  const wrap=document.getElementById('bodyMapContainer');
-  if(!wrap) return;
-  wrap.innerHTML=`
-    <div class="body-map-wrap">
-      <div class="body-map-toggle">
-        <button class="btn-side ${bodyMapSide==='front'?'active':''}" onclick="switchBodySide('front')">正面</button>
-        <button class="btn-side ${bodyMapSide==='back'?'active':''}" onclick="switchBodySide('back')">背面</button>
-      </div>
-      <div class="body-map-hint">點擊身體部位快速選取肌群</div>
-      <div class="body-svg-wrap" id="bodySvgWrap">${bodyMapSide==='front'?buildFrontSVG():buildBackSVG()}</div>
-      <div class="body-map-selected" id="bodyMapSelected">尚未選取任何部位</div>
-    </div>`;
-}
-
 function switchBodySide(side){
   bodyMapSide=side;
   // re-render SVG only
