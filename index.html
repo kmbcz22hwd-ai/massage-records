@@ -27,21 +27,16 @@
   .loading-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
   .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
   header { background: var(--accent); color: #fff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; gap: 10px; flex-wrap: wrap; }
   header h1 { font-size: 17px; font-weight: 700; letter-spacing: 1px; }
   .header-right { display: flex; gap: 8px; align-items: center; }
   .header-right span { font-size: 12px; opacity: .7; }
   .btn-hdr { background: rgba(255,255,255,.2); color: #fff; border: 1px solid rgba(255,255,255,.4); border-radius: 7px; padding: 5px 12px; font-size: 12px; cursor: pointer; }
   .user-avatar { width: 28px; height: 28px; border-radius: 50%; border: 2px solid rgba(255,255,255,.5); }
-
-  /* Dashboard banner */
-  .dashboard { padding: 14px 20px; background: var(--card); border-bottom: 1px solid var(--border); display: flex; gap: 10px; flex-wrap: wrap; }
+  .dashboard { padding: 12px 20px; background: var(--card); border-bottom: 1px solid var(--border); display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
   .dash-card { flex: 1; min-width: 140px; background: var(--accent-bg); border-radius: 10px; padding: 10px 14px; }
   .dash-label { font-size: 11px; color: var(--accent); font-weight: 700; letter-spacing: .5px; margin-bottom: 4px; }
   .dash-list { font-size: 13px; color: var(--text); line-height: 1.7; }
-  .dash-empty { font-size: 13px; color: var(--text-sub); }
-
   .app { display: flex; height: calc(100vh - 108px); }
   .sidebar { width: 270px; min-width: 270px; background: var(--card); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
   .sidebar-top { padding: 12px; border-bottom: 1px solid var(--border); display: flex; gap: 8px; }
@@ -55,12 +50,9 @@
   .client-item .name { font-weight: 600; font-size: 15px; }
   .client-item .meta { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
   .client-item .visit-count { font-size: 11px; background: var(--tag-bg); color: var(--accent); padding: 2px 7px; border-radius: 10px; display: inline-block; margin-top: 4px; }
-  .bday-badge { font-size: 11px; background: #fef3e2; color: #E67E22; padding: 2px 7px; border-radius: 10px; display: inline-block; margin-top: 4px; margin-left: 4px; }
   .empty-list { padding: 32px 16px; text-align: center; color: var(--text-sub); font-size: 14px; }
-
   .detail { flex: 1; overflow-y: auto; padding: 22px; }
   .detail-placeholder { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--text-sub); font-size: 15px; }
-
   .profile-card { background: var(--card); border-radius: 14px; border: 1px solid var(--border); padding: 18px; margin-bottom: 18px; display: flex; align-items: flex-start; gap: 14px; }
   .avatar { width: 52px; height: 52px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #fff; font-weight: 700; flex-shrink: 0; }
   .profile-info { flex: 1; }
@@ -70,12 +62,10 @@
   .btn-edit, .btn-delete { padding: 6px 12px; border-radius: 8px; font-size: 13px; cursor: pointer; border: 1px solid var(--border); }
   .btn-edit { background: var(--card); color: var(--text); }
   .btn-delete { background: var(--card); color: var(--red); border-color: #f0c0bb; }
-
   .tabs { display: flex; gap: 4px; margin-bottom: 16px; }
   .tab { padding: 7px 16px; border-radius: 8px; font-size: 14px; cursor: pointer; color: var(--text-sub); border: 1px solid transparent; background: none; }
   .tab.active { background: var(--accent); color: #fff; }
   .tab:not(.active):hover { background: var(--tag-bg); }
-
   .section-card { background: var(--card); border-radius: 14px; border: 1px solid var(--border); margin-bottom: 14px; overflow: hidden; }
   .section-title { padding: 12px 16px; font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: .5px; border-bottom: 1px solid var(--border); background: var(--accent-bg); }
   .section-body { padding: 14px 16px; }
@@ -89,14 +79,11 @@
   .tag.purple { background: #f3ecfb; color: #8E44AD; }
   .tag.orange { background: #fef3e2; color: #E67E22; }
   .tag.green { background: #e8f5ee; color: var(--green); }
-
-  /* Ticket bar */
   .ticket-bar { display: flex; align-items: center; gap: 10px; background: var(--accent-bg); border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; }
-  .ticket-info { flex: 1; font-size: 14px; }
+  .ticket-info { flex: 1; }
   .ticket-remain { font-size: 22px; font-weight: 700; color: var(--accent); }
   .ticket-total { font-size: 12px; color: var(--text-sub); }
   .btn-ticket { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 7px 14px; font-size: 13px; cursor: pointer; }
-
   .visit-item { border-left: 3px solid var(--border); padding: 0 0 20px 16px; position: relative; margin-left: 6px; }
   .visit-item::before { content: ''; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; position: absolute; left: -7.5px; top: 2px; }
   .visit-item:last-child { padding-bottom: 0; }
@@ -107,19 +94,13 @@
   .visit-block-val { font-size: 13px; line-height: 1.5; }
   .btn-add-visit { background: var(--accent-bg); color: var(--accent); border: 1.5px dashed var(--accent-light); border-radius: 10px; padding: 10px 0; width: 100%; font-size: 14px; cursor: pointer; margin-bottom: 14px; }
   .btn-report { background: #fff; color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; padding: 3px 10px; font-size: 12px; cursor: pointer; white-space: nowrap; }
-
-  /* Advice box */
   .advice-box { background: #f0faf4; border: 1.5px solid #a8d8b9; border-radius: 12px; padding: 16px; margin-top: 14px; }
   .advice-title { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 10px; }
-  .advice-content { font-size: 14px; line-height: 1.8; color: var(--text); white-space: pre-wrap; }
-  .btn-gen-advice { background: var(--green); color: #fff; border: none; border-radius: 9px; padding: 10px 0; width: 100%; font-size: 14px; cursor: pointer; margin-top: 12px; font-weight: 600; }
   .btn-copy { background: #fff; color: var(--green); border: 1px solid var(--green); border-radius: 7px; padding: 6px 14px; font-size: 13px; cursor: pointer; margin-top: 10px; }
-
   .save-indicator { position: fixed; bottom: 20px; right: 20px; background: var(--accent); color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 13px; opacity: 0; transition: opacity .3s; z-index: 300; pointer-events: none; }
   .save-indicator.show { opacity: 1; }
-
   .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 16px; }
-  .modal { background: var(--card); border-radius: 16px; width: 100%; max-width: 620px; max-height: 92vh; overflow-y: auto; padding: 22px; box-shadow: 0 20px 60px rgba(0,0,0,.2); }
+  .modal { background: var(--card); border-radius: 16px; width: 100%; max-width: 640px; max-height: 92vh; overflow-y: auto; padding: 22px; box-shadow: 0 20px 60px rgba(0,0,0,.2); }
   .modal h3 { font-size: 17px; margin-bottom: 18px; color: var(--accent); }
   .form-row { margin-bottom: 13px; }
   .form-row label { display: block; font-size: 11px; font-weight: 700; color: var(--text-sub); margin-bottom: 5px; text-transform: uppercase; letter-spacing: .3px; }
@@ -132,10 +113,9 @@
   .cb-item input { display: none; }
   .cb-item.checked { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); font-weight: 600; }
   .divider { font-size: 11px; font-weight: 700; color: var(--accent); background: var(--accent-bg); padding: 6px 10px; border-radius: 6px; margin: 16px 0 8px; letter-spacing: .5px; }
-  .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
-  .btn-save { flex: 1; padding: 11px; background: var(--accent); color: #fff; border: none; border-radius: 10px; font-size: 15px; cursor: pointer; font-weight: 600; }
+  .modal-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+  .btn-save { flex: 1; padding: 11px; background: var(--accent); color: #fff; border: none; border-radius: 10px; font-size: 15px; cursor: pointer; font-weight: 600; min-width: 100px; }
   .btn-cancel { padding: 11px 18px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; font-size: 15px; cursor: pointer; }
-
   .report-card { background: linear-gradient(135deg, #FFFAF5 0%, #F5EDE0 100%); border-radius: 16px; padding: 24px; max-width: 480px; margin: 0 auto; border: 1px solid #DDD0C0; }
   .report-header { text-align: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 2px solid #D4B896; }
   .report-studio { font-size: 11px; color: var(--accent-light); font-weight: 700; letter-spacing: 2px; margin-bottom: 4px; }
@@ -151,9 +131,8 @@
   .report-footer { text-align: center; margin-top: 20px; padding-top: 14px; border-top: 1px solid #E8D8C4; font-size: 12px; color: var(--text-sub); line-height: 1.8; }
   .report-footer strong { color: var(--accent); }
   .report-tip { background: var(--accent); color: #fff; border-radius: 10px; padding: 12px 16px; font-size: 13px; line-height: 1.7; margin-top: 14px; }
-  .report-advice { background: #f0faf4; border: 1px solid #a8d8b9; border-radius: 10px; padding: 12px 16px; font-size: 13px; line-height: 1.7; margin-top: 14px; color: var(--text); }
+  .report-advice { background: #f0faf4; border: 1px solid #a8d8b9; border-radius: 10px; padding: 12px 16px; font-size: 13px; line-height: 1.7; margin-top: 14px; color: var(--text); white-space: pre-wrap; }
   .hint-text { font-size: 12px; color: var(--text-sub); text-align: center; margin-bottom: 14px; }
-
   @media(max-width: 640px) {
     .app { flex-direction: column; height: auto; }
     .sidebar { width: 100%; min-width: 0; height: auto; max-height: 220px; }
@@ -161,28 +140,18 @@
     .findings-grid { grid-template-columns: 1fr; }
     .profile-card { flex-wrap: wrap; }
     .form-row-2 { grid-template-columns: 1fr; }
-    .dashboard { padding: 10px; }
   }
 </style>
 </head>
 <body>
-
-<div class="loading-screen" id="loadingScreen">
-  <div class="spinner"></div>
-  <div style="color:var(--text-sub);font-size:14px">載入中…</div>
-</div>
-
+<div class="loading-screen" id="loadingScreen"><div class="spinner"></div><div style="color:var(--text-sub);font-size:14px">載入中…</div></div>
 <div class="login-screen" id="loginScreen" style="display:none">
   <div class="login-logo">🌿</div>
   <div class="login-title">顯德筋絡調理室</div>
   <div class="login-sub">顧客推拿紀錄系統<br>請用 Google 帳號登入</div>
-  <button class="btn-google" onclick="signIn()">
-    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg">
-    使用 Google 帳號登入
-  </button>
+  <button class="btn-google" onclick="signIn()"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg">使用 Google 帳號登入</button>
   <div class="login-note">資料儲存在雲端，任何裝置都能存取</div>
 </div>
-
 <div id="appScreen" style="display:none">
   <header>
     <h1>顯德筋絡調理室</h1>
@@ -192,387 +161,256 @@
       <button class="btn-hdr" onclick="signOut()">登出</button>
     </div>
   </header>
-
-  <!-- 今日提醒儀表板 -->
   <div class="dashboard" id="dashboard"></div>
-
   <div class="app">
     <div class="sidebar">
       <div class="sidebar-top">
         <input type="text" id="searchInput" placeholder="搜尋姓名或生日…" oninput="renderList()">
         <button class="btn-new" onclick="openNewClientModal()">＋ 新增</button>
       </div>
-      <div class="client-list" id="clientList">
-        <div class="empty-list">尚無顧客紀錄</div>
-      </div>
+      <div class="client-list" id="clientList"><div class="empty-list">尚無顧客紀錄</div></div>
     </div>
-    <div class="detail" id="detail">
-      <div class="detail-placeholder">← 選擇左側顧客查看紀錄</div>
-    </div>
+    <div class="detail" id="detail"><div class="detail-placeholder">← 選擇左側顧客查看紀錄</div></div>
   </div>
 </div>
-
-<div id="modalBg" class="modal-bg" style="display:none" onclick="closeModalOnBg(event)">
-  <div class="modal" id="modalContent"></div>
-</div>
+<div id="modalBg" class="modal-bg" style="display:none" onclick="closeModalOnBg(event)"><div class="modal" id="modalContent"></div></div>
 <div class="save-indicator" id="saveIndicator">✓ 已儲存</div>
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onAuthStateChanged }
-  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot }
-  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDkLms4g5-UPuMQcFl0pvxGU8bsqdLEqA0",
-  authDomain: "sian-customer-records.firebaseapp.com",
-  projectId: "sian-customer-records",
-  storageBucket: "sian-customer-records.firebasestorage.app",
-  messagingSenderId: "408702062626",
-  appId: "1:408702062626:web:5317965599bd8678feba7b"
-};
-
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+const firebaseConfig = { apiKey:"AIzaSyDkLms4g5-UPuMQcFl0pvxGU8bsqdLEqA0", authDomain:"sian-customer-records.firebaseapp.com", projectId:"sian-customer-records", storageBucket:"sian-customer-records.firebasestorage.app", messagingSenderId:"408702062626", appId:"1:408702062626:web:5317965599bd8678feba7b" };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
-let currentUser = null;
-let clients = [];
-let unsubscribe = null;
-
+let currentUser = null, clients = [], unsubscribe = null;
 onAuthStateChanged(auth, user => {
-  document.getElementById('loadingScreen').style.display = 'none';
-  if (user) {
-    currentUser = user;
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('appScreen').style.display = 'block';
-    const av = document.getElementById('userAvatar');
-    if (user.photoURL) { av.src = user.photoURL; av.style.display = 'block'; }
-    startListening();
-  } else {
-    currentUser = null;
-    if (unsubscribe) { unsubscribe(); unsubscribe = null; }
-    document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('appScreen').style.display = 'none';
-  }
+  document.getElementById('loadingScreen').style.display='none';
+  if(user){ currentUser=user; document.getElementById('loginScreen').style.display='none'; document.getElementById('appScreen').style.display='block'; const av=document.getElementById('userAvatar'); if(user.photoURL){av.src=user.photoURL;av.style.display='block';} startListening(); }
+  else{ currentUser=null; if(unsubscribe){unsubscribe();unsubscribe=null;} document.getElementById('loginScreen').style.display='flex'; document.getElementById('appScreen').style.display='none'; }
 });
-
-window.signIn = async () => { try { await signInWithPopup(auth, provider); } catch(e) { alert('登入失敗：' + e.message); } };
-window.signOut = async () => { if (unsubscribe) { unsubscribe(); unsubscribe = null; } await fbSignOut(auth); };
-
-function startListening() {
-  const col = collection(db, 'users', currentUser.uid, 'clients');
-  unsubscribe = onSnapshot(col, snap => {
-    clients = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    renderList();
-    renderDashboard();
-    if (window.currentId) renderDetail();
-  });
-}
-
-window.saveClient = async (c) => {
-  const col = collection(db, 'users', currentUser.uid, 'clients');
-  await setDoc(doc(col, c.id), c);
-  showSaved();
-};
-window.removeClient = async (id) => {
-  const col = collection(db, 'users', currentUser.uid, 'clients');
-  await deleteDoc(doc(col, id));
-};
-function showSaved() {
-  const el = document.getElementById('saveIndicator');
-  el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 1800);
-}
-window._clients = () => clients;
+window.signIn = async()=>{ try{await signInWithPopup(auth,provider);}catch(e){alert('登入失敗：'+e.message);} };
+window.signOut = async()=>{ if(unsubscribe){unsubscribe();unsubscribe=null;} await fbSignOut(auth); };
+function startListening(){ const col=collection(db,'users',currentUser.uid,'clients'); unsubscribe=onSnapshot(col,snap=>{ clients=snap.docs.map(d=>({id:d.id,...d.data()})); renderList(); renderDashboard(); if(window.currentId)renderDetail(); }); }
+window.saveClient=async(c)=>{ const col=collection(db,'users',currentUser.uid,'clients'); await setDoc(doc(col,c.id),c); showSaved(); };
+window.removeClient=async(id)=>{ const col=collection(db,'users',currentUser.uid,'clients'); await deleteDoc(doc(col,id)); };
+function showSaved(){ const el=document.getElementById('saveIndicator'); el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),1800); }
+window._clients=()=>clients;
 </script>
 
 <script>
-const PELVIS_OPTIONS = ['左高右低','右高左低','前傾','後傾','左旋','右旋','無明顯偏移'];
+const PELVIS_OPTIONS=['左高右低','右高左低','前傾','後傾','左旋','右旋','無明顯偏移'];
 
-const MUSCLE_GROUPS = {
-  '頭頸部': ['左頸部屈肌群','右頸部屈肌群','左頸部伸肌群','右頸部伸肌群','左胸鎖乳突肌','右胸鎖乳突肌','左斜角肌','右斜角肌','枕下肌群','頭皮筋膜緊繃','左顳顎關節','右顳顎關節','左咬肌','右咬肌','左顳肌','右顳肌','頭皮緊度（整體）'],
-  '肩背部': ['左斜方肌（上段）','右斜方肌（上段）','左斜方肌（中下段）','右斜方肌（中下段）','左菱形肌','右菱形肌','左提肩胛肌','右提肩胛肌','左前鋸肌','右前鋸肌','左棘上肌','右棘上肌','左棘下肌','右棘下肌','左小圓肌','右小圓肌','左肩胛下肌','右肩胛下肌'],
-  '上臂': ['左肱二頭肌長頭','右肱二頭肌長頭','左肱二頭肌短頭','右肱二頭肌短頭','左肱三頭肌長頭','右肱三頭肌長頭','左肱三頭肌短頭','右肱三頭肌短頭'],
-  '前臂 & 手部': ['左前臂屈肌群','右前臂屈肌群','左前臂伸肌群','右前臂伸肌群','左手指筋膜（五指）','右手指筋膜（五指）'],
-  '胸部': ['左胸大肌','右胸大肌','左胸小肌','右胸小肌','左胸肋筋膜','右胸肋筋膜','肋間肌緊繃'],
-  '腹部': ['腹直肌','左腹斜肌','右腹斜肌','腹橫肌筋膜','腹部深層筋膜'],
-  '背部豎脊肌': ['左頸段豎脊肌','右頸段豎脊肌','左胸段豎脊肌','右胸段豎脊肌','左腰段豎脊肌','右腰段豎脊肌'],
-  '腰臀部': ['左腰方肌','右腰方肌','左腰大肌','右腰大肌','左髂腰肌','右髂腰肌','左臀大肌','右臀大肌','左臀中肌','右臀中肌','左臀小肌','右臀小肌','左梨狀肌','右梨狀肌','腰薦交接筋膜'],
-  '髖關節': ['左髖關節前側','右髖關節前側','左髖關節外側','右髖關節外側','左髖關節後側','右髖關節後側'],
-  '大腿': ['左股四頭肌','右股四頭肌','左大腿後側肌群','右大腿後側肌群','左內收肌群','右內收肌群','左髂脛束','右髂脛束'],
-  '小腿': ['左腓腸肌','右腓腸肌','左比目魚肌','右比目魚肌','左脛前肌','右脛前肌','左腓骨肌群','右腓骨肌群']
+const MUSCLE_GROUPS={
+  '頭頸部':['左頸部屈肌群','右頸部屈肌群','左頸部伸肌群','右頸部伸肌群','左胸鎖乳突肌','右胸鎖乳突肌','左斜角肌','右斜角肌','枕下肌群','頭皮筋膜緊繃','左顳顎關節','右顳顎關節','左咬肌','右咬肌','左顳肌','右顳肌','頭皮緊度（整體）'],
+  '肩部':['左三角肌前束','右三角肌前束','左三角肌中束','右三角肌中束','左三角肌後束','右三角肌後束','左棘上肌','右棘上肌','左棘下肌','右棘下肌','左小圓肌','右小圓肌','左大圓肌','右大圓肌','左肩胛下肌','右肩胛下肌'],
+  '肩背部':['左斜方肌（上段）','右斜方肌（上段）','左斜方肌（中下段）','右斜方肌（中下段）','左菱形肌','右菱形肌','左提肩胛肌','右提肩胛肌','左前鋸肌','右前鋸肌'],
+  '上臂':['左肱二頭肌長頭','右肱二頭肌長頭','左肱二頭肌短頭','右肱二頭肌短頭','左肱三頭肌長頭','右肱三頭肌長頭','左肱三頭肌短頭','右肱三頭肌短頭','左肱肌','右肱肌','左喙肱肌','右喙肱肌'],
+  '前臂 & 手部':['左前臂屈肌群','右前臂屈肌群','左前臂伸肌群','右前臂伸肌群','左旋前圓肌','右旋前圓肌','左旋後肌','右旋後肌','左屈指淺肌','右屈指淺肌','左屈指深肌','右屈指深肌','左伸指肌','右伸指肌','左手指筋膜（五指）','右手指筋膜（五指）'],
+  '胸部':['左胸大肌','右胸大肌','左胸小肌','右胸小肌','左胸肋筋膜','右胸肋筋膜','肋間肌緊繃'],
+  '腹部 & 軀幹深層':['腹直肌','左腹斜肌','右腹斜肌','腹橫肌筋膜','腹部深層筋膜','橫膈膜','骨盆底肌群'],
+  '背部豎脊肌':['左頸段豎脊肌','右頸段豎脊肌','左胸段豎脊肌','右胸段豎脊肌','左腰段豎脊肌','右腰段豎脊肌'],
+  '多裂肌':['左頸段多裂肌','右頸段多裂肌','左腰段多裂肌','右腰段多裂肌'],
+  '腰臀部':['左腰方肌','右腰方肌','左腰大肌','右腰大肌','左髂腰肌','右髂腰肌','左臀大肌','右臀大肌','左臀中肌','右臀中肌','左臀小肌','右臀小肌','左梨狀肌','右梨狀肌','腰薦交接筋膜'],
+  '髖關節深層':['左閉孔內肌','右閉孔內肌','左閉孔外肌','右閉孔外肌','左股方肌','右股方肌','左上孖肌','右上孖肌','左下孖肌','右下孖肌','左髖關節前側','右髖關節前側','左髖關節外側','右髖關節外側','左髖關節後側','右髖關節後側'],
+  '大腿':['左股四頭肌','右股四頭肌','左大腿後側肌群','右大腿後側肌群','左內收肌群','右內收肌群','左髂脛束','右髂脛束','左筋膜張肌（TFL）','右筋膜張肌（TFL）','左縫匠肌','右縫匠肌','左股薄肌','右股薄肌','左膕肌','右膕肌'],
+  '小腿 & 足部':['左腓腸肌','右腓腸肌','左比目魚肌','右比目魚肌','左脛前肌','右脛前肌','左脛後肌','右脛後肌','左腓骨肌群','右腓骨肌群','左足底筋膜','右足底筋膜','左趾屈肌群','右趾屈肌群']
 };
 
-const SOURCE_OPTIONS = {
-  '頸椎': ['頸椎第一節','頸椎第二節','頸椎第三節','頸椎第四節','頸椎第五節','頸椎第六節','頸椎第七節'],
-  '胸椎': ['胸椎第一節','胸椎第二節','胸椎第三節','胸椎第四節','胸椎第五節','胸椎第六節','胸椎第七節','胸椎第八節','胸椎第九節','胸椎第十節','胸椎第十一節','胸椎第十二節'],
-  '腰椎': ['腰椎第一節','腰椎第二節','腰椎第三節','腰椎第四節','腰椎第五節'],
-  '薦椎 & 骨盆': ['薦椎','左薦髂關節','右薦髂關節','尾椎'],
-  '其他結構': ['左梨狀肌來源','右梨狀肌來源','左腰方肌來源','右腰方肌來源','左髂腰肌來源','右髂腰肌來源','左顳顎關節來源','右顳顎關節來源','腹部筋膜來源']
+// 疼痛來源 = 所有肌群 + 骨盆選項 + 椎節
+const PAIN_SOURCE_GROUPS={
+  '骨盆偏移來源':['骨盆左高右低','骨盆右高左低','骨盆前傾','骨盆後傾','骨盆左旋','骨盆右旋','左薦髂關節','右薦髂關節','尾椎'],
+  '椎節來源':['頸椎第一節','頸椎第二節','頸椎第三節','頸椎第四節','頸椎第五節','頸椎第六節','頸椎第七節','胸椎第一節','胸椎第二節','胸椎第三節','胸椎第四節','胸椎第五節','胸椎第六節','胸椎第七節','胸椎第八節','胸椎第九節','胸椎第十節','胸椎第十一節','胸椎第十二節','腰椎第一節','腰椎第二節','腰椎第三節','腰椎第四節','腰椎第五節','薦椎'],
+  ...Object.fromEntries(Object.entries(MUSCLE_GROUPS).map(([k,v])=>[k+'（來源）',v]))
 };
 
-// 居家建議資料庫
-const ADVICE_DB = {
-  '枕下肌群': { stretch: '下巴微收，頭部緩慢往胸口點頭，維持15秒，重複5次。', avoid: '避免長時間低頭滑手機或看螢幕。' },
-  '頭皮筋膜緊繃': { stretch: '用指腹輕柔按摩頭皮，從額頭往後梳理，每次2分鐘。', avoid: '避免頭髮紮太緊，睡前盡量讓頭皮放鬆。' },
-  '頭皮緊度（整體）': { stretch: '用指腹輕柔按摩頭皮，從額頭往後梳理，每次2分鐘。', avoid: '避免頭髮紮太緊，睡前盡量讓頭皮放鬆。' },
-  '左顳顎關節': { stretch: '嘴巴輕輕張開閉合，不要用力咬緊，可輕柔按摩臉頰咬肌。', avoid: '避免啃硬物、口香糖、大口咬食物。' },
-  '右顳顎關節': { stretch: '嘴巴輕輕張開閉合，不要用力咬緊，可輕柔按摩臉頰咬肌。', avoid: '避免啃硬物、口香糖、大口咬食物。' },
-  '左咬肌': { stretch: '輕柔按摩臉頰，嘴巴微開放鬆下巴。', avoid: '避免咀嚼硬食物或磨牙。' },
-  '右咬肌': { stretch: '輕柔按摩臉頰，嘴巴微開放鬆下巴。', avoid: '避免咀嚼硬食物或磨牙。' },
-  '左胸鎖乳突肌': { stretch: '頭部往右側傾斜，右手輕壓左肩下壓，維持20秒。', avoid: '避免長時間側睡壓同一側，枕頭高度要適中。' },
-  '右胸鎖乳突肌': { stretch: '頭部往左側傾斜，左手輕壓右肩下壓，維持20秒。', avoid: '避免長時間側睡壓同一側，枕頭高度要適中。' },
-  '左斜角肌': { stretch: '頭往右轉並往右側傾，左手放鬆垂下，維持20秒。', avoid: '避免長時間低頭或頸部前傾姿勢。' },
-  '右斜角肌': { stretch: '頭往左轉並往左側傾，右手放鬆垂下，維持20秒。', avoid: '避免長時間低頭或頸部前傾姿勢。' },
-  '左斜方肌（上段）': { stretch: '右手越過頭頂輕壓左耳，頭往右傾，維持20秒。', avoid: '避免長時間聳肩、背重包或單肩背包。' },
-  '右斜方肌（上段）': { stretch: '左手越過頭頂輕壓右耳，頭往左傾，維持20秒。', avoid: '避免長時間聳肩、背重包或單肩背包。' },
-  '左斜方肌（中下段）': { stretch: '雙手交叉抱胸，身體向前彎，感受肩胛骨之間的拉伸，維持20秒。', avoid: '避免長時間駝背或前傾坐姿。' },
-  '右斜方肌（中下段）': { stretch: '雙手交叉抱胸，身體向前彎，感受肩胛骨之間的拉伸，維持20秒。', avoid: '避免長時間駝背或前傾坐姿。' },
-  '左菱形肌': { stretch: '左手向前伸直，右手從肘下勾住往右拉，維持20秒。', avoid: '避免長時間圓肩或駝背。' },
-  '右菱形肌': { stretch: '右手向前伸直，左手從肘下勾住往左拉，維持20秒。', avoid: '避免長時間圓肩或駝背。' },
-  '左提肩胛肌': { stretch: '頭往右前方低，左手輕放頭上輔助，維持20秒。', avoid: '避免長時間抬高手臂工作或電腦螢幕過低。' },
-  '右提肩胛肌': { stretch: '頭往左前方低，右手輕放頭上輔助，維持20秒。', avoid: '避免長時間抬高手臂工作或電腦螢幕過低。' },
-  '左前鋸肌': { stretch: '左手扶牆，身體向右轉，感受側胸拉伸，維持20秒。', avoid: '避免過度推物或需要手臂向前使力的動作。' },
-  '右前鋸肌': { stretch: '右手扶牆，身體向左轉，感受側胸拉伸，維持20秒。', avoid: '避免過度推物或需要手臂向前使力的動作。' },
-  '左肩胛下肌': { stretch: '左手往後背，右手輕壓左肘往上，維持15秒。', avoid: '暫時避免做過多內旋動作如抱重物或划船動作。' },
-  '右肩胛下肌': { stretch: '右手往後背，左手輕壓右肘往上，維持15秒。', avoid: '暫時避免做過多內旋動作如抱重物或划船動作。' },
-  '左胸大肌': { stretch: '站在門框邊，左手扶門框，身體向右轉開，維持20秒。', avoid: '避免過多伏地挺身或胸推動作。' },
-  '右胸大肌': { stretch: '站在門框邊，右手扶門框，身體向左轉開，維持20秒。', avoid: '避免過多伏地挺身或胸推動作。' },
-  '左胸小肌': { stretch: '左手向後上方延伸，配合深呼吸擴胸，維持20秒。', avoid: '避免長時間圓肩、前傾姿勢。' },
-  '右胸小肌': { stretch: '右手向後上方延伸，配合深呼吸擴胸，維持20秒。', avoid: '避免長時間圓肩、前傾姿勢。' },
-  '肋間肌緊繃': { stretch: '雙手舉高深呼吸，吐氣時身體側彎拉伸，左右各維持15秒。', avoid: '避免長時間彎腰或坐姿壓迫胸腔。' },
-  '腹直肌': { stretch: '趴下做眼鏡蛇式，雙手撐地讓腹部伸展，維持15秒。', avoid: '暫時避免大量仰臥起坐或腹部大幅捲曲的動作。' },
-  '左腹斜肌': { stretch: '站立，右手舉高，身體向右側彎，維持20秒。', avoid: '避免扭轉性的運動如高爾夫、棒球揮棒。' },
-  '右腹斜肌': { stretch: '站立，左手舉高，身體向左側彎，維持20秒。', avoid: '避免扭轉性的運動如高爾夫、棒球揮棒。' },
-  '左頸段豎脊肌': { stretch: '緩慢轉頭向右，下巴微收，維持15秒，左右各做。', avoid: '避免長時間維持固定頸部姿勢。' },
-  '右頸段豎脊肌': { stretch: '緩慢轉頭向左，下巴微收，維持15秒，左右各做。', avoid: '避免長時間維持固定頸部姿勢。' },
-  '左胸段豎脊肌': { stretch: '坐在椅子上，雙手抱胸，身體慢慢向前彎，維持20秒。', avoid: '避免長時間駝背或搬重物時彎腰。' },
-  '右胸段豎脊肌': { stretch: '坐在椅子上，雙手抱胸，身體慢慢向前彎，維持20秒。', avoid: '避免長時間駝背或搬重物時彎腰。' },
-  '左腰段豎脊肌': { stretch: '躺下屈膝，雙膝抱胸維持20秒，再輕輕左右搖晃。', avoid: '避免搬重物時腰部出力，起身要側躺再起來。' },
-  '右腰段豎脊肌': { stretch: '躺下屈膝，雙膝抱胸維持20秒，再輕輕左右搖晃。', avoid: '避免搬重物時腰部出力，起身要側躺再起來。' },
-  '左腰方肌': { stretch: '站立，右手舉高向右側彎，感受左腰側拉伸，維持20秒。', avoid: '避免長時間單側施力，睡覺不要側躺壓同一側太久。' },
-  '右腰方肌': { stretch: '站立，左手舉高向左側彎，感受右腰側拉伸，維持20秒。', avoid: '避免長時間單側施力，睡覺不要側躺壓同一側太久。' },
-  '左腰大肌': { stretch: '弓箭步，左腳在後，上身直立輕輕前傾，感受左髖前側拉伸，維持20秒。', avoid: '避免長時間坐著不動，每坐1小時起來走動。' },
-  '右腰大肌': { stretch: '弓箭步，右腳在後，上身直立輕輕前傾，感受右髖前側拉伸，維持20秒。', avoid: '避免長時間坐著不動，每坐1小時起來走動。' },
-  '左髂腰肌': { stretch: '弓箭步，左腳在後跪地，骨盆微前傾，感受左髖前側拉伸，維持20秒。', avoid: '避免久坐，避免過度跑步或爬樓梯。' },
-  '右髂腰肌': { stretch: '弓箭步，右腳在後跪地，骨盆微前傾，感受右髖前側拉伸，維持20秒。', avoid: '避免久坐，避免過度跑步或爬樓梯。' },
-  '左梨狀肌': { stretch: '躺下，左腳踝放在右膝上，右手抱住右大腿往胸口拉，維持20秒。', avoid: '避免翹二郎腿（特別是左腿在上），避免長時間坐硬椅子。' },
-  '右梨狀肌': { stretch: '躺下，右腳踝放在左膝上，左手抱住左大腿往胸口拉，維持20秒。', avoid: '避免翹二郎腿（特別是右腿在上），避免長時間坐硬椅子。' },
-  '左臀大肌': { stretch: '坐在椅子上，左腳踝放在右膝，身體向前傾，維持20秒。', avoid: '避免久坐，坐下時不要塌腰。' },
-  '右臀大肌': { stretch: '坐在椅子上，右腳踝放在左膝，身體向前傾，維持20秒。', avoid: '避免久坐，坐下時不要塌腰。' },
-  '左臀中肌': { stretch: '站立，左腳跨到右腳後方，身體向右側彎，維持20秒。', avoid: '避免單腳站立太久，走路時注意不要歪斜。' },
-  '右臀中肌': { stretch: '站立，右腳跨到左腳後方，身體向左側彎，維持20秒。', avoid: '避免單腳站立太久，走路時注意不要歪斜。' },
-  '左髖關節前側': { stretch: '弓箭步拉伸，左腳在後，感受髖關節前方拉開，維持20秒。', avoid: '避免過度屈髖的動作，如深蹲、爬高。' },
-  '右髖關節前側': { stretch: '弓箭步拉伸，右腳在後，感受髖關節前方拉開，維持20秒。', avoid: '避免過度屈髖的動作，如深蹲、爬高。' },
-  '左髖關節外側': { stretch: '躺下，左腳彎曲跨過右腳，輕輕往右側倒，維持20秒。', avoid: '避免側躺壓左髖，避免側向跳躍動作。' },
-  '右髖關節外側': { stretch: '躺下，右腳彎曲跨過左腳，輕輕往左側倒，維持20秒。', avoid: '避免側躺壓右髖，避免側向跳躍動作。' },
-  '左股四頭肌': { stretch: '站立，左手扶牆，右手抓左腳踝往後拉，維持20秒。', avoid: '避免過多跑步或下坡路，上下樓梯時放慢速度。' },
-  '右股四頭肌': { stretch: '站立，右手扶牆，左手抓右腳踝往後拉，維持20秒。', avoid: '避免過多跑步或下坡路，上下樓梯時放慢速度。' },
-  '左大腿後側肌群': { stretch: '坐在床邊，左腳伸直腳跟放地，身體慢慢向前傾，維持20秒。', avoid: '避免突然大步跑或踢腿，熱身要充分。' },
-  '右大腿後側肌群': { stretch: '坐在床邊，右腳伸直腳跟放地，身體慢慢向前傾，維持20秒。', avoid: '避免突然大步跑或踢腿，熱身要充分。' },
-  '左髂脛束': { stretch: '站立，左腳跨到右腳後方，身體向右側彎，感受左大腿外側拉伸，維持20秒。', avoid: '避免長距離跑步或騎車，減少上下坡。' },
-  '右髂脛束': { stretch: '站立，右腳跨到左腳後方，身體向左側彎，感受右大腿外側拉伸，維持20秒。', avoid: '避免長距離跑步或騎車，減少上下坡。' },
-  '左腓腸肌': { stretch: '面對牆壁，左腳往後踩，腳跟貼地，前傾感受小腿拉伸，維持20秒。', avoid: '避免穿高跟鞋，避免突然加速跑步。' },
-  '右腓腸肌': { stretch: '面對牆壁，右腳往後踩，腳跟貼地，前傾感受小腿拉伸，維持20秒。', avoid: '避免穿高跟鞋，避免突然加速跑步。' },
-  '左比目魚肌': { stretch: '同腓腸肌拉伸，但左膝微彎，感受更深的小腿拉伸，維持20秒。', avoid: '避免長時間站立，休息時可以墊腳輕鬆踮腳。' },
-  '右比目魚肌': { stretch: '同腓腸肌拉伸，但右膝微彎，感受更深的小腿拉伸，維持20秒。', avoid: '避免長時間站立，休息時可以墊腳輕鬆踮腳。' },
-  '左肱二頭肌長頭': { stretch: '左手往後伸直，拇指朝下，輕輕往後上方延伸，維持15秒。', avoid: '暫時避免大重量彎舉或反手引體向上。' },
-  '右肱二頭肌長頭': { stretch: '右手往後伸直，拇指朝下，輕輕往後上方延伸，維持15秒。', avoid: '暫時避免大重量彎舉或反手引體向上。' },
-  '左肱三頭肌長頭': { stretch: '左手舉高彎肘，右手輕壓左肘往右，維持15秒。', avoid: '暫時避免伸臂推物或伏地挺身。' },
-  '右肱三頭肌長頭': { stretch: '右手舉高彎肘，左手輕壓右肘往左，維持15秒。', avoid: '暫時避免伸臂推物或伏地挺身。' },
-  '左前臂屈肌群': { stretch: '左手向前伸直，手掌朝上，右手輕壓手指向下，維持15秒。', avoid: '避免長時間握鍵盤、滑鼠或手機。' },
-  '右前臂屈肌群': { stretch: '右手向前伸直，手掌朝上，左手輕壓手指向下，維持15秒。', avoid: '避免長時間握鍵盤、滑鼠或手機。' },
-  '左前臂伸肌群': { stretch: '左手向前伸直，手掌朝下，右手輕壓手背向下，維持15秒。', avoid: '避免過多打字或使用工具的重複動作。' },
-  '右前臂伸肌群': { stretch: '右手向前伸直，手掌朝下，左手輕壓手背向下，維持15秒。', avoid: '避免過多打字或使用工具的重複動作。' },
-  '左手指筋膜（五指）': { stretch: '左手五指張開，輕輕往後仰，再握拳放開，重複10次。', avoid: '避免長時間滑手機或握筆，每30分鐘讓手休息一下。' },
-  '右手指筋膜（五指）': { stretch: '右手五指張開，輕輕往後仰，再握拳放開，重複10次。', avoid: '避免長時間滑手機或握筆，每30分鐘讓手休息一下。' },
+const ADVICE_DB={
+  '枕下肌群':{stretch:'下巴微收，頭部緩慢往胸口點頭，維持15秒，重複5次。',avoid:'避免長時間低頭滑手機或看螢幕。'},
+  '頭皮筋膜緊繃':{stretch:'用指腹輕柔按摩頭皮，從額頭往後梳理，每次2分鐘。',avoid:'避免頭髮紮太緊，睡前盡量讓頭皮放鬆。'},
+  '頭皮緊度（整體）':{stretch:'用指腹輕柔按摩頭皮，從額頭往後梳理，每次2分鐘。',avoid:'避免頭髮紮太緊，睡前盡量讓頭皮放鬆。'},
+  '顳顎關節':{stretch:'嘴巴輕輕張開閉合，不要用力咬緊，可輕柔按摩臉頰咬肌。',avoid:'避免啃硬物、口香糖、大口咬食物。'},
+  '咬肌':{stretch:'輕柔按摩臉頰，嘴巴微開放鬆下巴。',avoid:'避免咀嚼硬食物或磨牙。'},
+  '顳肌':{stretch:'用指腹輕柔按摩太陽穴周圍，畫小圓圈，每次1-2分鐘。',avoid:'避免長時間緊咬牙關或壓力過大時磨牙。'},
+  '胸鎖乳突肌':{stretch:'頭部往對側傾斜，對側手輕壓同側肩下壓，維持20秒。',avoid:'避免長時間側睡壓同一側，枕頭高度要適中。'},
+  '斜角肌':{stretch:'頭往對側轉並往對側傾，同側手放鬆垂下，維持20秒。',avoid:'避免長時間低頭或頸部前傾姿勢。'},
+  '三角肌前束':{stretch:'手臂向後伸直，往後上方延伸，維持20秒。',avoid:'避免過多向前推的動作，如伏地挺身。'},
+  '三角肌中束':{stretch:'手臂向對側水平拉，另一手從肘下推，維持20秒。',avoid:'避免手臂側舉的動作或側平舉啞鈴。'},
+  '三角肌後束':{stretch:'手臂向前伸，另一手從肘下往胸口拉，維持20秒。',avoid:'避免過多划船或反手拉的動作。'},
+  '斜方肌（上段）':{stretch:'對側手越過頭頂輕壓耳朵，頭往對側傾，維持20秒。',avoid:'避免長時間聳肩、背重包或單肩背包。'},
+  '斜方肌（中下段）':{stretch:'雙手交叉抱胸，身體向前彎，感受肩胛骨之間的拉伸，維持20秒。',avoid:'避免長時間駝背或前傾坐姿。'},
+  '菱形肌':{stretch:'手向前伸直，對側手從肘下勾住往對側拉，維持20秒。',avoid:'避免長時間圓肩或駝背。'},
+  '提肩胛肌':{stretch:'頭往對前方低，同側手輕放頭上輔助，維持20秒。',avoid:'避免長時間抬高手臂工作或電腦螢幕過低。'},
+  '前鋸肌':{stretch:'手扶牆，身體向對側轉，感受側胸拉伸，維持20秒。',avoid:'避免過度推物或需要手臂向前使力的動作。'},
+  '肩胛下肌':{stretch:'手往後背，對側手輕壓肘往上，維持15秒。',avoid:'暫時避免做過多內旋動作如抱重物或划船動作。'},
+  '棘上肌':{stretch:'手臂自然垂下，輕輕畫小圈，不要用力。',avoid:'暫時避免手臂超過肩膀高度的動作。'},
+  '棘下肌':{stretch:'手臂向對側水平拉，感受肩胛外側拉伸，維持20秒。',avoid:'避免過多外旋動作，如投球或網球揮拍。'},
+  '小圓肌':{stretch:'同棘下肌拉伸方式。',avoid:'避免過多手臂外旋的運動。'},
+  '大圓肌':{stretch:'手臂向上舉起，往對側傾，感受腋下後側拉伸，維持20秒。',avoid:'避免過多手臂內收的重訓動作。'},
+  '胸大肌':{stretch:'站在門框邊，手扶門框，身體向對側轉開，維持20秒。',avoid:'避免過多伏地挺身或胸推動作。'},
+  '胸小肌':{stretch:'手向後上方延伸，配合深呼吸擴胸，維持20秒。',avoid:'避免長時間圓肩、前傾姿勢。'},
+  '胸肋筋膜':{stretch:'雙手舉高深呼吸，吐氣時身體側彎拉伸，左右各維持15秒。',avoid:'避免長時間彎腰或坐姿壓迫胸腔。'},
+  '肋間肌緊繃':{stretch:'雙手舉高深呼吸，吐氣時身體側彎拉伸，左右各維持15秒。',avoid:'避免長時間彎腰或坐姿壓迫胸腔。'},
+  '肱二頭肌':{stretch:'手往後伸直，拇指朝下，輕輕往後上方延伸，維持15秒。',avoid:'暫時避免大重量彎舉或反手引體向上。'},
+  '肱三頭肌':{stretch:'手舉高彎肘，對側手輕壓肘往對側，維持15秒。',avoid:'暫時避免伸臂推物或伏地挺身。'},
+  '肱肌':{stretch:'手肘彎曲，輕壓手腕向下伸直，維持15秒。',avoid:'避免反覆屈肘提重物。'},
+  '喙肱肌':{stretch:'手臂外展，往後上方延伸，感受腋下前側，維持15秒。',avoid:'避免過多向前抬臂的動作。'},
+  '旋前圓肌':{stretch:'手臂伸直，手掌朝上，輕柔旋轉前臂，維持15秒。',avoid:'避免長時間反覆轉螺絲或使用工具。'},
+  '旋後肌':{stretch:'手臂伸直，手掌朝下，輕柔旋轉前臂，維持15秒。',avoid:'避免過多手腕旋轉的動作。'},
+  '前臂屈肌群':{stretch:'手向前伸直，手掌朝上，對側手輕壓手指向下，維持15秒。',avoid:'避免長時間握鍵盤、滑鼠或手機。'},
+  '前臂伸肌群':{stretch:'手向前伸直，手掌朝下，對側手輕壓手背向下，維持15秒。',avoid:'避免過多打字或使用工具的重複動作。'},
+  '屈指淺肌':{stretch:'手指伸直，輕輕向後仰，維持15秒。',avoid:'避免長時間打字或握持物品。'},
+  '屈指深肌':{stretch:'同屈指淺肌拉伸方式，稍微加深角度。',avoid:'避免長時間握緊物品。'},
+  '伸指肌':{stretch:'輕握拳，緩慢張開手指，重複10次。',avoid:'避免手指長時間維持伸展狀態如彈琴。'},
+  '手指筋膜（五指）':{stretch:'五指張開，輕輕往後仰，再握拳放開，重複10次。',avoid:'避免長時間滑手機或握筆，每30分鐘讓手休息一下。'},
+  '腹直肌':{stretch:'趴下做眼鏡蛇式，雙手撐地讓腹部伸展，維持15秒。',avoid:'暫時避免大量仰臥起坐或腹部大幅捲曲的動作。'},
+  '腹斜肌':{stretch:'站立，一手舉高，身體向對側彎，維持20秒。',avoid:'避免扭轉性的運動如高爾夫、棒球揮棒。'},
+  '橫膈膜':{stretch:'深呼吸練習，吸氣讓腹部向外膨脹，吐氣時腹部收縮，每次10下。',avoid:'避免長時間彎腰壓迫腹腔，飯後不要立即劇烈運動。'},
+  '骨盆底肌群':{stretch:'凱格爾運動：收縮骨盆底肌群5秒後放鬆，每次10下，每天3次。',avoid:'避免長時間久坐硬椅，避免過度腹部用力。'},
+  '豎脊肌':{stretch:'坐在椅子上，雙手抱胸，身體慢慢向前彎，維持20秒。',avoid:'避免長時間駝背或搬重物時彎腰。'},
+  '多裂肌':{stretch:'四足跪姿，腰部緩慢拱起再下凹，貓牛式各維持10秒，重複5次。',avoid:'避免突然扭轉腰部，起床要側躺再慢慢起身。'},
+  '腰方肌':{stretch:'站立，一手舉高向對側彎，感受腰側拉伸，維持20秒。',avoid:'避免長時間單側施力，睡覺不要側躺壓同一側太久。'},
+  '腰大肌':{stretch:'弓箭步，後腳在後，上身直立輕輕前傾，感受髖前側拉伸，維持20秒。',avoid:'避免長時間坐著不動，每坐1小時起來走動。'},
+  '髂腰肌':{stretch:'弓箭步，後腳跪地，骨盆微前傾，感受髖前側拉伸，維持20秒。',avoid:'避免久坐，避免過度跑步或爬樓梯。'},
+  '梨狀肌':{stretch:'躺下，腳踝放在對側膝上，對側手抱住大腿往胸口拉，維持20秒。',avoid:'避免翹二郎腿，避免長時間坐硬椅子。'},
+  '臀大肌':{stretch:'坐在椅子上，腳踝放在對側膝，身體向前傾，維持20秒。',avoid:'避免久坐，坐下時不要塌腰。'},
+  '臀中肌':{stretch:'站立，一腳跨到另一腳後方，身體向對側彎，維持20秒。',avoid:'避免單腳站立太久，走路時注意不要歪斜。'},
+  '閉孔內肌':{stretch:'側躺，上側腳彎曲踩在床上，輕輕讓膝蓋往床面靠，維持20秒。',avoid:'避免長時間蹺腳或側坐。'},
+  '閉孔外肌':{stretch:'坐姿，腳踝放在對側膝上，身體前傾，維持20秒。',avoid:'避免過多外旋髖關節的動作。'},
+  '股方肌':{stretch:'同梨狀肌拉伸方式。',avoid:'避免翹腳或過多外旋動作。'},
+  '髖關節前側':{stretch:'弓箭步拉伸，感受髖關節前方拉開，維持20秒。',avoid:'避免過度屈髖的動作，如深蹲、爬高。'},
+  '髖關節外側':{stretch:'躺下，腳彎曲跨過對側腳，輕輕往對側倒，維持20秒。',avoid:'避免側躺壓該側髖，避免側向跳躍動作。'},
+  '髖關節後側':{stretch:'躺下，屈膝抱胸，感受臀部深層拉伸，維持20秒。',avoid:'避免過多深蹲或髖關節過度屈曲。'},
+  '股四頭肌':{stretch:'站立，一手扶牆，對側手抓腳踝往後拉，維持20秒。',avoid:'避免過多跑步或下坡路，上下樓梯時放慢速度。'},
+  '大腿後側肌群':{stretch:'坐在床邊，腳伸直腳跟放地，身體慢慢向前傾，維持20秒。',avoid:'避免突然大步跑或踢腿，熱身要充分。'},
+  '內收肌群':{stretch:'坐在地上，兩腳掌相對，身體輕輕向前傾，維持20秒。',avoid:'避免突然側向移動或劈腿動作。'},
+  '髂脛束':{stretch:'站立，一腳跨到另一腳後方，身體向對側彎，感受大腿外側拉伸，維持20秒。',avoid:'避免長距離跑步或騎車，減少上下坡。'},
+  '筋膜張肌（TFL）':{stretch:'站立，一腳跨到另一腳後方，上身向對側側彎並微旋，維持20秒。',avoid:'避免長時間站立或跑步，側躺時兩膝間夾枕頭。'},
+  '縫匠肌':{stretch:'站立，一腳向後外側延伸，感受大腿前內側拉伸，維持15秒。',avoid:'避免過度外旋髖關節的動作。'},
+  '股薄肌':{stretch:'站立，一腳向外跨，身體往該側側傾，感受大腿內側拉伸，維持20秒。',avoid:'避免突然側向移動。'},
+  '膕肌':{stretch:'坐姿，腿伸直，腳踝向外轉，感受膝蓋後側輕微拉伸，維持15秒。',avoid:'避免突然全力衝刺或急停。'},
+  '腓腸肌':{stretch:'面對牆壁，腳往後踩，腳跟貼地，前傾感受小腿拉伸，維持20秒。',avoid:'避免穿高跟鞋，避免突然加速跑步。'},
+  '比目魚肌':{stretch:'同腓腸肌拉伸，但膝蓋微彎，感受更深的小腿拉伸，維持20秒。',avoid:'避免長時間站立，休息時可以輕鬆踮腳。'},
+  '脛前肌':{stretch:'坐下，腳趾向下壓，感受脛骨前側拉伸，維持15秒。',avoid:'避免長距離健走或爬山後立即休息不拉伸。'},
+  '脛後肌':{stretch:'腳踝向外轉，感受小腿內側深層拉伸，維持15秒。',avoid:'避免長時間站立在硬地板上。'},
+  '腓骨肌群':{stretch:'腳踝向內轉，感受小腿外側拉伸，維持15秒。',avoid:'避免在不平地面行走或跑步。'},
+  '足底筋膜':{stretch:'坐下，用手將腳趾向上拉，感受足底拉伸，維持30秒。早晨起床前先做。',avoid:'避免赤腳走硬地板，穿有支撐的鞋子。'},
+  '趾屈肌群':{stretch:'腳趾用力張開再放鬆，重複10次。',avoid:'避免長時間穿窄頭鞋或高跟鞋。'}
 };
 
-function generateAdvice(muscleList) {
-  if (!muscleList || !muscleList.length) return '';
-  const stretches = [];
-  const avoids = [];
-  const seen = new Set();
-  muscleList.forEach(m => {
-    const key = Object.keys(ADVICE_DB).find(k => m.includes(k));
-    if (key && !seen.has(key)) {
-      seen.add(key);
-      stretches.push(`• ${m}：${ADVICE_DB[key].stretch}`);
-      avoids.push(`• ${ADVICE_DB[key].avoid}`);
-    }
+function generateAdvice(muscleList){
+  if(!muscleList||!muscleList.length) return '';
+  const stretches=[],avoids=[],seen=new Set();
+  muscleList.forEach(m=>{
+    const key=Object.keys(ADVICE_DB).find(k=>m.includes(k));
+    if(key&&!seen.has(key)){ seen.add(key); stretches.push(`• ${m}：${ADVICE_DB[key].stretch}`); avoids.push(`• ${ADVICE_DB[key].avoid}`); }
   });
-  if (!stretches.length) return '';
-  let txt = '🌿 今天調理後的居家保養建議\n\n';
-  txt += '【建議做的拉伸】\n' + stretches.join('\n');
-  txt += '\n\n【暫時避免的動作】\n' + [...new Set(avoids)].join('\n');
-  txt += '\n\n身體需要時間慢慢恢復，拉伸動作請輕柔不要勉強，有任何不適歡迎 LINE 我 🙏';
+  if(!stretches.length) return '';
+  let txt='🌿 今天調理後的居家保養建議\n\n';
+  txt+='【建議做的拉伸】\n'+stretches.join('\n');
+  txt+='\n\n【暫時避免的動作】\n'+[...new Set(avoids)].join('\n');
+  txt+='\n\n身體需要時間慢慢恢復，拉伸動作請輕柔不要勉強，有任何不適歡迎 LINE 我 🙏';
   return txt;
 }
 
-let currentId = null;
-let currentTab = 'overview';
-window.currentId = null;
+let currentId=null,currentTab='overview';
+window.currentId=null;
+function getClients(){ return typeof window._clients==='function'?window._clients():[]; }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2); }
+function initials(name){ return name?name.slice(0,1):'?'; }
+function today(){ return new Date().toISOString().slice(0,10); }
+function todayMMDD(){ const d=new Date(); return `${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function thisWeekMMDDs(){ const days=[]; for(let i=0;i<7;i++){ const d=new Date(); d.setDate(d.getDate()+i); days.push(`${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`); } return days; }
 
-function getClients() { return typeof window._clients === 'function' ? window._clients() : []; }
-function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
-function initials(name) { return name ? name.slice(0,1) : '?'; }
-function today() { return new Date().toISOString().slice(0,10); }
-function todayMMDD() { const d = new Date(); return `${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
-function thisWeekMMDDs() {
-  const days = [];
-  for (let i=0; i<7; i++) {
-    const d = new Date(); d.setDate(d.getDate()+i);
-    days.push(`${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`);
-  }
-  return days;
+function renderDashboard(){
+  const clients=getClients(),tmmd=todayMMDD(),weekDays=thisWeekMMDDs();
+  const bdayToday=clients.filter(c=>c.birthday&&c.birthday.slice(5)===tmmd);
+  const bdayWeek=clients.filter(c=>c.birthday&&weekDays.includes(c.birthday.slice(5))&&c.birthday.slice(5)!==tmmd);
+  let html='';
+  if(bdayToday.length) html+=`<div class="dash-card" style="background:#fff8e8;border:1px solid #f0d080"><div class="dash-label">🎂 今天生日</div><div class="dash-list">${bdayToday.map(c=>`<span style="cursor:pointer;color:var(--accent);font-weight:600" onclick="selectClient('${c.id}')">${c.name}</span>`).join('、')}</div></div>`;
+  if(bdayWeek.length) html+=`<div class="dash-card"><div class="dash-label">🎈 本週生日</div><div class="dash-list">${bdayWeek.map(c=>`<span style="cursor:pointer" onclick="selectClient('${c.id}')">${c.name}（${c.birthday.slice(5)}）</span>`).join('、')}</div></div>`;
+  if(!html) html=`<div style="font-size:13px;color:var(--text-sub);padding:4px 0">今天沒有特別提醒 ✨</div>`;
+  document.getElementById('dashboard').innerHTML=html;
 }
 
-function renderDashboard() {
-  const clients = getClients();
-  const tmmd = todayMMDD();
-  const weekDays = thisWeekMMDDs();
-  const bdayToday = clients.filter(c => c.birthday && c.birthday.slice(5) === tmmd);
-  const bdayWeek = clients.filter(c => c.birthday && weekDays.includes(c.birthday.slice(5)) && c.birthday.slice(5) !== tmmd);
-
-  let html = '';
-  if (bdayToday.length) {
-    html += `<div class="dash-card" style="background:#fff8e8;border:1px solid #f0d080">
-      <div class="dash-label">🎂 今天生日</div>
-      <div class="dash-list">${bdayToday.map(c=>`<span style="cursor:pointer;color:var(--accent);font-weight:600" onclick="selectClient('${c.id}')">${c.name}</span>`).join('、')}</div>
-    </div>`;
-  }
-  if (bdayWeek.length) {
-    html += `<div class="dash-card">
-      <div class="dash-label">🎈 本週生日</div>
-      <div class="dash-list">${bdayWeek.map(c=>`<span style="cursor:pointer" onclick="selectClient('${c.id}')">${c.name}（${c.birthday.slice(5)}）</span>`).join('、')}</div>
-    </div>`;
-  }
-  if (!html) {
-    html = `<div style="font-size:13px;color:var(--text-sub);padding:4px 0">今天沒有特別提醒 ✨</div>`;
-  }
-  document.getElementById('dashboard').innerHTML = html;
-}
-
-function renderList() {
-  const q = (document.getElementById('searchInput')||{value:''}).value.trim().toLowerCase();
-  const list = document.getElementById('clientList');
-  if (!list) return;
-  const clients = getClients();
-  const filtered = q ? clients.filter(c => c.name.toLowerCase().includes(q) || (c.birthday||'').includes(q) || (c.phone||'').includes(q)) : clients;
-  document.getElementById('clientCount').textContent = `${clients.length} 位顧客`;
-  if (!filtered.length) {
-    list.innerHTML = `<div class="empty-list">${q ? '找不到符合的顧客' : '尚無顧客紀錄<br>點「新增」建立第一位'}</div>`;
-    return;
-  }
-  const tmmd = todayMMDD();
-  const sorted = [...filtered].sort((a,b) => a.name.localeCompare(b.name, 'zh-TW'));
-  list.innerHTML = sorted.map(c => {
-    const visits = c.visits || [];
-    const lastVisit = visits.length ? visits[visits.length-1].date : '未有紀錄';
-    const isBday = c.birthday && c.birthday.slice(5) === tmmd;
+function renderList(){
+  const q=(document.getElementById('searchInput')||{value:''}).value.trim().toLowerCase();
+  const list=document.getElementById('clientList');
+  if(!list) return;
+  const clients=getClients();
+  const filtered=q?clients.filter(c=>c.name.toLowerCase().includes(q)||(c.birthday||'').includes(q)||(c.phone||'').includes(q)):clients;
+  document.getElementById('clientCount').textContent=`${clients.length} 位顧客`;
+  if(!filtered.length){ list.innerHTML=`<div class="empty-list">${q?'找不到符合的顧客':'尚無顧客紀錄<br>點「新增」建立第一位'}</div>`; return; }
+  const tmmd=todayMMDD();
+  const sorted=[...filtered].sort((a,b)=>a.name.localeCompare(b.name,'zh-TW'));
+  list.innerHTML=sorted.map(c=>{
+    const visits=c.visits||[],lastVisit=visits.length?visits[visits.length-1].date:'未有紀錄',isBday=c.birthday&&c.birthday.slice(5)===tmmd;
+    const remain=(c.ticketTotal||0)-(c.ticketUsed||0);
     return `<div class="client-item ${c.id===currentId?'active':''}" onclick="selectClient('${c.id}')">
       <div class="name">${c.name}${isBday?' 🎂':''}</div>
       <div class="meta">${c.birthday?`🎂 ${c.birthday}　`:''}${c.gender||''}</div>
       <div class="meta">最後到診：${lastVisit}</div>
       <span class="visit-count">共 ${visits.length} 次</span>
-      ${c.ticketTotal ? `<span class="visit-count" style="margin-left:4px;background:#e8f5ee;color:var(--green)">堂票剩 ${(c.ticketTotal||0)-(c.ticketUsed||0)} 堂</span>` : ''}
+      ${c.ticketTotal?`<span class="visit-count" style="margin-left:4px;background:#e8f5ee;color:var(--green)">堂票剩 ${remain} 堂</span>`:''}
     </div>`;
   }).join('');
 }
 
-function selectClient(id) { currentId = id; window.currentId = id; currentTab = 'overview'; renderList(); renderDetail(); }
+function selectClient(id){ currentId=id; window.currentId=id; currentTab='overview'; renderList(); renderDetail(); }
 
-function renderDetail() {
-  const detail = document.getElementById('detail');
-  const c = getClients().find(x => x.id === currentId);
-  if (!c) { detail.innerHTML = '<div class="detail-placeholder">← 選擇左側顧客查看紀錄</div>'; return; }
-  const visits = c.visits || [];
-  const remain = (c.ticketTotal||0) - (c.ticketUsed||0);
-  detail.innerHTML = `
+function renderDetail(){
+  const detail=document.getElementById('detail');
+  const c=getClients().find(x=>x.id===currentId);
+  if(!c){ detail.innerHTML='<div class="detail-placeholder">← 選擇左側顧客查看紀錄</div>'; return; }
+  const visits=c.visits||[],remain=(c.ticketTotal||0)-(c.ticketUsed||0);
+  detail.innerHTML=`
   <div class="profile-card">
     <div class="avatar">${initials(c.name)}</div>
     <div class="profile-info">
       <h2>${c.name}</h2>
-      <div class="profile-meta">
-        ${c.gender?`性別：${c.gender}　`:''}${c.birthday?`生日：${c.birthday}　`:''}${c.phone?`📞 ${c.phone}`:''}
-        ${c.occupation?`<br>職業：${c.occupation}`:''}${c.notes?`<br>備註：${c.notes}`:''}
-      </div>
+      <div class="profile-meta">${c.gender?`性別：${c.gender}　`:''}${c.birthday?`生日：${c.birthday}　`:''}${c.phone?`📞 ${c.phone}`:''}${c.occupation?`<br>職業：${c.occupation}`:''}${c.notes?`<br>備註：${c.notes}`:''}</div>
     </div>
     <div class="profile-actions">
       <button class="btn-edit" onclick="openEditClientModal('${c.id}')">✏️ 編輯</button>
       <button class="btn-delete" onclick="deleteClient('${c.id}')">刪除</button>
     </div>
   </div>
-
-  <!-- 套票 -->
-  ${c.ticketTotal ? `
-  <div class="ticket-bar">
-    <div class="ticket-info">
-      <div class="ticket-remain">${remain} 堂</div>
-      <div class="ticket-total">剩餘堂數（共購 ${c.ticketTotal} 堂，已用 ${c.ticketUsed||0} 堂）</div>
-    </div>
-    <button class="btn-ticket" onclick="useTicket('${c.id}')">本次扣1堂</button>
-    <button class="btn-edit" onclick="openTicketModal('${c.id}')">編輯</button>
-  </div>` : `<button class="btn-add-visit" style="margin-bottom:14px" onclick="openTicketModal('${c.id}')">🎟 設定套票／儲值堂數</button>`}
-
+  ${c.ticketTotal?`<div class="ticket-bar"><div class="ticket-info"><div class="ticket-remain">${remain} 堂</div><div class="ticket-total">剩餘堂數（共購 ${c.ticketTotal} 堂，已用 ${c.ticketUsed||0} 堂）</div></div><button class="btn-ticket" onclick="useTicket('${c.id}')">本次扣1堂</button><button class="btn-edit" onclick="openTicketModal('${c.id}')">編輯</button></div>`:`<button class="btn-add-visit" style="margin-bottom:14px" onclick="openTicketModal('${c.id}')">🎟 設定套票／儲值堂數</button>`}
   <div class="tabs">
     <button class="tab ${currentTab==='overview'?'active':''}" onclick="switchTab('overview')">身體概況</button>
     <button class="tab ${currentTab==='visits'?'active':''}" onclick="switchTab('visits')">到診紀錄（${visits.length}）</button>
   </div>
-  ${currentTab==='overview' ? renderOverview(c) : renderVisits(c)}`;
+  ${currentTab==='overview'?renderOverview(c):renderVisits(c)}`;
 }
 
-function switchTab(tab) { currentTab = tab; renderDetail(); }
+function switchTab(tab){ currentTab=tab; renderDetail(); }
 
-function renderTagList(arr, cls='') {
-  if (!arr||!arr.length) return '<span style="color:var(--text-sub)">未記錄</span>';
-  return `<div class="tags">${arr.map(t=>`<span class="tag ${cls}">${t}</span>`).join('')}</div>`;
-}
+function renderTagList(arr,cls=''){ if(!arr||!arr.length) return '<span style="color:var(--text-sub)">未記錄</span>'; return `<div class="tags">${arr.map(t=>`<span class="tag ${cls}">${t}</span>`).join('')}</div>`; }
 
-function renderOverview(c) {
+function renderOverview(c){
   return `
   <div class="section-card">
-    <div class="section-title">骨盆 & 脊椎</div>
+    <div class="section-title">骨盆狀態</div>
     <div class="section-body">
-      <div class="findings-grid">
-        <div class="finding-item"><div class="finding-label">骨盆偏移</div><div class="finding-value">${renderTagList(c.pelvis,'red')}</div></div>
-        <div class="finding-item"><div class="finding-label">脊椎補充</div><div class="finding-value">${c.spineNote||'<span style="color:var(--text-sub)">未記錄</span>'}</div></div>
-      </div>
+      <div class="finding-label" style="margin-bottom:6px">骨盆偏移</div>
+      <div class="finding-value">${renderTagList(c.pelvis,'red')}</div>
+      ${c.spineNote?`<div style="margin-top:10px"><div class="finding-label">脊椎補充</div><div style="font-size:14px;margin-top:4px">${c.spineNote}</div></div>`:''}
     </div>
   </div>
   <div class="section-card">
-    <div class="section-title">緊繃肌群</div>
+    <div class="section-title">緊繃肌群（長期紀錄）</div>
     <div class="section-body">
-      ${Object.keys(MUSCLE_GROUPS).map(g=>{
-        const sel=(c.tightMuscles||[]).filter(m=>MUSCLE_GROUPS[g].includes(m));
-        if(!sel.length) return '';
-        return `<div style="margin-bottom:10px"><div class="finding-label" style="margin-bottom:5px">${g}</div><div class="tags">${sel.map(m=>`<span class="tag orange">${m}</span>`).join('')}</div></div>`;
-      }).join('')}
+      ${Object.keys(MUSCLE_GROUPS).map(g=>{ const sel=(c.tightMuscles||[]).filter(m=>MUSCLE_GROUPS[g].includes(m)); if(!sel.length) return ''; return `<div style="margin-bottom:10px"><div class="finding-label" style="margin-bottom:5px">${g}</div><div class="tags">${sel.map(m=>`<span class="tag orange">${m}</span>`).join('')}</div></div>`; }).join('')}
       ${!(c.tightMuscles||[]).length?'<span style="color:var(--text-sub)">未記錄</span>':''}
       ${c.otherMuscle?`<div style="margin-top:8px"><div class="finding-label">其他補充</div><div style="font-size:14px;margin-top:4px">${c.otherMuscle}</div></div>`:''}
-    </div>
-  </div>
-  <div class="section-card">
-    <div class="section-title">主訴與疼痛來源</div>
-    <div class="section-body">
-      <div class="findings-grid">
-        <div class="finding-item full"><div class="finding-label">客人主訴</div><div class="finding-value">${c.chiefComplaint||'<span style="color:var(--text-sub)">未記錄</span>'}</div></div>
-        <div class="finding-item full">
-          <div class="finding-label">疼痛來源（你的判斷）</div>
-          <div class="finding-value" style="margin-top:4px">
-            ${renderTagList(c.painSource,'purple')}
-            ${c.painSourceNote?`<div style="margin-top:8px;font-size:14px">${c.painSourceNote}</div>`:''}
-          </div>
-        </div>
-      </div>
+      ${c.chiefComplaint?`<div style="margin-top:10px"><div class="finding-label">主要主訴</div><div style="font-size:14px;margin-top:4px">${c.chiefComplaint}</div></div>`:''}
     </div>
   </div>
   <button class="btn-add-visit" onclick="openEditOverviewModal('${c.id}')">✏️ 更新身體概況</button>`;
 }
 
-function renderVisits(c) {
+function renderVisits(c){
   const visits=[...(c.visits||[])].reverse();
   return `
   <button class="btn-add-visit" onclick="openAddVisitModal('${c.id}')">＋ 新增本次到診紀錄</button>
@@ -594,171 +432,120 @@ function renderVisits(c) {
           ${v.treatment?`<div class="visit-block"><div class="visit-block-label">本次處理</div><div class="visit-block-val">${v.treatment}</div></div>`:''}
           ${v.result?`<div class="visit-block"><div class="visit-block-label">修完狀況</div><div class="visit-block-val">${v.result}</div></div>`:''}
           ${v.nextPlan?`<div class="visit-block"><div class="visit-block-label">下次計畫</div><div class="visit-block-val">${v.nextPlan}</div></div>`:''}
-          ${v.advice?`<div class="visit-block" style="flex-basis:100%"><div class="visit-block-label">居家建議</div><div class="visit-block-val" style="white-space:pre-wrap;font-size:12px;color:var(--green)">${v.advice}</div></div>`:''}
+          ${v.advice?`<div class="visit-block" style="flex-basis:100%"><div class="visit-block-label" style="color:var(--green)">居家建議</div><div class="visit-block-val" style="white-space:pre-wrap;font-size:12px;color:var(--green)">${v.advice}</div></div>`:''}
         </div>
       </div>`).join('')}
   </div></div>`;
 }
 
-// ── Report Card ──
-function openReportCard(clientId, visitId) {
-  const c = getClients().find(x=>x.id===clientId);
-  const v = (c.visits||[]).find(x=>x.id===visitId);
-  if (!v) return;
-  const pelvisTags = v.pelvis ? v.pelvis.split('、').filter(Boolean) : [];
-  const muscleTags = v.tightMuscles ? v.tightMuscles.split('、').filter(Boolean) : [];
-  const sourceTags = v.painSource ? v.painSource.split('、').filter(Boolean) : [];
-  const pelvisMap = {'左高右低':'骨盆往左邊偏高','右高左低':'骨盆往右邊偏高','前傾':'骨盆前傾（重心前移）','後傾':'骨盆後傾（塌腰）','左旋':'骨盆往左旋轉','右旋':'骨盆往右旋轉','無明顯偏移':'骨盆目前無明顯偏移'};
-  const pelvisHuman = pelvisTags.map(p => pelvisMap[p]||p);
-  openModal(`
-    <h3>本次評估報告卡</h3>
-    <p class="hint-text">截圖這張卡片傳給客人 LINE 📸</p>
+function openReportCard(clientId,visitId){
+  const c=getClients().find(x=>x.id===clientId),v=(c.visits||[]).find(x=>x.id===visitId);
+  if(!v) return;
+  const pelvisTags=v.pelvis?v.pelvis.split('、').filter(Boolean):[];
+  const muscleTags=v.tightMuscles?v.tightMuscles.split('、').filter(Boolean):[];
+  const sourceTags=v.painSource?v.painSource.split('、').filter(Boolean):[];
+  const pelvisMap={'左高右低':'骨盆往左邊偏高','右高左低':'骨盆往右邊偏高','前傾':'骨盆前傾（重心前移）','後傾':'骨盆後傾（塌腰）','左旋':'骨盆往左旋轉','右旋':'骨盆往右旋轉','無明顯偏移':'骨盆目前無明顯偏移'};
+  const pelvisHuman=pelvisTags.map(p=>pelvisMap[p]||p);
+  openModal(`<h3>本次評估報告卡</h3><p class="hint-text">截圖傳給客人 LINE 📸</p>
     <div class="report-card">
-      <div class="report-header">
-        <div class="report-studio">顯德筋絡調理室</div>
-        <div class="report-title">本次調理報告</div>
-        <div class="report-date">${v.date}</div>
-        <div class="report-name">📋 ${c.name} 您好</div>
-      </div>
+      <div class="report-header"><div class="report-studio">顯德筋絡調理室</div><div class="report-title">本次調理報告</div><div class="report-date">${v.date}</div><div class="report-name">📋 ${c.name} 您好</div></div>
       ${v.chiefComplaint?`<div class="report-section"><div class="report-section-title">您這次說的不舒服</div><div class="report-highlight">${v.chiefComplaint}</div></div>`:''}
       ${pelvisHuman.length?`<div class="report-section"><div class="report-section-title">骨盆狀態</div>${pelvisHuman.map(p=>`<div class="report-row"><div class="report-dot"></div><div class="report-text">${p}</div></div>`).join('')}</div>`:''}
       ${muscleTags.length?`<div class="report-section"><div class="report-section-title">今天比較緊繃的區域</div>${muscleTags.map(m=>`<div class="report-row"><div class="report-dot"></div><div class="report-text">${m}</div></div>`).join('')}</div>`:''}
       ${sourceTags.length?`<div class="report-section"><div class="report-section-title">找到的問題根源</div>${sourceTags.map(s=>`<div class="report-row"><div class="report-dot"></div><div class="report-text">${s}</div></div>`).join('')}</div>`:''}
       ${v.result?`<div class="report-section"><div class="report-section-title">調理後的狀況</div><div class="report-highlight">${v.result}</div></div>`:''}
       ${v.nextPlan?`<div class="report-tip">💡 <strong>下次建議</strong><br>${v.nextPlan}</div>`:''}
-      ${v.advice?`<div class="report-advice">🌿 <strong>居家保養建議</strong><br><br>${v.advice.replace(/\n/g,'<br>')}</div>`:''}
+      ${v.advice?`<div class="report-advice">🌿 <strong>居家保養建議</strong><br><br>${v.advice}</div>`:''}
       <div class="report-footer">身體的改變需要時間，每一次調理都是一步。<br><br><strong>有任何問題歡迎 LINE 我 🙏</strong></div>
     </div>
     <div class="modal-actions"><button class="btn-cancel" onclick="closeModal()">關閉</button></div>`);
 }
 
-// ── Ticket ──
-function openTicketModal(id) {
-  const c = getClients().find(x=>x.id===id);
+function openTicketModal(id){
+  const c=getClients().find(x=>x.id===id);
   openModal(`<h3>套票／堂數設定</h3>
     <div class="form-row-2">
       <div class="form-row"><label>購買總堂數</label><input id="t-total" type="number" min="0" value="${c.ticketTotal||0}"></div>
       <div class="form-row"><label>已使用堂數</label><input id="t-used" type="number" min="0" value="${c.ticketUsed||0}"></div>
     </div>
-    <div class="form-row"><label>備註（套票類型等）</label><input id="t-note" value="${c.ticketNote||''}" placeholder="例：10堂優惠券、儲值3000…"></div>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal()">取消</button>
-      <button class="btn-save" onclick="saveTicket('${id}')">儲存</button>
-    </div>`);
+    <div class="form-row"><label>備註</label><input id="t-note" value="${c.ticketNote||''}" placeholder="例：10堂優惠券…"></div>
+    <div class="modal-actions"><button class="btn-cancel" onclick="closeModal()">取消</button><button class="btn-save" onclick="saveTicket('${id}')">儲存</button></div>`);
 }
-async function saveTicket(id) {
-  const c = getClients().find(x=>x.id===id);
-  c.ticketTotal = parseInt(document.getElementById('t-total').value)||0;
-  c.ticketUsed = parseInt(document.getElementById('t-used').value)||0;
-  c.ticketNote = document.getElementById('t-note').value;
+async function saveTicket(id){
+  const c=getClients().find(x=>x.id===id);
+  c.ticketTotal=parseInt(document.getElementById('t-total').value)||0;
+  c.ticketUsed=parseInt(document.getElementById('t-used').value)||0;
+  c.ticketNote=document.getElementById('t-note').value;
   await window.saveClient(c); closeModal(); renderDetail();
 }
-async function useTicket(id) {
-  const c = getClients().find(x=>x.id===id);
-  const remain = (c.ticketTotal||0) - (c.ticketUsed||0);
-  if (remain <= 0) { alert('堂數已用完，請先補充套票。'); return; }
-  if (!confirm(`確定扣除 ${c.name} 1堂？剩餘 ${remain-1} 堂。`)) return;
-  c.ticketUsed = (c.ticketUsed||0) + 1;
+async function useTicket(id){
+  const c=getClients().find(x=>x.id===id);
+  const remain=(c.ticketTotal||0)-(c.ticketUsed||0);
+  if(remain<=0){ alert('堂數已用完，請先補充套票。'); return; }
+  if(!confirm(`確定扣除 ${c.name} 1堂？剩餘 ${remain-1} 堂。`)) return;
+  c.ticketUsed=(c.ticketUsed||0)+1;
   await window.saveClient(c); renderDetail();
 }
 
-// ── Modals ──
-function openModal(html) { document.getElementById('modalContent').innerHTML = html; document.getElementById('modalBg').style.display = 'flex'; }
-function closeModal() { document.getElementById('modalBg').style.display = 'none'; }
-function closeModalOnBg(e) { if (e.target.id==='modalBg') closeModal(); }
-function buildCheckboxes(name, options, selected=[]) {
-  return options.map(o => {
-    const checked = selected.includes(o);
-    return `<label class="cb-item ${checked?'checked':''}" onclick="toggleCb(this)"><input type="checkbox" name="${name}" value="${o}" ${checked?'checked':''}>${o}</label>`;
-  }).join('');
-}
-function toggleCb(el) { const inp=el.querySelector('input'); inp.checked=!inp.checked; el.classList.toggle('checked',inp.checked); }
-function getChecked(name) { return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(i=>i.value); }
+function openModal(html){ document.getElementById('modalContent').innerHTML=html; document.getElementById('modalBg').style.display='flex'; }
+function closeModal(){ document.getElementById('modalBg').style.display='none'; }
+function closeModalOnBg(e){ if(e.target.id==='modalBg') closeModal(); }
+function buildCheckboxes(name,options,selected=[]){ return options.map(o=>{ const checked=selected.includes(o); return `<label class="cb-item ${checked?'checked':''}" onclick="toggleCb(this)"><input type="checkbox" name="${name}" value="${o}" ${checked?'checked':''}>${o}</label>`; }).join(''); }
+function toggleCb(el){ const inp=el.querySelector('input'); inp.checked=!inp.checked; el.classList.toggle('checked',inp.checked); }
+function getChecked(name){ return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(i=>i.value); }
 
-function openNewClientModal() {
+function openNewClientModal(){
   openModal(`<h3>新增顧客</h3>
-    <div class="form-row-2">
-      <div class="form-row"><label>姓名 *</label><input id="f-name" placeholder="例：陳小明"></div>
-      <div class="form-row"><label>生日</label><input id="f-bday" type="date"></div>
-    </div>
-    <div class="form-row-2">
-      <div class="form-row"><label>性別</label><select id="f-gender"><option value="">未填</option><option>男</option><option>女</option><option>其他</option></select></div>
-      <div class="form-row"><label>電話</label><input id="f-phone" placeholder="09xx-xxxxxx"></div>
-    </div>
+    <div class="form-row-2"><div class="form-row"><label>姓名 *</label><input id="f-name" placeholder="例：陳小明"></div><div class="form-row"><label>生日</label><input id="f-bday" type="date"></div></div>
+    <div class="form-row-2"><div class="form-row"><label>性別</label><select id="f-gender"><option value="">未填</option><option>男</option><option>女</option><option>其他</option></select></div><div class="form-row"><label>電話</label><input id="f-phone" placeholder="09xx-xxxxxx"></div></div>
     <div class="form-row"><label>職業</label><input id="f-job" placeholder="例：上班族、工人…"></div>
     <div class="form-row"><label>備註</label><textarea id="f-notes" placeholder="過去病史、特殊情況…"></textarea></div>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal()">取消</button>
-      <button class="btn-save" onclick="saveNewClient()">儲存</button>
-    </div>`);
+    <div class="modal-actions"><button class="btn-cancel" onclick="closeModal()">取消</button><button class="btn-save" onclick="saveNewClient()">儲存</button></div>`);
 }
-async function saveNewClient() {
-  const name = document.getElementById('f-name').value.trim();
-  if (!name) { alert('請輸入姓名'); return; }
-  const c = { id: uid(), name, birthday: document.getElementById('f-bday').value, gender: document.getElementById('f-gender').value, phone: document.getElementById('f-phone').value, occupation: document.getElementById('f-job').value, notes: document.getElementById('f-notes').value, visits: [], pelvis: [], tightMuscles: [], painSource: [] };
-  await window.saveClient(c); closeModal(); currentId = c.id; window.currentId = c.id; renderList(); renderDetail();
+async function saveNewClient(){
+  const name=document.getElementById('f-name').value.trim();
+  if(!name){ alert('請輸入姓名'); return; }
+  const c={id:uid(),name,birthday:document.getElementById('f-bday').value,gender:document.getElementById('f-gender').value,phone:document.getElementById('f-phone').value,occupation:document.getElementById('f-job').value,notes:document.getElementById('f-notes').value,visits:[],pelvis:[],tightMuscles:[],painSource:[]};
+  await window.saveClient(c); closeModal(); currentId=c.id; window.currentId=c.id; renderList(); renderDetail();
 }
 
-function openEditClientModal(id) {
-  const c = getClients().find(x=>x.id===id);
+function openEditClientModal(id){
+  const c=getClients().find(x=>x.id===id);
   openModal(`<h3>編輯顧客資料</h3>
-    <div class="form-row-2">
-      <div class="form-row"><label>姓名 *</label><input id="f-name" value="${c.name}"></div>
-      <div class="form-row"><label>生日</label><input id="f-bday" type="date" value="${c.birthday||''}"></div>
-    </div>
-    <div class="form-row-2">
-      <div class="form-row"><label>性別</label><select id="f-gender"><option value="">未填</option><option ${c.gender==='男'?'selected':''}>男</option><option ${c.gender==='女'?'selected':''}>女</option><option ${c.gender==='其他'?'selected':''}>其他</option></select></div>
-      <div class="form-row"><label>電話</label><input id="f-phone" value="${c.phone||''}"></div>
-    </div>
+    <div class="form-row-2"><div class="form-row"><label>姓名 *</label><input id="f-name" value="${c.name}"></div><div class="form-row"><label>生日</label><input id="f-bday" type="date" value="${c.birthday||''}"></div></div>
+    <div class="form-row-2"><div class="form-row"><label>性別</label><select id="f-gender"><option value="">未填</option><option ${c.gender==='男'?'selected':''}>男</option><option ${c.gender==='女'?'selected':''}>女</option><option ${c.gender==='其他'?'selected':''}>其他</option></select></div><div class="form-row"><label>電話</label><input id="f-phone" value="${c.phone||''}"></div></div>
     <div class="form-row"><label>職業</label><input id="f-job" value="${c.occupation||''}"></div>
     <div class="form-row"><label>備註</label><textarea id="f-notes">${c.notes||''}</textarea></div>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal()">取消</button>
-      <button class="btn-save" onclick="saveEditClient('${id}')">儲存</button>
-    </div>`);
+    <div class="modal-actions"><button class="btn-cancel" onclick="closeModal()">取消</button><button class="btn-save" onclick="saveEditClient('${id}')">儲存</button></div>`);
 }
-async function saveEditClient(id) {
-  const c = getClients().find(x=>x.id===id);
-  c.name=document.getElementById('f-name').value.trim()||c.name;
-  c.birthday=document.getElementById('f-bday').value;
-  c.gender=document.getElementById('f-gender').value;
-  c.phone=document.getElementById('f-phone').value;
-  c.occupation=document.getElementById('f-job').value;
-  c.notes=document.getElementById('f-notes').value;
+async function saveEditClient(id){
+  const c=getClients().find(x=>x.id===id);
+  c.name=document.getElementById('f-name').value.trim()||c.name; c.birthday=document.getElementById('f-bday').value; c.gender=document.getElementById('f-gender').value; c.phone=document.getElementById('f-phone').value; c.occupation=document.getElementById('f-job').value; c.notes=document.getElementById('f-notes').value;
   await window.saveClient(c); closeModal(); renderList(); renderDetail();
 }
 
-function openEditOverviewModal(id) {
-  const c = getClients().find(x=>x.id===id);
-  const mCb = Object.entries(MUSCLE_GROUPS).map(([g,opts])=>`<div class="divider">${g}</div><div class="form-row"><div class="checkbox-group">${buildCheckboxes('muscles',opts,c.tightMuscles||[])}</div></div>`).join('');
-  const sCb = Object.entries(SOURCE_OPTIONS).map(([g,opts])=>`<div class="divider">${g}</div><div class="form-row"><div class="checkbox-group">${buildCheckboxes('source',opts,c.painSource||[])}</div></div>`).join('');
+function openEditOverviewModal(id){
+  const c=getClients().find(x=>x.id===id);
+  const mCb=Object.entries(MUSCLE_GROUPS).map(([g,opts])=>`<div class="divider">${g}</div><div class="form-row"><div class="checkbox-group">${buildCheckboxes('muscles',opts,c.tightMuscles||[])}</div></div>`).join('');
   openModal(`<h3>更新身體概況</h3>
     <div class="divider">骨盆偏移</div>
     <div class="form-row"><div class="checkbox-group">${buildCheckboxes('pelvis',PELVIS_OPTIONS,c.pelvis||[])}</div></div>
     <div class="form-row"><label>脊椎補充說明</label><input id="f-spine" value="${c.spineNote||''}" placeholder="例：腰椎往左偏…"></div>
     <br><div style="font-size:13px;font-weight:700;color:var(--accent)">▍緊繃肌群</div>${mCb}
     <div class="form-row"><label>其他緊繃部位（自填）</label><input id="f-other-muscle" value="${c.otherMuscle||''}" placeholder="其他未列出的部位…"></div>
-    <div class="form-row"><label>客人主訴</label><textarea id="f-complaint">${c.chiefComplaint||''}</textarea></div>
-    <br><div style="font-size:13px;font-weight:700;color:var(--accent)">▍疼痛真正來源</div>${sCb}
-    <div class="form-row"><label>疼痛來源補充說明</label><textarea id="f-source-note">${c.painSourceNote||''}</textarea></div>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal()">取消</button>
-      <button class="btn-save" onclick="saveOverview('${id}')">儲存</button>
-    </div>`);
+    <div class="form-row"><label>主要主訴（長期）</label><textarea id="f-complaint">${c.chiefComplaint||''}</textarea></div>
+    <div class="modal-actions"><button class="btn-cancel" onclick="closeModal()">取消</button><button class="btn-save" onclick="saveOverview('${id}')">儲存</button></div>`);
 }
-async function saveOverview(id) {
-  const c = getClients().find(x=>x.id===id);
-  c.pelvis=getChecked('pelvis'); c.tightMuscles=getChecked('muscles'); c.painSource=getChecked('source');
-  c.spineNote=document.getElementById('f-spine').value;
-  c.otherMuscle=document.getElementById('f-other-muscle').value;
-  c.chiefComplaint=document.getElementById('f-complaint').value;
-  c.painSourceNote=document.getElementById('f-source-note').value;
+async function saveOverview(id){
+  const c=getClients().find(x=>x.id===id);
+  c.pelvis=getChecked('pelvis'); c.tightMuscles=getChecked('muscles');
+  c.spineNote=document.getElementById('f-spine').value; c.otherMuscle=document.getElementById('f-other-muscle').value; c.chiefComplaint=document.getElementById('f-complaint').value;
   await window.saveClient(c); closeModal(); renderDetail();
 }
 
-function openAddVisitModal(id) {
-  const mCb = Object.entries(MUSCLE_GROUPS).map(([g,opts])=>`<div class="divider">${g}</div><div class="form-row"><div class="checkbox-group">${buildCheckboxes('v-muscles',opts,[])}</div></div>`).join('');
-  const sCb = Object.entries(SOURCE_OPTIONS).map(([g,opts])=>`<div class="divider">${g}</div><div class="form-row"><div class="checkbox-group">${buildCheckboxes('v-source',opts,[])}</div></div>`).join('');
+function openAddVisitModal(id){
+  const mCb=Object.entries(MUSCLE_GROUPS).map(([g,opts])=>`<div class="divider">${g}</div><div class="form-row"><div class="checkbox-group">${buildCheckboxes('v-muscles',opts,[])}</div></div>`).join('');
+  const psCb=Object.entries(PAIN_SOURCE_GROUPS).map(([g,opts])=>`<div class="divider">${g}</div><div class="form-row"><div class="checkbox-group">${buildCheckboxes('v-source',opts,[])}</div></div>`).join('');
   openModal(`<h3>新增到診紀錄</h3>
     <div class="form-row"><label>到診日期 *</label><input id="v-date" type="date" value="${today()}"></div>
     <div class="form-row"><label>本次主訴</label><textarea id="v-complaint" placeholder="客人這次說哪裡不舒服…"></textarea></div>
@@ -767,7 +554,7 @@ function openAddVisitModal(id) {
     <div class="form-row"><label>骨盆補充</label><input id="v-pelvis-note" placeholder="改善中、比上次好…"></div>
     <br><div style="font-size:13px;font-weight:700;color:var(--accent)">▍本次緊繃肌群</div>${mCb}
     <div class="form-row"><label>其他緊繃（自填）</label><input id="v-other-muscle" placeholder="其他部位…"></div>
-    <br><div style="font-size:13px;font-weight:700;color:var(--accent)">▍本次疼痛來源判斷</div>${sCb}
+    <br><div style="font-size:13px;font-weight:700;color:var(--accent)">▍本次疼痛真正來源</div>${psCb}
     <div class="form-row"><label>來源補充說明</label><textarea id="v-source-note" placeholder="詳細描述…"></textarea></div>
     <div class="form-row"><label>本次處理手法</label><textarea id="v-treatment" placeholder="做了什麼、處理了哪個區域…"></textarea></div>
     <div class="form-row"><label>修完後狀況</label><textarea id="v-result" placeholder="當場回饋、症狀改善程度…"></textarea></div>
@@ -775,71 +562,45 @@ function openAddVisitModal(id) {
     <div id="advice-area"></div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal()">取消</button>
-      <button class="btn-save" style="background:var(--green)" onclick="previewAdvice('${id}')">生成居家建議 →</button>
-      <button class="btn-save" onclick="saveVisit('${id}')">直接儲存</button>
+      <button class="btn-save" style="background:var(--green)" onclick="previewAdvice('${id}')">🌿 生成居家建議</button>
+      <button class="btn-save" onclick="saveVisit('${id}')">儲存</button>
     </div>`);
 }
 
-function previewAdvice(id) {
-  const muscles = getChecked('v-muscles');
-  const other = document.getElementById('v-other-muscle').value;
-  const all = [...muscles, ...(other ? other.split('、') : [])].filter(Boolean);
-  const advice = generateAdvice(all);
-  const area = document.getElementById('advice-area');
-  if (!advice) { area.innerHTML = '<div style="color:var(--text-sub);font-size:13px;margin-top:10px">沒有勾選到有建議資料的肌群，請直接儲存。</div>'; return; }
-  area.innerHTML = `
-    <div class="advice-box">
-      <div class="advice-title">🌿 自動生成的居家建議（可修改）</div>
-      <textarea class="advice-content" id="advice-text" style="width:100%;min-height:200px;border:none;background:transparent;font-size:13px;line-height:1.8;resize:vertical">${advice}</textarea>
-      <button class="btn-copy" onclick="copyAdvice()">複製文字</button>
-    </div>`;
+function previewAdvice(id){
+  const muscles=getChecked('v-muscles'),other=document.getElementById('v-other-muscle').value;
+  const all=[...muscles,...(other?other.split('、'):[])].filter(Boolean);
+  const advice=generateAdvice(all);
+  const area=document.getElementById('advice-area');
+  if(!advice){ area.innerHTML='<div style="color:var(--text-sub);font-size:13px;margin-top:10px">沒有勾選到有建議資料的肌群，請直接儲存。</div>'; return; }
+  area.innerHTML=`<div class="advice-box"><div class="advice-title">🌿 自動生成的居家建議（可修改）</div><textarea id="advice-text" style="width:100%;min-height:200px;border:none;background:transparent;font-size:13px;line-height:1.8;resize:vertical;outline:none">${advice}</textarea><button class="btn-copy" onclick="copyAdvice()">複製文字傳 LINE</button></div>`;
 }
 
-function copyAdvice() {
-  const t = document.getElementById('advice-text');
-  if (!t) return;
-  navigator.clipboard.writeText(t.value).then(()=>alert('已複製！可以直接貼到 LINE 傳給客人'));
-}
+function copyAdvice(){ const t=document.getElementById('advice-text'); if(!t) return; navigator.clipboard.writeText(t.value).then(()=>alert('已複製！可以直接貼到 LINE 傳給客人')); }
 
-async function saveVisit(id) {
-  const c = getClients().find(x=>x.id===id);
-  const date = document.getElementById('v-date').value;
-  if (!date) { alert('請選擇日期'); return; }
-  if (!c.visits) c.visits=[];
-  const pelvis=getChecked('v-pelvis');
-  const pelvisNote=document.getElementById('v-pelvis-note').value;
-  const tightMuscles=getChecked('v-muscles');
-  const otherMuscle=document.getElementById('v-other-muscle').value;
-  const painSource=getChecked('v-source');
-  const sourceNote=document.getElementById('v-source-note').value;
-  const adviceEl = document.getElementById('advice-text');
-  c.visits.push({
-    id:uid(), date,
-    chiefComplaint:document.getElementById('v-complaint').value,
-    pelvis:[...pelvis,pelvisNote].filter(Boolean).join('、'),
-    tightMuscles:[...tightMuscles,otherMuscle].filter(Boolean).join('、'),
-    painSource:[...painSource,sourceNote].filter(Boolean).join('、'),
-    treatment:document.getElementById('v-treatment').value,
-    result:document.getElementById('v-result').value,
-    nextPlan:document.getElementById('v-next').value,
-    advice: adviceEl ? adviceEl.value : '',
-  });
+async function saveVisit(id){
+  const c=getClients().find(x=>x.id===id);
+  const date=document.getElementById('v-date').value;
+  if(!date){ alert('請選擇日期'); return; }
+  if(!c.visits) c.visits=[];
+  const pelvis=getChecked('v-pelvis'),pelvisNote=document.getElementById('v-pelvis-note').value;
+  const tightMuscles=getChecked('v-muscles'),otherMuscle=document.getElementById('v-other-muscle').value;
+  const painSource=getChecked('v-source'),sourceNote=document.getElementById('v-source-note').value;
+  const adviceEl=document.getElementById('advice-text');
+  c.visits.push({ id:uid(), date, chiefComplaint:document.getElementById('v-complaint').value, pelvis:[...pelvis,pelvisNote].filter(Boolean).join('、'), tightMuscles:[...tightMuscles,otherMuscle].filter(Boolean).join('、'), painSource:[...painSource,sourceNote].filter(Boolean).join('、'), treatment:document.getElementById('v-treatment').value, result:document.getElementById('v-result').value, nextPlan:document.getElementById('v-next').value, advice:adviceEl?adviceEl.value:'' });
   c.visits.sort((a,b)=>a.date.localeCompare(b.date));
   await window.saveClient(c); closeModal(); currentTab='visits'; renderDetail();
 }
 
-async function deleteVisit(clientId, visitId) {
-  if (!confirm('確定要刪除這筆到診紀錄？')) return;
-  const c = getClients().find(x=>x.id===clientId);
-  c.visits = c.visits.filter(v=>v.id!==visitId);
+async function deleteVisit(clientId,visitId){
+  if(!confirm('確定要刪除這筆到診紀錄？')) return;
+  const c=getClients().find(x=>x.id===clientId); c.visits=c.visits.filter(v=>v.id!==visitId);
   await window.saveClient(c); renderDetail();
 }
-
-async function deleteClient(id) {
-  const c = getClients().find(x=>x.id===id);
-  if (!confirm(`確定要刪除「${c.name}」的所有紀錄？此動作無法還原。`)) return;
-  await window.removeClient(id);
-  currentId=null; window.currentId=null; renderDetail();
+async function deleteClient(id){
+  const c=getClients().find(x=>x.id===id);
+  if(!confirm(`確定要刪除「${c.name}」的所有紀錄？此動作無法還原。`)) return;
+  await window.removeClient(id); currentId=null; window.currentId=null; renderDetail();
 }
 </script>
 </body>
