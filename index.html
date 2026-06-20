@@ -417,6 +417,7 @@ function renderVisits(c){
           <span>${v.date}</span>
           <span style="font-size:11px;background:var(--tag-bg);padding:2px 8px;border-radius:10px;color:var(--accent)">第 ${visits.length-i} 次</span>
           <button class="btn-report" onclick="openReportCard('${c.id}','${v.id}')">📋 報告卡</button>
+          <button class="btn-report" style="color:var(--green);border-color:var(--green)" onclick="openEditVisitModal('${c.id}','${v.id}')">✏️ 編輯</button>
           <button onclick="deleteVisit('${c.id}','${v.id}')" style="margin-left:auto;background:none;border:none;color:var(--text-sub);cursor:pointer;font-size:12px">刪除</button>
         </div>
         <div class="visit-row">
@@ -578,6 +579,56 @@ async function saveVisit(id){
   const painSource=getChecked('v-source');
   const adviceEl=document.getElementById('advice-text');
   c.visits.push({id:uid(),date,chiefComplaint:document.getElementById('v-complaint').value,pelvis:[...pelvis,pelvisNote].filter(Boolean).join('、'),tightMuscles:[...tightMuscles,otherMuscle].filter(Boolean).join('、'),painSource:painSource.join('、'),treatment:document.getElementById('v-treatment').value,result:document.getElementById('v-result').value,advice:adviceEl?adviceEl.value:''});
+  c.visits.sort((a,b)=>a.date.localeCompare(b.date));
+  await window.saveClient(c); closeModal(); currentTab='visits'; renderDetail();
+}
+
+function openEditVisitModal(clientId,visitId){
+  const c=getClients().find(x=>x.id===clientId);
+  const v=(c.visits||[]).find(x=>x.id===visitId);
+  if(!v) return;
+  const selMuscles=v.tightMuscles?v.tightMuscles.split('、').filter(Boolean):[];
+  const selSource=v.painSource?v.painSource.split('、').filter(Boolean):[];
+  const selPelvis=v.pelvis?v.pelvis.split('、').filter(x=>PELVIS_OPTIONS.includes(x)):[];
+  const pelvisNote=v.pelvis?v.pelvis.split('、').filter(x=>!PELVIS_OPTIONS.includes(x)).join('、'):'';
+  const mCb=Object.entries(MUSCLE_GROUPS).map(([g,opts])=>`<div class="divider">${g}</div><div class="form-row"><div class="checkbox-group">${buildCheckboxes('ev-muscles',opts,selMuscles)}</div></div>`).join('');
+  const psCb=Object.entries(PAIN_SOURCE_GROUPS).map(([g,opts])=>`<div class="divider">${g}</div><div class="form-row"><div class="checkbox-group">${buildCheckboxes('ev-source',opts,selSource)}</div></div>`).join('');
+  openModal(`<h3>編輯到診紀錄</h3>
+    <div class="form-row"><label>到診日期 *</label><input id="ev-date" type="date" value="${v.date}"></div>
+    <div class="form-row"><label>本次主訴</label><textarea id="ev-complaint">${v.chiefComplaint||''}</textarea></div>
+    <div class="divider">骨盆（本次觀察）</div>
+    <div class="form-row"><div class="checkbox-group">${buildCheckboxes('ev-pelvis',PELVIS_OPTIONS,selPelvis)}</div></div>
+    <div class="form-row"><label>骨盆補充</label><input id="ev-pelvis-note" value="${pelvisNote}"></div>
+    <br><div style="font-size:13px;font-weight:700;color:var(--accent)">▍本次緊繃肌群</div>${mCb}
+    <div class="form-row"><label>其他緊繃（自填）</label><input id="ev-other-muscle" value="${selMuscles.filter(m=>!Object.values(MUSCLE_GROUPS).flat().includes(m)).join('、')}"></div>
+    <br><div style="font-size:13px;font-weight:700;color:var(--accent)">▍本次疼痛真正來源</div>${psCb}
+    <div class="form-row"><label>本次處理手法</label><textarea id="ev-treatment">${v.treatment||''}</textarea></div>
+    <div class="form-row"><label>修完後狀況</label><textarea id="ev-result">${v.result||''}</textarea></div>
+    <div class="form-row"><label>居家建議</label><textarea id="ev-advice" style="min-height:120px">${v.advice||''}</textarea></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">取消</button>
+      <button class="btn-save" onclick="saveEditVisit('${clientId}','${visitId}')">儲存</button>
+    </div>`);
+}
+
+async function saveEditVisit(clientId,visitId){
+  const c=getClients().find(x=>x.id===clientId);
+  const idx=(c.visits||[]).findIndex(x=>x.id===visitId);
+  if(idx===-1) return;
+  const pelvis=getChecked('ev-pelvis'),pelvisNote=document.getElementById('ev-pelvis-note').value;
+  const tightMuscles=getChecked('ev-muscles'),otherMuscle=document.getElementById('ev-other-muscle').value;
+  const painSource=getChecked('ev-source');
+  c.visits[idx]={
+    ...c.visits[idx],
+    date:document.getElementById('ev-date').value,
+    chiefComplaint:document.getElementById('ev-complaint').value,
+    pelvis:[...pelvis,pelvisNote].filter(Boolean).join('、'),
+    tightMuscles:[...tightMuscles,otherMuscle].filter(Boolean).join('、'),
+    painSource:painSource.join('、'),
+    treatment:document.getElementById('ev-treatment').value,
+    result:document.getElementById('ev-result').value,
+    advice:document.getElementById('ev-advice').value,
+  };
   c.visits.sort((a,b)=>a.date.localeCompare(b.date));
   await window.saveClient(c); closeModal(); currentTab='visits'; renderDetail();
 }
