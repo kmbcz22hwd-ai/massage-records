@@ -75,7 +75,6 @@ header h1 { font-size:17px; font-weight:700; letter-spacing:1px; }
 .tag.red { background:#fdecea; color:var(--red); }
 .tag.orange { background:#fef3e2; color:var(--orange); }
 .tag.purple { background:#f3ecfb; color:#8E44AD; }
-.tag.green { background:#e8f5ee; color:var(--green); }
 .ticket-bar { display:flex; align-items:center; gap:10px; background:var(--accent-bg); border-radius:10px; padding:10px 14px; margin-bottom:14px; }
 .ticket-remain { font-size:22px; font-weight:700; color:var(--accent); }
 .ticket-total { font-size:12px; color:var(--text-sub); }
@@ -95,7 +94,7 @@ header h1 { font-size:17px; font-weight:700; letter-spacing:1px; }
 .save-indicator { position:fixed; bottom:20px; right:20px; background:var(--accent); color:#fff; padding:8px 16px; border-radius:20px; font-size:13px; opacity:0; transition:opacity .3s; z-index:300; pointer-events:none; }
 .save-indicator.show { opacity:1; }
 .modal-bg { position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:200; display:flex; align-items:center; justify-content:center; padding:16px; }
-.modal { background:var(--card); border-radius:16px; width:100%; max-width:680px; max-height:92vh; overflow-y:auto; padding:22px; box-shadow:0 20px 60px rgba(0,0,0,.2); }
+.modal { background:var(--card); border-radius:16px; width:100%; max-width:660px; max-height:92vh; overflow-y:auto; padding:22px; box-shadow:0 20px 60px rgba(0,0,0,.2); }
 .modal h3 { font-size:17px; margin-bottom:18px; color:var(--accent); }
 .form-row { margin-bottom:13px; }
 .form-row label { display:block; font-size:11px; font-weight:700; color:var(--text-sub); margin-bottom:5px; text-transform:uppercase; letter-spacing:.3px; }
@@ -111,21 +110,6 @@ header h1 { font-size:17px; font-weight:700; letter-spacing:1px; }
 .modal-actions { display:flex; gap:10px; margin-top:20px; flex-wrap:wrap; }
 .btn-save { flex:1; padding:11px; background:var(--accent); color:#fff; border:none; border-radius:10px; font-size:15px; cursor:pointer; font-weight:600; min-width:80px; }
 .btn-cancel { padding:11px 18px; background:var(--bg); border:1px solid var(--border); border-radius:10px; font-size:15px; cursor:pointer; }
-
-/* ── Body Map ── */
-.body-map-wrap { display:flex; flex-direction:column; align-items:center; gap:10px; margin-bottom:16px; }
-.body-map-toggle { display:flex; gap:8px; }
-.btn-side { padding:6px 18px; border-radius:20px; font-size:13px; cursor:pointer; border:1.5px solid var(--border); background:var(--bg); color:var(--text-sub); }
-.btn-side.active { background:var(--accent); color:#fff; border-color:var(--accent); }
-.body-map-hint { font-size:12px; color:var(--text-sub); }
-.body-svg-wrap { position:relative; }
-.body-svg-wrap svg { display:block; }
-.body-zone { cursor:pointer; transition:opacity .15s; }
-.body-zone:hover { opacity:.75; }
-.body-zone.selected { fill:#E67E22 !important; opacity:1; }
-.body-map-selected { margin-top:6px; font-size:12px; color:var(--orange); font-weight:600; min-height:20px; text-align:center; }
-
-/* Report card */
 .report-card { background:linear-gradient(135deg,#FFFAF5 0%,#F5EDE0 100%); border-radius:16px; padding:24px; max-width:480px; margin:0 auto; border:1px solid #DDD0C0; }
 .report-header { text-align:center; margin-bottom:20px; padding-bottom:16px; border-bottom:2px solid #D4B896; }
 .report-studio { font-size:11px; color:var(--accent-light); font-weight:700; letter-spacing:2px; margin-bottom:4px; }
@@ -143,7 +127,6 @@ header h1 { font-size:17px; font-weight:700; letter-spacing:1px; }
 .report-tip { background:var(--accent); color:#fff; border-radius:10px; padding:12px 16px; font-size:13px; line-height:1.7; margin-top:14px; }
 .report-advice { background:#f0faf4; border:1px solid #a8d8b9; border-radius:10px; padding:12px 16px; font-size:13px; line-height:1.7; margin-top:14px; color:var(--text); white-space:pre-wrap; }
 .hint-text { font-size:12px; color:var(--text-sub); text-align:center; margin-bottom:14px; }
-
 @media(max-width:640px) {
   .app { flex-direction:column; height:auto; }
   .sidebar { width:100%; min-width:0; height:auto; max-height:220px; }
@@ -208,9 +191,6 @@ window._clients=()=>clients;
 </script>
 
 <script>
-// ═══════════════════════════════════════
-// 完整肌群資料
-// ═══════════════════════════════════════
 const PELVIS_OPTIONS=['左高右低','右高左低','前傾','後傾','左旋','右旋','無明顯偏移'];
 
 const MUSCLE_GROUPS={
@@ -229,7 +209,6 @@ const MUSCLE_GROUPS={
   '小腿 & 足部':['左腓腸肌','右腓腸肌','左比目魚肌','右比目魚肌','左脛前肌','右脛前肌','左脛後肌','右脛後肌','左腓骨肌群','右腓骨肌群','左足底筋膜','右足底筋膜','左趾屈肌群','右趾屈肌群']
 };
 
-// 疼痛來源 = 骨盆 + 椎節 + 所有肌群
 const PAIN_SOURCE_GROUPS={
   '骨盆 & 薦椎':['骨盆左高右低','骨盆右高左低','骨盆前傾','骨盆後傾','骨盆左旋','骨盆右旋','左薦髂關節','右薦髂關節','尾椎'],
   '頸椎':['頸椎第一節','頸椎第二節','頸椎第三節','頸椎第四節','頸椎第五節','頸椎第六節','頸椎第七節'],
@@ -238,8 +217,6 @@ const PAIN_SOURCE_GROUPS={
   ...Object.fromEntries(Object.entries(MUSCLE_GROUPS).map(([k,v])=>[k+'（來源）',v]))
 };
 
-
-// 居家建議資料庫
 const ADVICE_DB={
   '枕下肌群':{s:'下巴微收，頭部緩慢往胸口點頭，維持15秒，重複5次。',a:'避免長時間低頭滑手機。'},
   '頭皮筋膜':{s:'用指腹輕柔按摩頭皮，從額頭往後梳理，每次2分鐘。',a:'避免頭髮紮太緊。'},
@@ -329,59 +306,6 @@ function generateAdvice(muscleList){
   return '🌿 今天調理後的居家保養建議\n\n【建議做的拉伸】\n'+stretches.join('\n')+'\n\n【暫時避免的動作】\n'+[...new Set(avoids)].join('\n')+'\n\n身體需要時間慢慢恢復，拉伸動作請輕柔不要勉強，有任何不適歡迎 LINE 我 🙏';
 }
 
-
-function switchBodySide(side){
-  bodyMapSide=side;
-  // re-render SVG only
-  const svgWrap=document.getElementById('bodySvgWrap');
-  if(!svgWrap) return;
-  svgWrap.innerHTML=side==='front'?buildFrontSVG():buildBackSVG();
-  // restore selected zones
-  selectedZones.forEach(z=>{
-    const el=document.getElementById(z);
-    if(el) el.setAttribute('fill',SELECTED);
-  });
-  // update toggle buttons
-  document.querySelectorAll('.btn-side').forEach(b=>b.classList.toggle('active',b.textContent===(side==='front'?'正面':'背面')));
-}
-
-function toggleZone(zoneId, el){
-  if(selectedZones.has(zoneId)){
-    selectedZones.delete(zoneId);
-    // restore original color
-    const isFront=zoneId.startsWith('f-');
-    const skinZones=['f-head','f-neck','f-l-forearm','f-r-forearm','f-l-hand','f-r-hand','f-l-knee','f-r-knee','f-l-shin','f-r-shin','f-l-foot','f-r-foot','b-head','b-neck','b-l-forearm','b-r-forearm','b-l-foot','b-r-foot'];
-    el.setAttribute('fill', skinZones.includes(zoneId)?SKIN:MUSCLE);
-  } else {
-    selectedZones.add(zoneId);
-    el.setAttribute('fill', SELECTED);
-  }
-  // apply to checkboxes
-  applyZonesToCheckboxes();
-  // update label
-  const names=[...selectedZones].map(z=>ZONE_NAMES[z]||z);
-  const sel=document.getElementById('bodyMapSelected');
-  if(sel) sel.textContent=names.length?'已選：'+names.join('、'):'尚未選取任何部位';
-}
-
-function applyZonesToCheckboxes(){
-  const targetMuscles=new Set();
-  selectedZones.forEach(z=>{
-    (BODY_ZONE_MAP[z]||[]).forEach(m=>targetMuscles.add(m));
-  });
-  // find which checkbox name to use
-  const cbName=mapTargetName==='visit'?'v-muscles':'muscles';
-  document.querySelectorAll(`input[name="${cbName}"]`).forEach(inp=>{
-    if(targetMuscles.has(inp.value)){
-      inp.checked=true;
-      inp.closest('.cb-item').classList.add('checked');
-    }
-  });
-}
-
-// ═══════════════════════════════════════
-// Core state
-// ═══════════════════════════════════════
 let currentId=null,currentTab='overview';
 window.currentId=null;
 function getClients(){ return typeof window._clients==='function'?window._clients():[]; }
@@ -453,7 +377,6 @@ function renderDetail(){
 }
 
 function switchTab(tab){ currentTab=tab; renderDetail(); }
-
 function renderTagList(arr,cls=''){ if(!arr||!arr.length) return '<span style="color:var(--text-sub)">未記錄</span>'; return `<div class="tags">${arr.map(t=>`<span class="tag ${cls}">${t}</span>`).join('')}</div>`; }
 
 function renderOverview(c){
@@ -503,7 +426,6 @@ function renderVisits(c){
           ${v.painSource?`<div class="visit-block"><div class="visit-block-label">疼痛來源</div><div class="visit-block-val">${v.painSource}</div></div>`:''}
           ${v.treatment?`<div class="visit-block"><div class="visit-block-label">本次處理</div><div class="visit-block-val">${v.treatment}</div></div>`:''}
           ${v.result?`<div class="visit-block"><div class="visit-block-label">修完狀況</div><div class="visit-block-val">${v.result}</div></div>`:''}
-          ${v.nextPlan?`<div class="visit-block"><div class="visit-block-label">下次計畫</div><div class="visit-block-val">${v.nextPlan}</div></div>`:''}
           ${v.advice?`<div class="visit-block" style="flex-basis:100%"><div class="visit-block-label" style="color:var(--green)">居家建議</div><div class="visit-block-val" style="white-space:pre-wrap;font-size:12px;color:var(--green)">${v.advice}</div></div>`:''}
         </div>
       </div>`).join('')}
@@ -526,7 +448,6 @@ function openReportCard(clientId,visitId){
       ${muscleTags.length?`<div class="report-section"><div class="report-section-title">今天比較緊繃的區域</div>${muscleTags.map(m=>`<div class="report-row"><div class="report-dot"></div><div class="report-text">${m}</div></div>`).join('')}</div>`:''}
       ${sourceTags.length?`<div class="report-section"><div class="report-section-title">找到的問題根源</div>${sourceTags.map(s=>`<div class="report-row"><div class="report-dot"></div><div class="report-text">${s}</div></div>`).join('')}</div>`:''}
       ${v.result?`<div class="report-section"><div class="report-section-title">調理後的狀況</div><div class="report-highlight">${v.result}</div></div>`:''}
-      ${v.nextPlan?`<div class="report-tip">💡 <strong>下次建議</strong><br>${v.nextPlan}</div>`:''}
       ${v.advice?`<div class="report-advice">🌿 <strong>居家保養建議</strong><br><br>${v.advice}</div>`:''}
       <div class="report-footer">身體的改變需要時間，每一次調理都是一步。<br><br><strong>有任何問題歡迎 LINE 我 🙏</strong></div>
     </div>
@@ -600,8 +521,6 @@ function openEditOverviewModal(id){
   const c=getClients().find(x=>x.id===id);
   const mCb=Object.entries(MUSCLE_GROUPS).map(([g,opts])=>`<div class="divider">${g}</div><div class="form-row"><div class="checkbox-group">${buildCheckboxes('muscles',opts,c.tightMuscles||[])}</div></div>`).join('');
   openModal(`<h3>更新身體概況</h3>
-    <!-- Body Map -->
-    <div id="bodyMapContainer"></div>
     <div class="divider">骨盆偏移</div>
     <div class="form-row"><div class="checkbox-group">${buildCheckboxes('pelvis',PELVIS_OPTIONS,c.pelvis||[])}</div></div>
     <div class="form-row"><label>脊椎補充說明</label><input id="f-spine" value="${c.spineNote||''}" placeholder="例：腰椎往左偏…"></div>
@@ -609,7 +528,6 @@ function openEditOverviewModal(id){
     <div class="form-row"><label>其他緊繃部位（自填）</label><input id="f-other-muscle" value="${c.otherMuscle||''}" placeholder="其他未列出的部位…"></div>
     <div class="form-row"><label>主要主訴（長期）</label><textarea id="f-complaint">${c.chiefComplaint||''}</textarea></div>
     <div class="modal-actions"><button class="btn-cancel" onclick="closeModal()">取消</button><button class="btn-save" onclick="saveOverview('${id}')">儲存</button></div>`);
-  buildBodyMap('overview');
 }
 async function saveOverview(id){
   const c=getClients().find(x=>x.id===id);
@@ -627,22 +545,17 @@ function openAddVisitModal(id){
     <div class="divider">骨盆（本次觀察）</div>
     <div class="form-row"><div class="checkbox-group">${buildCheckboxes('v-pelvis',PELVIS_OPTIONS,[])}</div></div>
     <div class="form-row"><label>骨盆補充</label><input id="v-pelvis-note" placeholder="改善中、比上次好…"></div>
-    <!-- Body Map for visit -->
-    <div id="bodyMapContainer"></div>
     <br><div style="font-size:13px;font-weight:700;color:var(--accent)">▍本次緊繃肌群</div>${mCb}
     <div class="form-row"><label>其他緊繃（自填）</label><input id="v-other-muscle" placeholder="其他部位…"></div>
     <br><div style="font-size:13px;font-weight:700;color:var(--accent)">▍本次疼痛真正來源</div>${psCb}
-    <div class="form-row"><label>來源補充說明</label><textarea id="v-source-note" placeholder="詳細描述…"></textarea></div>
     <div class="form-row"><label>本次處理手法</label><textarea id="v-treatment" placeholder="做了什麼、處理了哪個區域…"></textarea></div>
     <div class="form-row"><label>修完後狀況</label><textarea id="v-result" placeholder="當場回饋、症狀改善程度…"></textarea></div>
-    <div class="form-row"><label>下次計畫 / 給客人的建議</label><input id="v-next" placeholder="例：建議下週再來鞏固…"></div>
     <div id="advice-area"></div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal()">取消</button>
       <button class="btn-save" style="background:var(--green)" onclick="previewAdvice('${id}')">🌿 生成居家建議</button>
       <button class="btn-save" onclick="saveVisit('${id}')">儲存</button>
     </div>`);
-  buildBodyMap('visit');
 }
 
 function previewAdvice(id){
@@ -662,9 +575,9 @@ async function saveVisit(id){
   if(!c.visits) c.visits=[];
   const pelvis=getChecked('v-pelvis'),pelvisNote=document.getElementById('v-pelvis-note').value;
   const tightMuscles=getChecked('v-muscles'),otherMuscle=document.getElementById('v-other-muscle').value;
-  const painSource=getChecked('v-source'),sourceNote=document.getElementById('v-source-note').value;
+  const painSource=getChecked('v-source');
   const adviceEl=document.getElementById('advice-text');
-  c.visits.push({id:uid(),date,chiefComplaint:document.getElementById('v-complaint').value,pelvis:[...pelvis,pelvisNote].filter(Boolean).join('、'),tightMuscles:[...tightMuscles,otherMuscle].filter(Boolean).join('、'),painSource:[...painSource,sourceNote].filter(Boolean).join('、'),treatment:document.getElementById('v-treatment').value,result:document.getElementById('v-result').value,nextPlan:document.getElementById('v-next').value,advice:adviceEl?adviceEl.value:''});
+  c.visits.push({id:uid(),date,chiefComplaint:document.getElementById('v-complaint').value,pelvis:[...pelvis,pelvisNote].filter(Boolean).join('、'),tightMuscles:[...tightMuscles,otherMuscle].filter(Boolean).join('、'),painSource:painSource.join('、'),treatment:document.getElementById('v-treatment').value,result:document.getElementById('v-result').value,advice:adviceEl?adviceEl.value:''});
   c.visits.sort((a,b)=>a.date.localeCompare(b.date));
   await window.saveClient(c); closeModal(); currentTab='visits'; renderDetail();
 }
