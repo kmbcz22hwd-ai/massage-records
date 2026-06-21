@@ -416,22 +416,21 @@ function renderVisits(c){
         <div class="visit-date">
           <span>${v.date}</span>
           <span style="font-size:11px;background:var(--tag-bg);padding:2px 8px;border-radius:10px;color:var(--accent)">第 ${visits.length-i} 次</span>
-          <button class="btn-report" onclick="openReportCard('${c.id}','${v.id}')">📋 報告卡</button>
+          <button class="btn-report" onclick="openReportCard('${c.id}','${v.id}')">📋 完整紀錄</button>
+          <button class="btn-report" style="color:#8E44AD;border-color:#8E44AD" onclick="openClientReport('${c.id}','${v.id}')">📤 給客人</button>
           <button class="btn-report" style="color:var(--green);border-color:var(--green)" onclick="openEditVisitModal('${c.id}','${v.id}')">✏️ 編輯</button>
           <button onclick="deleteVisit('${c.id}','${v.id}')" style="margin-left:auto;background:none;border:none;color:var(--text-sub);cursor:pointer;font-size:12px">刪除</button>
         </div>
-        <div class="visit-row">
-          ${v.chiefComplaint?`<div class="visit-block"><div class="visit-block-label">主訴</div><div class="visit-block-val">${v.chiefComplaint}</div></div>`:''}
-          ${v.pelvis?`<div class="visit-block"><div class="visit-block-label">骨盆</div><div class="visit-block-val">${v.pelvis}</div></div>`:''}
-          ${v.tightMuscles?`<div class="visit-block"><div class="visit-block-label">緊繃肌群</div><div class="visit-block-val">${v.tightMuscles}</div></div>`:''}
-          ${v.painSource?`<div class="visit-block"><div class="visit-block-label">疼痛來源</div><div class="visit-block-val">${v.painSource}</div></div>`:''}
-          ${v.treatment?`<div class="visit-block"><div class="visit-block-label">本次處理</div><div class="visit-block-val">${v.treatment}</div></div>`:''}
-          ${v.result?`<div class="visit-block"><div class="visit-block-label">修完狀況</div><div class="visit-block-val">${v.result}</div></div>`:''}
-          ${v.advice?`<div class="visit-block" style="flex-basis:100%"><div class="visit-block-label" style="color:var(--green)">居家建議</div><div class="visit-block-val" style="white-space:pre-wrap;font-size:12px;color:var(--green)">${v.advice}</div></div>`:''}
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;margin-top:8px">
+          ${v.chiefComplaint?`<div><div class="visit-block-label">主訴</div><div class="visit-block-val">${v.chiefComplaint}</div></div>`:""}
+          ${v.pelvis?`<div><div class="visit-block-label">骨盆</div><div class="visit-block-val">${v.pelvis}</div></div>`:""}
+          ${v.tightMuscles?`<div style="grid-column:1/-1"><div class="visit-block-label">緊繃肌群</div><div class="visit-block-val" style="font-size:12px;line-height:1.8">${v.tightMuscles}</div></div>`:""}
+          ${v.painSource?`<div style="grid-column:1/-1"><div class="visit-block-label">疼痛來源</div><div class="visit-block-val" style="font-size:12px;line-height:1.8">${v.painSource}</div></div>`:""}
+          ${v.treatment?`<div style="grid-column:1/-1"><div class="visit-block-label">本次處理</div><div class="visit-block-val">${v.treatment}</div></div>`:""}
+          ${v.result?`<div style="grid-column:1/-1"><div class="visit-block-label">修完狀況</div><div class="visit-block-val">${v.result}</div></div>`:""}
+          ${v.advice?`<div style="grid-column:1/-1"><div class="visit-block-label" style="color:var(--green)">居家建議</div><div class="visit-block-val" style="white-space:pre-wrap;font-size:12px;color:var(--green)">${v.advice}</div></div>`:""}
         </div>
-      </div>`).join('')}
-  </div></div>`;
-}
+      </div>`).join("")}
 
 function openReportCard(clientId,visitId){
   const c=getClients().find(x=>x.id===clientId),v=(c.visits||[]).find(x=>x.id===visitId);
