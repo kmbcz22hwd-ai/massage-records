@@ -301,13 +301,40 @@ const ADVICE_DB={
 
 function generateAdvice(muscleList){
   if(!muscleList||!muscleList.length) return '';
-  const stretches=[],avoids=[],seen=new Set();
-  muscleList.forEach(m=>{
-    const key=Object.keys(ADVICE_DB).find(k=>m.includes(k));
-    if(key&&!seen.has(key)){seen.add(key);stretches.push('• '+m+'：'+ADVICE_DB[key].s);avoids.push('• '+ADVICE_DB[key].a);}
+  const stretches=[],avoidRaw=[],seen=new Set();
+  muscleList.forEach(function(m){
+    var key=Object.keys(ADVICE_DB).find(function(k){ return m.includes(k); });
+    if(key&&!seen.has(key)){seen.add(key);stretches.push('• '+m+'：'+ADVICE_DB[key].s);avoidRaw.push(ADVICE_DB[key].a);}
   });
   if(!stretches.length) return '';
-  return '🌿 今天調理後的居家保養建議\n\n【建議做的拉伸】\n'+stretches.join('\n')+'\n\n【暫時避免的動作】\n'+[...new Set(avoids)].join('\n')+'\n\n身體需要時間慢慢恢復，拉伸動作請輕柔不要勉強，有任何不適歡迎 LINE 我 🙏';
+  // 合併去重相似避免事項
+  var avoidMerged=[];
+  var avoidSeen=new Set();
+  // 關鍵字群組，有任一相似的只保留最簡版
+  var groups=[
+    {kw:['彎腰'],keep:'避免長時間彎腰或搬重物。'},
+    {kw:['駝背'],keep:'避免長時間駝背。'},
+    {kw:['站立'],keep:'避免長時間站立。'},
+    {kw:['久坐','長時間坐'],keep:'避免久坐，每小時起來走動。'},
+    {kw:['圓肩','前傾姿'],keep:'避免長時間圓肩或前傾姿勢。'},
+    {kw:['低頭','頸部前傾'],keep:'避免長時間低頭或頸部前傾。'},
+    {kw:['聳肩','背重包'],keep:'避免聳肩或單側背重包。'},
+    {kw:['跑步','騎車'],keep:'暫時減少長距離跑步或騎車。'},
+  ];
+  avoidRaw.forEach(function(a){
+    var merged=false;
+    groups.forEach(function(g){
+      if(!merged && g.kw.some(function(k){ return a.includes(k); })){
+        if(!avoidSeen.has(g.keep)){ avoidSeen.add(g.keep); avoidMerged.push('• '+g.keep); }
+        merged=true;
+      }
+    });
+    if(!merged){
+      var clean='• '+a;
+      if(!avoidSeen.has(clean)){ avoidSeen.add(clean); avoidMerged.push(clean); }
+    }
+  });
+  return '🌿 今天調理後的居家保養建議\n\n【建議做的拉伸】\n'+stretches.join('\n')+'\n\n【暫時避免的動作】\n'+avoidMerged.join('\n')+'\n\n拉伸動作請輕柔不要勉強，有任何不適歡迎 LINE 我 🙏';
 }
 
 let currentId=null,currentTab='overview';
