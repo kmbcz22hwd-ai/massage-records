@@ -454,6 +454,24 @@ function openReportCard(clientId,visitId){
     <div class="modal-actions"><button class="btn-cancel" onclick="closeModal()">關閉</button></div>`);
 }
 
+
+// 給客人看的簡潔報告（疼痛來源＋本次處理＋修完狀況＋居家建議）
+function openClientReport(clientId,visitId){
+  const c=getClients().find(x=>x.id===clientId),v=(c.visits||[]).find(x=>x.id===visitId);
+  if(!v) return;
+  const sourceTags=v.painSource?v.painSource.split("、").filter(Boolean):[];
+  openModal(`<h3>給客人的調理說明</h3><p class="hint-text">截圖傳給客人 LINE 📸</p>
+    <div class="report-card" style="max-width:420px">
+      <div class="report-header"><div class="report-studio">顯德筋絡調理室</div><div class="report-title">本次調理說明</div><div class="report-date">${v.date}</div><div class="report-name">${c.name} 您好 🙏</div></div>
+      ${v.chiefComplaint?`<div class="report-section"><div class="report-section-title">您這次說的不舒服</div><div class="report-highlight">${v.chiefComplaint}</div></div>`:""}
+      ${sourceTags.length?`<div class="report-section"><div class="report-section-title">今天找到的問題根源</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">${sourceTags.map(s=>`<span style="background:#f3ecfb;color:#8E44AD;padding:4px 10px;border-radius:16px;font-size:13px;font-weight:600">${s}</span>`).join("")}</div></div>`:""}
+      ${v.treatment?`<div class="report-section"><div class="report-section-title">這次幫您做了什麼</div><div class="report-highlight">${v.treatment}</div></div>`:""}
+      ${v.result?`<div class="report-section"><div class="report-section-title">調理後的感受</div><div class="report-highlight">${v.result}</div></div>`:""}
+      ${v.advice?`<div class="report-advice">🌿 <strong>居家保養建議</strong><br><br>${v.advice}</div>`:""}
+      <div class="report-footer">身體的改變需要時間，每一次調理都是累積。<br>有任何不舒服歡迎隨時 LINE 我 💬<br><br><strong>顯德筋絡調理室</strong></div>
+    </div>
+    <div class="modal-actions"><button class="btn-cancel" onclick="closeModal()">關閉</button></div>`);
+}
 function openTicketModal(id){
   const c=getClients().find(x=>x.id===id);
   openModal(`<h3>套票／堂數設定</h3>
